@@ -8,6 +8,7 @@
   <a href="https://twitter.com/lucas59356">
     <img alt="twitter" src="https://img.shields.io/twitter/follow/lucas59356?color=black&logo=twitter&style=flat-square" />
   </a>
+  <img alt="github followers" src="https://img.shields.io/github/followers/lucasew?color=black&label=Followers&logo=github&style=flat-square" />
 </p>
 
 - I like to know why the things work the way they work and I don't trust nothing that I can't question about and get a satisfactory answer.
