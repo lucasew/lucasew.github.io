@@ -1,5 +1,6 @@
 <h1 align="center">My name is Lucas Eduardo Wendt</h1>
 <p align="center">
+  <img alt="visitors" src="https://vistr.dev/badge?repo=lucasew.lucasew&text=Visits&corners=square" />
   <img alt="actionsflow status" src="https://img.shields.io/github/workflow/status/lucasew/flows/Actionsflow?label=Actionsflow&logo=github&style=flat-square"/>
 </p>
 
