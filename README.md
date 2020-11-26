@@ -6,7 +6,7 @@
   <img alt="visitors" src="https://vistr.dev/badge?repo=lucasew.lucasew&text=Visits&corners=square" />
   <img alt="actionsflow status" src="https://img.shields.io/github/workflow/status/lucasew/flows/Actionsflow?label=Actionsflow&logo=github&style=flat-square"/>
   <a href="https://twitter.com/lucas59356">
-    <img alt="twitter" src="https://img.shields.io/twitter/follow/lucas59356?color=black&logo=twitter&style=flat-square" />
+    <img alt="twitter" src="https://img.shields.io/twitter/follow/lucas59356?color=black&logo=twitter&style=flat-square&label=Followers" />
   </a>
   <img alt="github followers" src="https://img.shields.io/github/followers/lucasew?color=black&label=Followers&logo=github&style=flat-square" />
 </p>
