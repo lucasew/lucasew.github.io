@@ -20,4 +20,6 @@
 - I blog sometimes at [blog-do-lucao](https://blog-do-lucao.vercel.app). Currenly (20/11/2020) there are only pt-BR posts
 - Markdown is the best format to write, blog and share information
 
-![Code distribution](https://github-readme-stats.vercel.app/api/top-langs?username=lucasew) ![Stats](https://github-readme-stats.vercel.app/api?username=lucasew)
+![Code distribution](https://github-readme-stats.vercel.app/api/top-langs?username=lucasew)
+
+![Stats](https://github-readme-stats.vercel.app/api?username=lucasew)
