@@ -19,6 +19,5 @@
 - Also I have a lot of practice about virus removal in Windows machines. I don't need this skills in a linux machine because linux don't get virus like Windows (almost everytime it's as easy as read the thing before clicking next)
 - I blog sometimes at [blog-do-lucao](https://blog-do-lucao.vercel.app). Currenly (20/11/2020) there are only pt-BR posts
 - Markdown is the best format to write, blog and share information
-<p align="center">
-<img alt="code distribution" src="https://github-readme-stats.anuraghazra1.vercel.app/api/top-langs/?username=lucasew"></img>
-</p>
+
+![Code distribution](https://github-readme-stats.vercel.app/api/top-langs?username=lucasew) ![Stats](https://github-readme-stats.vercel.app/api?username=lucasew)
