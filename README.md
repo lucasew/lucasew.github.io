@@ -23,7 +23,7 @@
 - I also program in a few more *normal* languages, mostly Go and Typescript.
 - Less is more.
 - Always learning. Sometimes I post about on Twitter and on my blog.
-<table>
+<table align="center">
   <tr>
     <td valign="top" width="50%">
       <details>
