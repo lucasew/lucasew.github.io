@@ -4,9 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
-    <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
+    <!-- <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script> -->
     <style>
       * {
 	  margin: 0;
@@ -74,12 +75,13 @@
 	  border: black 1px solid;
       }
 
-      div#contactbar a span:nth-child(2) {
-	  display: none;
+      div#contactbar a:not(:hover) > span:nth-child(2) {
+	  display: inline-block;
+	  opacity: 0;
+	  width: 0;
       }
 
-      div#contactbar a:hover span:nth-child(2) {
-	  display: inherit;
+      div#contactbar a:hover > span:nth-child(2) {
       }
 
       div#contactbar a:hover span:nth-child(1) svg {
@@ -143,11 +145,13 @@
 	  <p id="frase">Teste</p>
 	  <div id="contactbar">
 	    <a href="https://twitter.com/lucas59356">
-	      <span class="iconify" data-icon="akar-icons:twitter-fill"></span>
+		<!-- akar-icons:twitter-fill -->
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--akar-icons" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-icon="akar-icons:twitter-fill"><g fill="none"><path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 0 0 2.048-2.578a9.3 9.3 0 0 1-2.958 1.13a4.66 4.66 0 0 0-7.938 4.25a13.229 13.229 0 0 1-9.602-4.868c-.4.69-.63 1.49-.63 2.342A4.66 4.66 0 0 0 3.96 9.824a4.647 4.647 0 0 1-2.11-.583v.06a4.66 4.66 0 0 0 3.737 4.568a4.692 4.692 0 0 1-2.104.08a4.661 4.661 0 0 0 4.352 3.234a9.348 9.348 0 0 1-5.786 1.995a9.5 9.5 0 0 1-1.112-.065a13.175 13.175 0 0 0 7.14 2.093c8.57 0 13.255-7.098 13.255-13.254c0-.2-.005-.402-.014-.602a9.47 9.47 0 0 0 2.323-2.41l.002-.003z" fill="currentColor"></path></g></svg>
 	      <span>Twitter</span>
 	    </a>
 	    <a href="https://github.com/lucasew">
-	      <span class="iconify" data-icon="akar-icons:github-fill"></span>
+		<!-- akar-icons:github-fill -->
+		<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--akar-icons" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-icon="akar-icons:github-fill"><g fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" fill="currentColor"></path></g></svg>
 	      <span>GitHub</span>
 	    </a>
 	  </div>
@@ -156,10 +160,7 @@
       </section>
       <section>
 	<div></div>
-	<div style="text-align: center;">
-	  <h1>TODO</h1>
-	  <p>Do this part</p>
-	</div>
+	    <img style="max-width: 70vw; max-height: 70vh;" src="todo-do-this-part.jpg"></img>
 	<div></div>
       </section>
       <script>
