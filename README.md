@@ -1,7 +1,7 @@
 <h1 align="center">My name is Lucas Eduardo Wendt</h1>
 <p align="center">
-  <a href="https://blog.biglucas.tk">
-    <img alt="blog" src="https://img.shields.io/static/v1?label=Blog&message=blog.biglucas.tk&color=ff4088&logo=hugo&style=flat-square" />
+  <a href="https://blog-do-lucao.vercel.app">
+    <img alt="blog" src="https://img.shields.io/static/v1?label=Blog&message=do lucão&color=ff4088&logo=hugo&style=flat-square" />
   </a>
   <a href="https://github.com/lucasew/flows/">
     <img alt="actionsflow status" src="https://img.shields.io/github/workflow/status/lucasew/flows/Actionsflow?label=Actionsflow&logo=github&style=flat-square"/>
