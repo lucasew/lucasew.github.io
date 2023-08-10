@@ -20,24 +20,8 @@
 - I like to know why the things work the way they work and I don't trust nothing that I can't question about and get a satisfactory answer.
 - Duolingo user since 2015 :owl:
 - I like tools that work without a lot of manual {re,}configuration like Nix, AWK, Shell Script, AHK, Automate and Magisk.
-- I also program in a few more *normal* languages, mostly Go and Typescript.
+- I also program in a few more *normal* languages, mostly Python, TypeScript and Go.
 - Less is more.
 - Always learning. Sometimes I post about on Twitter and on my blog.
-<table align="center">
-  <tr>
-    <td valign="top" width="50%">
-      <details>
-        <summary>Code Distribution</summary>
-        <img src="https://github-readme-stats.vercel.app/api/top-langs?username=lucasew" />
-      </details>
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="50%">
-      <details>
-        <summary>Readme Stats</summary>
-        <img src="https://github-readme-stats.vercel.app/api?username=lucasew&show_icons=true" />
-      </details>
-    </td>
-  </tr>
-</table>
+
+![Top langs](https://github-readme-stats.vercel.app/api/top-langs?username=lucasew&show_icons=true&theme=transparent&hide_border=true&layout=compact&langs_count=10&size_weight=0.2&count_weight=0.2) ![README stats](https://github-readme-stats.vercel.app/api?username=lucasew&show=reviews&show_icons=true&theme=transparent&hide_border=true)
