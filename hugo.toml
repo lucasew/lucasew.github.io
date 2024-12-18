@@ -1,0 +1,12 @@
+[params]
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = "lucasew's offtopic"
+defaultContentLanguage = 'en'
+[languages.en]
+title = "lucasew's offtopic"
+disabled = false
+[languages.pt]
+title = "offtopic do lucasew"
+languageCode = "pt_BR"
+disabled = false
