@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+  <meta name="robots" content="index, follow">
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  {{ with .Page.File }}
+  <meta name="mdpath" content="{{ .Path }}" />
+  {{ end }}
+  <title>{{ .Site.Title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
+  <script src="https://unpkg.com/htmx.org@2.0.4"
+    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+    crossorigin="anonymous"></script>
+  <style>
+    nav {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    aside {
+      border-bottom: 1px solid gray;
+    }
+  </style>
+</head>
+
+<body hx-boost="true">
+  <header>
+    <nav>
+      <div><a href="/"><b>{{ .Site.Title }}</b></a></div>
+      <div>
+        {{- block "header" . -}}{{- end -}}
+      </div>
+    </nav>
+  </header>
+  <hr />
+
+  <main>
+    {{- block "content" . -}}{{- end -}}
+  </main>
+</body>
