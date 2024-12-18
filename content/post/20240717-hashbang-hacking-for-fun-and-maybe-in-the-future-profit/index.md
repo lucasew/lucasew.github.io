@@ -23,4 +23,4 @@ This way one can declare fetchers in a way that the result path is available in 
 
 The [`tests`](https://github.com/lucasew/nix-flake-shell/tree/main/tests) folder has examples of usage of the script. If you know some more exoteric languages and want to contribute with examples feel free to try and play with it, if you found some rough edges or suggestions please feel free to open an issue or a pull request.
 
-BTW this is me exploring the potential of this workaround: ![](https://camo.githubusercontent.com/7a1c04e6ff90028a95f65e36c5eaf17af0cf39d9fcf1b7ddf469669401bd638e/68747470733a2f2f692e696d67666c69702e636f6d2f3370633665302e6a7067)
+BTW this is me exploring the potential of this workaround: ![](meme.jpg)
