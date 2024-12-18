@@ -28,6 +28,10 @@
     aside {
       border-bottom: 1px solid gray;
     }
+
+    nav>div>a {
+      margin-left: 1rem;
+    }
   </style>
 </head>
 
@@ -37,6 +41,7 @@
       <div><a href="/"><b>{{ .Site.Title }}</b></a></div>
       <div>
         {{- block "header" . -}}{{- end -}}
+        <a href="/post">Posts</a>
       </div>
     </nav>
   </header>
