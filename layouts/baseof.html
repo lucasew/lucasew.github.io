@@ -335,40 +335,15 @@
         </g>
       </svg>
     </section>
-    <script>
-      function changeFrase(frase) {
+    <script data-quotes="{{ .Params.quotes | encoding.Jsonify}}">
+      (function handleFrase(quotes) {
+        console.log(quotes)
+        const quote = quotes[Math.floor(Math.random() * quotes.length)]
         const e = document.getElementById("frase")
-        e.innerText = frase;
-        e.style.opacity = 1;
-      }
-      setTimeout(function () {
-        const frases = {
-          "pt-BR": [
-            "Usuário de linux",
-            "Fuçador",
-            "Hacker de propósito geral",
-            "Fazedor de perguntas",
-            "Eu dou meus pulos",
-            "Tá meio torto isso ai",
-            "IA mal feita mais atrapalha do que ajuda",
-            "Design não é minha maior habilidade",
-            "Menos é mais",
-            "Depende"
-          ],
-          "en-US": [
-            "Linux user",
-            "General purpose hacker",
-            "I'll figure it out",
-            "Question maker",
-            "Design is not my strongest trait",
-            "Less is more",
-            "It depends"
-          ]
-        }
-        const frasesLingua = frases[navigator.language || navigator.userLanguage] || frases["en-US"] || [""]
-        const frase = frasesLingua[Math.floor(Math.random() * frasesLingua.length)]
-        changeFrase(frase)
-      }, 1000)
+        e.innerText = quote
+        console.log(quote)
+        setTimeout(() => e.style.opacity = 1, 1000)
+      })(JSON.parse(document.currentScript.dataset.quotes))
     </script>
 
   </div>
