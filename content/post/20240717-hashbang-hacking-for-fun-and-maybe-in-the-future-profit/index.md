@@ -3,6 +3,8 @@ title: Hashbang hacking for fun and, maybe in the future, profit
 language: en
 alsoAvailable:
   - https://lucasew.capivaras.dev/blog/hashbang-hacking-for-fun-and-maybe-in-the-future-profit/
+discussedOn:
+  - https://lobste.rs/s/pdutgi/hashbang_hacking_for_fun_maybe_future
 ---
 
 This is the story of how I created a thing to make self contained scripts. It's basically a Nix flakes based workaround, so the environment of a script can be automatically provisioned before the actual script starts without having to install stuff globally.
