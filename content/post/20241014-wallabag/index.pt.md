@@ -1,6 +1,5 @@
 ---
 title: "Wallabag no NixOS"
-language: pt
 summary: "A saga para configurar o Wallabag como um módulo integrado com HTTPS no NixOS"
 math: false
 showToc: true
@@ -79,7 +78,7 @@ funcionou sem problemas e começou finalmente a sincronizar.
 É nessa parte que filho chora e mãe não vê, porque eu sou usuário Pocket desde 2015 e nessa conta
 tem uma quantidade imoral de artigos. Quanto imoral? Imoral assim:
 
-![tenho tanto artigo na minha conta do pocket que pra exportar os dados tive que apelar](power_guido.png)
+![tenho tanto artigo na minha conta do pocket que pra exportar os dados tive que apelar]({{< resource "power_guido.png">}})
 
 Eu tinha começado a importar os artigos antes de configurar HTTPS então o fluxo OAuth pra importar do
 Pocket não funcionava e o importador do Instapaper funciona com um arquivo que o serviço exporta.
