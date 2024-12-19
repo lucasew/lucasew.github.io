@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
 
-{{ $home := "/home" | relLangURL }}
+{{ $home := "" }}
+{{ with .GetPage "/home" }}
+{{ $home = .RelPermalink }}
+{{ end }}
 
 <head>
   <title>{{ .Site.Title }}</title>
@@ -17,7 +20,7 @@
   {{ with .Page.File }}
   <meta name="mdpath" content="{{ .Path }}" />
   {{ end }}
-  <meta http-equiv="refresh" content="15; URL={{ $home }}" />
+  <meta http-equiv="refresh" content="8; URL={{ $home }}" />
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>
@@ -120,7 +123,7 @@
     }
 
     g#eyes>* {
-      animation: blink 10s infinite;
+      animation: blink 5s infinite;
     }
 
 
