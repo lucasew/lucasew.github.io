@@ -42,6 +42,10 @@
       <div>
         {{- block "header" . -}}{{- end -}}
         <a href="/post">Posts</a>
+        {{ range $.Page.AllTranslations }}
+        <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+        {{ end }}
+
       </div>
     </nav>
   </header>

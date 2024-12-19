@@ -1,6 +1,6 @@
 {{- define "content" -}}
 <section>
-  <h1>Posts</h1>
+  {{ .Content }}
 
   {{ range .Pages }}
   <h2><a href="{{ .Permalink | absURL }}">{{ .Title }}</h2>

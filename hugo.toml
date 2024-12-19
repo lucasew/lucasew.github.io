@@ -6,9 +6,11 @@ title = "lucasew's offtopic"
 
 [languages.en]
 title = "lucasew's offtopic"
+languageName = "🇺🇸"
 disabled = false
 
 [languages.pt]
 title = "offtopic do lucasew"
 languageCode = "pt_BR"
+languageName = "🇧🇷"
 disabled = false
