@@ -1,13 +1,30 @@
-<html>
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
+
+{{ $home := "/home" | relLangURL }}
 
 <head>
-  <title>@lucasew</title>
+  <title>{{ .Site.Title }}</title>
+  <meta charset="UTF-8">
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" type="text/css">
+  {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+  <meta name="robots" content="index, follow">
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  {{ with .Page.File }}
+  <meta name="mdpath" content="{{ .Path }}" />
+  {{ end }}
+  <meta http-equiv="refresh" content="15; URL={{ $home }}" />
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>
+</head>
+
+<body hx-boost="true">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" type="text/css">
   <style>
     :root {
       /* from sakuracss, to be consistent */
@@ -145,9 +162,6 @@
       }
     }
   </style>
-</head>
-
-<body hx-boost="true">
   <div id="container">
     <section id="firstpage">
       <div></div>

@@ -15,10 +15,13 @@
   <meta name="mdpath" content="{{ .Path }}" />
   {{ end }}
   <title>{{ .Site.Title }}</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>
+</head>
+
+<body hx-boost="true">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
   <style>
     nav {
       display: flex;
@@ -33,9 +36,6 @@
       margin-left: 1rem;
     }
   </style>
-</head>
-
-<body hx-boost="true">
   <header>
     <nav>
       <div><a href="/"><b>{{ .Site.Title }}</b></a></div>

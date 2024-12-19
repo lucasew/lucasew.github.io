@@ -1,8 +1,8 @@
 [params]
 baseURL = 'https://example.org/'
-languageCode = 'en-us'
+# languageCode = 'en-us'
 title = "lucasew's offtopic"
-defaultContentLanguage = 'en'
+# defaultContentLanguage = 'en'
 
 [languages.en]
 title = "lucasew's offtopic"
