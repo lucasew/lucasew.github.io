@@ -38,10 +38,18 @@
   </style>
   <header>
     <nav>
-      <div><a href="/"><b>{{ .Site.Title }}</b></a></div>
+      <div>
+
+        {{ with .GetPage "/home" }}
+        <a href="{{ .RelPermalink }}"><b>{{ .Site.Title }}</b></a>
+        {{ end }}
+      </div>
       <div>
         {{- block "header" . -}}{{- end -}}
-        <a href="/post">Posts</a>
+        {{ with .GetPage "/post" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+
         {{ range $.Page.AllTranslations }}
         <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
         {{ end }}
