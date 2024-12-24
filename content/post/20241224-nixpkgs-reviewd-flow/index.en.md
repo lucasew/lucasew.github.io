@@ -87,7 +87,7 @@ Nixpkgs has some patterns around the PR list.
 - Most of them are [r-ryantm](https://github.com/r-ryantm) automated PRs, so I could only skip them unless they tag me for being a maintainer.
 - There are some first time contributors that bring more out of shape PRs that need some iterations until buildable state is achievable.
 - Other PRs may include manual bumps and *backports*, miscellaneous fixes, people adding update scripts to let the bot cook the next
-updates and stuff like that and refactoring.
+updates and stuff like that, and refactoring.
 
 The flow came from the following:
 - I search for PRs that are not created by *r-ryantm* and not stale: `is:open is:pr -author:r-ryantm -label:"2.status: stale"`
