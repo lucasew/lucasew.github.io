@@ -35,5 +35,11 @@ jobs:
         with:
           path: ./public
 
+      - name: Step summary
+        env:
+          URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          printf "Deployed on: %s" "$URL" >> $GITHUB_STEP_SUMMARY
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
