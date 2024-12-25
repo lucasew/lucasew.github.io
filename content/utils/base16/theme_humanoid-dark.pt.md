@@ -1,0 +1,6 @@
+---
+author: "Thomas (tasmo) Friese"
+title: "Humanoid dark"
+summary: "https://github.com/humanoid-colors/base16-humanoid-schemes"
+colors: ["232629", "333b3d", "484e54", "60615d", "c0c0bd", "f8f8f2", "fcfcf6", "fcfcfc", "f11235", "ff9505", "ffb627", "02d849", "0dd9d6", "00a6fb", "f15ee3", "b27701"]
+---
