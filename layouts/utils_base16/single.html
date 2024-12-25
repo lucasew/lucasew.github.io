@@ -1,0 +1,67 @@
+{{- define "content" -}}
+
+<style>
+  :root {
+    --color-cell-size: 8em;
+  }
+
+  .theme-card {
+    width: 100%;
+  }
+
+  .theme-card-sample-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-card-info-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .theme-card-info-container h2 {
+    margin-right: 3rem;
+    white-space: nowrap;
+  }
+
+  .theme-card-info-container p {
+    text-align: right;
+  }
+
+  .theme-card-color-container {
+    width: var(--color-cell-size);
+    height: var(--color-cell-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .theme-card-color-container p {
+    background-color: white;
+    padding: 0.1rem;
+    border-radius: 0.05rem;
+    margin: 0.5rem;
+    font-family: "Courier New", monospace;
+    text-transform: uppercase;
+  }
+</style>
+
+<section>
+  <h1>{{ .Title }}</h1>
+  {{ .Params.summary | markdownify }}
+  {{ .Content }}
+  <p>by {{ .Params.author }}</p>
+  <div class="theme-card-sample-container">
+    {{ range .Params.colors }}
+    <div class="theme-card-color-container" style="background-color: #{{ . }}">
+      <p>#{{ . }}</p>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{- end -}}

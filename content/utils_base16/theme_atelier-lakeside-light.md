@@ -1,0 +1,6 @@
+---
+author: "Bram de Haan (http://atelierbramdehaan.nl)"
+title: "Atelier Lakeside Light"
+summary: "https://github.com/atelierbram/base16-atelier-schemes"
+colors: ["ebf8ff", "c1e4f6", "7ea2b4", "7195a8", "5a7b8c", "516d7b", "1f292e", "161b1d", "d22d72", "935c25", "8a8a0f", "568c3b", "2d8f6f", "257fad", "6b6bb8", "b72dd2"]
+---
