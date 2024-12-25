@@ -2,6 +2,6 @@
 layout: home
 ---
 
-Page in english
+This is my homepage, and blog.
 
-![](/todo-do-this-part.jpg)
+Posts: when I become inspired.

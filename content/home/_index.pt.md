@@ -2,6 +2,6 @@
 layout: home
 ---
 
-Página em português
+Essa é minha homepage, e blog.
 
-![](/todo-do-this-part.jpg)
+Publicações: quando eu estiver inspirado.
