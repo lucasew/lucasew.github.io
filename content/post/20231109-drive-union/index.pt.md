@@ -236,10 +236,11 @@ y/n>
 2023/11/09 10:41:12 NOTICE: Waiting for code...
 
 ```
-![]({{< resource "drive_ro_auth.png" >}})
+
+![](drive_ro_auth.png)
 
 Nesse momento, uma aba do navegador vai surgir pedindo permissão. Quando você permitir ele vai te jogar para a seguinte tela:
-![]({{< resource "drive_ro_ok.png" >}}) 
+![](drive_ro_ok.png) 
 
 Depois é só apertar enter duas vezes
 - Uma pra confirmar que você não quer configurar um team drive
