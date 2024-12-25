@@ -3,7 +3,11 @@
   {{ .Content }}
 
   {{ range .Pages }}
-  <h2><a href="{{ .Permalink | absURL }}">{{ .Title }}</h2>
+
+  <a href="{{ .Permalink | absURL }}">
+    <h2>{{ .Title }}</h2>
+    <p>{{ .Params.summary }}</p>
+  </a>
   {{ end }}
 </section>
 {{- end -}}

@@ -14,7 +14,8 @@
   {{ with .Page.File }}
   <meta name="mdpath" content="{{ .Path }}" />
   {{ end }}
-  <title>{{ .Site.Title }}</title>
+  <meta name="description" content="{{ .Params.summary }}">
+  <title>{{ .Params.title | default .Site.Title }}</title>
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>

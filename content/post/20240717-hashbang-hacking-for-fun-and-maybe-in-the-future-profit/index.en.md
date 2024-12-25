@@ -1,5 +1,6 @@
 ---
 title: Hashbang hacking for fun and, maybe in the future, profit 
+summary: This is the story of how I created a thing to make self contained scripts.
 language: en
 alsoAvailable:
   - https://lucasew.capivaras.dev/blog/hashbang-hacking-for-fun-and-maybe-in-the-future-profit/
