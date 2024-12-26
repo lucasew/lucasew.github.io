@@ -47,6 +47,9 @@
       </div>
       <div>
         {{- block "header" . -}}{{- end -}}
+        {{ with .GetPage "/utils" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
         {{ with .GetPage "/post" }}
         <a href="{{ .RelPermalink }}">{{ .Title }}</a>
         {{ end }}
