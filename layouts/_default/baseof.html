@@ -40,9 +40,13 @@
   <header>
     <nav>
       <div>
-
         {{ with .GetPage "/home" }}
-        <a href="{{ .RelPermalink }}"><b>{{ .Site.Title }}</b></a>
+        <a href="{{ .RelPermalink }}" style="margin: 0">
+          <img src="/icon.png" alt="icon" style="margin: 0; height: 1em; vertical-align: middle;" />
+          <b>
+            {{ .Site.Title }}
+          </b>
+        </a>
         {{ end }}
       </div>
       <div>
