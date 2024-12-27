@@ -126,3 +126,15 @@ Na real to ganhando sim. Eu achei uma oportunidade de gastar menos e estou compa
 Da Vivo em sí não estou ganhando nada, tipo nenhum patrocínio. Esse post surgiu por incentivo totalmente meu.
 
 Já economizei uns 50 reais fácil nessa migração e consegui uma paz de espírito que nunca tive com nenhuma operadora então para mim foi vantagem pura basicamente.
+
+# Update 12/2024
+To gastando menos de 100 reais por ano, jogando alto, com telefonia. Continuo ligando quase nunca mas quando eu preciso eu uso, idem com Internet.
+
+Cobertura da Vivo no geral é um pouco pior que a da Tim, principalmente em interior, mas no geral é pau a pau.
+
+Uso no meu dia a dia é minúsculo, tipo menos de 500MB por mês. Compro coisa de 10GB de Internet por ano.
+
+Consegui duas indicações até agora. O Adriano e minha mãe.
+
+O aplicativo continua zoado e o plano continua tentanto te empurrar o Easy Prime, que é basicamente um plano controle que acumula, mas como
+eu no geral só abro o aplicativo algumas vezes por ano nem muda muita coisa.
