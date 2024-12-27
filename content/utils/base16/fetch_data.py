@@ -85,10 +85,9 @@ for item in ROOT.glob('theme_*.md'):
     item.unlink()
 
 for theme in themes.keys():
-    for lang in ["en", "pt"]:
-        file = ROOT / f"theme_{theme}.{lang}.md"
-        with file.open('w') as f:
-            print('---', file=f)
-            for (k, v) in themes[theme].items():
-                print(f"{k}: {json.dumps(v)}", file=f)
-            print('---', file=f)
+    file = ROOT / f"theme_{theme}.md"
+    with file.open('w') as f:
+        print('---', file=f)
+        for (k, v) in themes[theme].items():
+            print(f"{k}: {json.dumps(v)}", file=f)
+        print('---', file=f)

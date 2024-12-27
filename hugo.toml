@@ -14,3 +14,13 @@ title = "offtopic do lucasew"
 languageCode = "pt_BR"
 languageName = "🇧🇷"
 disabled = false
+
+[module]
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'en'
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'pt'
