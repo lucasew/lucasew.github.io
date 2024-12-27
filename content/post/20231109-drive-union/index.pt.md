@@ -9,42 +9,55 @@ alsoAvailable:
 
 # Overview
 
-O Google Drive, apesar de ser lento feito a disgraça, é um jeito bem popular e barato de guardar arquivos,
-porém, ultimamente tá acontecendo bastante cortes de cota. Contas que eram ilimitadas não são mais. Dá para
-entender o motivo, o Google não é mais o que era, tá falindo e tá precisando monetizar onde
-dá, [as vezes até dando tiros no próprio pé](https://www.youtube.com/watch?v=_GARcKCaUfI).
+O Google Drive, apesar de ser lento feito a disgraça, é um jeito bem popular e
+barato de guardar arquivos, porém, ultimamente tá acontecendo bastante cortes de
+cota. Contas que eram ilimitadas não são mais. Dá para entender o motivo, o
+Google não é mais o que era, tá falindo e tá precisando monetizar onde dá,
+[as vezes até dando tiros no próprio pé](https://www.youtube.com/watch?v=_GARcKCaUfI).
 
-Uma ferramenta muito popular em gerenciamento e operação de contas de armazenamento cloud de um jeito consistente
-é o [rclone](https://rclone.org/). É um negócio muito simples de instalar. É um binário que precisa estar em 
-alguma pasta que pertence a variável de ambiente PATH. O rclone abstrai esses armários de armazenamento em remotes,
-cada remote tem um tipo, que é chamado de backend. Google Drive é um backend, tua conta do Google Drive é um remote.
+Uma ferramenta muito popular em gerenciamento e operação de contas de
+armazenamento cloud de um jeito consistente é o [rclone](https://rclone.org/). É
+um negócio muito simples de instalar. É um binário que precisa estar em alguma
+pasta que pertence a variável de ambiente PATH. O rclone abstrai esses armários
+de armazenamento em remotes, cada remote tem um tipo, que é chamado de backend.
+Google Drive é um backend, tua conta do Google Drive é um remote.
 
-Um remote, como já vou demonstrar, não precisa necessariamente ser um serviço em nuvem. Tem vários que
-encapsulam e agregam outros, como o `crypt`, o `chunker` e o que eu vou apresentar aqui: o `union`.
+Um remote, como já vou demonstrar, não precisa necessariamente ser um serviço em
+nuvem. Tem vários que encapsulam e agregam outros, como o `crypt`, o `chunker` e
+o que eu vou apresentar aqui: o `union`.
 
 ## Union
-O backend [`union`](https://rclone.org/union/) junta vários remotes e monta uma visão simples deles.
 
-O exemplo aqui que eu vou dar é com Google Drive mas esse esquema não só funciona com backends diferentes como
-também funciona entre remotes de diferentes backends.
+O backend [`union`](https://rclone.org/union/) junta vários remotes e monta uma
+visão simples deles.
 
-Esse post não vai ser exaustivo sobre como usar o backend então se quiser aprender mais, leia a 
-[documentação](https://rclone.org/union/) e experimente.
+O exemplo aqui que eu vou dar é com Google Drive mas esse esquema não só
+funciona com backends diferentes como também funciona entre remotes de
+diferentes backends.
+
+Esse post não vai ser exaustivo sobre como usar o backend então se quiser
+aprender mais, leia a [documentação](https://rclone.org/union/) e experimente.
 
 # Preparação dos remotes
+
 O arranjo que eu vou mostrar aqui consiste em duas contas e um union.
 
-Vou dar o nome dos remotes `drive_rw` e `drive_ro`. O objetivo é usar o `drive_ro`, com menos cota, só para
-conferir se os arquivos existem e gerar um token do `drive_rw` que só dá permissão de gravação na conta e
-leitura do que foi gravado por esse token. Depois vou agregar com `union` de forma que `drive_rw` seja
-apenas usada para upar as coisas e a `drive_ro` só para ler.
+Vou dar o nome dos remotes `drive_rw` e `drive_ro`. O objetivo é usar o
+`drive_ro`, com menos cota, só para conferir se os arquivos existem e gerar um
+token do `drive_rw` que só dá permissão de gravação na conta e leitura do que
+foi gravado por esse token. Depois vou agregar com `union` de forma que
+`drive_rw` seja apenas usada para upar as coisas e a `drive_ro` só para ler.
 
 ## rclone.cfg
-Toda parte de autenticação do rclone é salva em um arquivo. **Passar esse arquivo para qualquer pessoa dá acesso
-a todas as contas definidas nesse arquivo para essa pessoa.**
 
-Por padrão, o rclone salva esse arquivo de configuração em `~/.config/rclone/rclone.cfg` em basicamente qualquer
-sistema operacional. Você pode mudar esse caminho para um comando usando a flag `--config` e passando o novo caminho.
+Toda parte de autenticação do rclone é salva em um arquivo. **Passar esse
+arquivo para qualquer pessoa dá acesso a todas as contas definidas nesse arquivo
+para essa pessoa.**
+
+Por padrão, o rclone salva esse arquivo de configuração em
+`~/.config/rclone/rclone.cfg` em basicamente qualquer sistema operacional. Você
+pode mudar esse caminho para um comando usando a flag `--config` e passando o
+novo caminho.
 
 Para fins de demonstração eu vou usar `/tmp/rclone.cfg`.
 
@@ -234,53 +247,60 @@ y/n>
 2023/11/09 10:41:12 NOTICE: If your browser doesn't open automatically go to the following link: http://127.0.0.1:53682/auth?state=vascodagama
 2023/11/09 10:41:12 NOTICE: Log in and authorize rclone for access
 2023/11/09 10:41:12 NOTICE: Waiting for code...
-
 ```
 
 ![](drive_ro_auth.png)
 
-Nesse momento, uma aba do navegador vai surgir pedindo permissão. Quando você permitir ele vai te jogar para a seguinte tela:
-![](drive_ro_ok.png) 
+Nesse momento, uma aba do navegador vai surgir pedindo permissão. Quando você
+permitir ele vai te jogar para a seguinte tela: ![](drive_ro_ok.png)
 
 Depois é só apertar enter duas vezes
+
 - Uma pra confirmar que você não quer configurar um team drive
 - Outra pra confirmar que ele gerou as configurações corretamente
 
 E a primeira fase está pronta
 
 ## Criação do remote `drive_rw`
+
 Na criação do remote `drive_rw`, o processo é quase igual.
 
-A única diferença é que na parte do `scope`, onde você escolhe que
-permissões o remote vai ter na conta para depois autorizar você escolhe
-ou a "Full access" (`drive`) ou a Read-only access (`drive.readonly`).
+A única diferença é que na parte do `scope`, onde você escolhe que permissões o
+remote vai ter na conta para depois autorizar você escolhe ou a "Full access"
+(`drive`) ou a Read-only access (`drive.readonly`).
 
-Ai vai do teu gosto. Eu escolheria a `drive.readonly` já que não é pra
-gravar nada nessa conta mesmo.
+Ai vai do teu gosto. Eu escolheria a `drive.readonly` já que não é pra gravar
+nada nessa conta mesmo.
 
 ## Criação do remote `drive`
-O remote `drive` é o union em si. Nessa parte acho que é mais fácil
-só copiar o código do config e colar no fim do rclone.cfg que foi gerado
-nos passos anteriores.
+
+O remote `drive` é o union em si. Nessa parte acho que é mais fácil só copiar o
+código do config e colar no fim do rclone.cfg que foi gerado nos passos
+anteriores.
 
 ```ini
 [drive]
 type = union
 upstreams = drive_ro:/:ro drive_rw:/
-````
+```
 
-Você pode tentar usar o `rclone config` mas se você chegou aqui é porque
-tá com pressa então só copia e muda os nomes se tiver usando outros nomes.
-
+Você pode tentar usar o `rclone config` mas se você chegou aqui é porque tá com
+pressa então só copia e muda os nomes se tiver usando outros nomes.
 
 # Manha essencial com relação ao uso
-A pasta inicial das duas contas sempre vai ser diferente então é uma boa
-usar uma flag do rclone específica para o Google Drive: [`--drive-root-folder-id`](https://rclone.org/drive/#drive-root-folder-id).
 
-Exemplo: https://drive.google.com/drive/folders/1eswj2f04KgHay8d1HKWmrI2QqpxVMEeP?usp=sharing
+A pasta inicial das duas contas sempre vai ser diferente então é uma boa usar
+uma flag do rclone específica para o Google Drive:
+[`--drive-root-folder-id`](https://rclone.org/drive/#drive-root-folder-id).
+
+Exemplo:
+https://drive.google.com/drive/folders/1eswj2f04KgHay8d1HKWmrI2QqpxVMEeP?usp=sharing
+
 - ID = 1eswj2f04KgHay8d1HKWmrI2QqpxVMEeP
-- O que adicionar no comando: `--drive-root-folder-id 1eswj2f04KgHay8d1HKWmrI2QqpxVMEeP`
+- O que adicionar no comando:
+  `--drive-root-folder-id 1eswj2f04KgHay8d1HKWmrI2QqpxVMEeP`
 
 **Você vai sempre precisar passar essa flag**
 
-E mais um detalhe: **as duas contas precisam estar autorizadas na pasta que vai ser alterada/lida**.
+E mais um detalhe: **as duas contas precisam estar autorizadas na pasta que vai
+ser alterada/lida**.

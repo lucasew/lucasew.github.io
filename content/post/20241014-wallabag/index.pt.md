@@ -11,17 +11,23 @@ Eae pessoal!!! Quanto tempo!
 
 Depois de muito tempo, decidi desempoeirar o blog com o side project do momento.
 
-Ultimanente to com um interesse em autocustodiar algumas coisas. Uma delas é o Pocket.
-Não pelo Pocket ser ruim ou ter melhorado tanto que piorou mas porque eu queria tentar algo diferente.
+Ultimanente to com um interesse em autocustodiar algumas coisas. Uma delas é o
+Pocket. Não pelo Pocket ser ruim ou ter melhorado tanto que piorou mas porque eu
+queria tentar algo diferente.
 
-Tempo atrás achei esse tal de [Wallabag](https://wallabag.org/), que é basicamente um Pocket/Instapaper selfhosted feito em Symphony/PHP.
+Tempo atrás achei esse tal de [Wallabag](https://wallabag.org/), que é
+basicamente um Pocket/Instapaper selfhosted feito em Symphony/PHP.
 
-Fim de semana tava meio de saco cheio e não tinha nada programado pra sair então resolvi meter o louco e tirar um pouco a ferrugem da minha config NixOS.
+Fim de semana tava meio de saco cheio e não tinha nada programado pra sair então
+resolvi meter o louco e tirar um pouco a ferrugem da minha config NixOS.
 
-A config do NixOS nem tava ruim, só que eu cheguei num ponto que eu não tava precisando mais mexer. Tava usando branch stable então basicamente não
-tinha nenhum ajuste que precisava fazer entre bumps então tava bem mó paz mesmo, não tinha porque mexer.
+A config do NixOS nem tava ruim, só que eu cheguei num ponto que eu não tava
+precisando mais mexer. Tava usando branch stable então basicamente não tinha
+nenhum ajuste que precisava fazer entre bumps então tava bem mó paz mesmo, não
+tinha porque mexer.
 
 Basicamente esse projeto aconteceu nas seguintes fases:
+
 - Fazer o wallabag funcionar como módulo NixOS
 - Criar o vhost
 - Importar os artigos do Pocket de do Instapaper
@@ -29,67 +35,82 @@ Basicamente esse projeto aconteceu nas seguintes fases:
 
 # Fazendo funcionar
 
-Porque faz todo sentido preguiçoso, eu não comecei do zero, ~roubei código~ tomei inspiração no trabalho
-de [outra pessoa](https://cce.whatthefuck.computer/updates#20231106T181545.910122)
-e tive que fazer uns ajustes pra minha situação, também fazendo umas adaptações para ficar no padrão de módulos do nixpkgs.
+Porque faz todo sentido preguiçoso, eu não comecei do zero, ~~roubei código~~
+tomei inspiração no trabalho de
+[outra pessoa](https://cce.whatthefuck.computer/updates#20231106T181545.910122)
+e tive que fazer uns ajustes pra minha situação, também fazendo umas adaptações
+para ficar no padrão de módulos do nixpkgs.
 
-Meu requisito era que funcionasse numa rede interna Tailscale, não tenho intenção de expor pra Internet, o que
-simplifica muito as coisas, até certo ponto.
+Meu requisito era que funcionasse numa rede interna Tailscale, não tenho
+intenção de expor pra Internet, o que simplifica muito as coisas, até certo
+ponto.
 
 Depois de vários ajustes o código do módulo ficou
 [assim](https://github.com/lucasew/nixcfg/blob/854cda49af1800a3e481f617fcdad7d29d6499c3/nix/nodes/common/services/wallabag.nix#L1).
 
-Uma coisa que eu gostei bastante do resultado, além de funcionar, é claro, é que eu fiz o `console` do Wallabag
-(basicamente um php-artisan da vida) já entrar no usuário do serviço certo então o script em sí já sobe no usuário certo.
+Uma coisa que eu gostei bastante do resultado, além de funcionar, é claro, é que
+eu fiz o `console` do Wallabag (basicamente um php-artisan da vida) já entrar no
+usuário do serviço certo então o script em sí já sobe no usuário certo.
 
-Uma coisa que trouxe dificuldade é que o Wallabag reclama se falta alguma config no parameters.yaml então tem que especificar
-todas as chaves nem que seja com null.
+Uma coisa que trouxe dificuldade é que o Wallabag reclama se falta alguma config
+no parameters.yaml então tem que especificar todas as chaves nem que seja com
+null.
 
 # Criar o vhost
 
-De início eu usei o nginx pra criar um vhost HTTP como eu já fazia em basicamente todos os serviços mas o
-Wallabag é muito xarope com HTTPS então eu tinha que achar um jeito.
+De início eu usei o nginx pra criar um vhost HTTP como eu já fazia em
+basicamente todos os serviços mas o Wallabag é muito xarope com HTTPS então eu
+tinha que achar um jeito.
 
-O app oficial se nega a funcionar sobre HTTP mesmo que eu já tenha a criptografia do wireguard já segurando as
-pontas. É HTTPS ou GTFO. Eu podia usar SSL autoassinado mas fiquei com preguiça de fazer tudo na mão. Ou eu
-automatizo o processo ou deixo quieto.
+O app oficial se nega a funcionar sobre HTTP mesmo que eu já tenha a
+criptografia do wireguard já segurando as pontas. É HTTPS ou GTFO. Eu podia usar
+SSL autoassinado mas fiquei com preguiça de fazer tudo na mão. Ou eu automatizo
+o processo ou deixo quieto.
 
-Nessa me dei conta que o Tailscale consegue criar certificados TLS mesmo que não esteja usando Tailscale
-Funnel. É um tanto imperativo usando o daemon do sistema mas eu já tinha uma carta na manga que era só
-adaptar pra funcionar nesse caso.
+Nessa me dei conta que o Tailscale consegue criar certificados TLS mesmo que não
+esteja usando Tailscale Funnel. É um tanto imperativo usando o daemon do sistema
+mas eu já tinha uma carta na manga que era só adaptar pra funcionar nesse caso.
 
-O [ts-proxy](https://github.com/lucasew/ts-proxy) é basicamente um proxy reverso que expõe uma porta
-HTTP como um serviço ou nó em uma rede Tailscale. Com MagicDNS já ganho DNS de graça e com aquela
-manha do TLS eu já consigo fazer HTTPS na rede local.
+O [ts-proxy](https://github.com/lucasew/ts-proxy) é basicamente um proxy reverso
+que expõe uma porta HTTP como um serviço ou nó em uma rede Tailscale. Com
+MagicDNS já ganho DNS de graça e com aquela manha do TLS eu já consigo fazer
+HTTPS na rede local.
 
-Depois de uns ajustes isso foi entregue na versão 0.5.0. Como eu fiz cagada na release lancei a
-0.5.1 arrumando. Não tem novidade nenhuma, só correção da minha cagada pra fazer release.
+Depois de uns ajustes isso foi entregue na versão 0.5.0. Como eu fiz cagada na
+release lancei a 0.5.1 arrumando. Não tem novidade nenhuma, só correção da minha
+cagada pra fazer release.
 
-Agora com um módulo simples consigo subir um ts-proxy para cada serviço que eu quero expor,
-TLS fica atrás de um enable, ou flag se chamar o ts-proxy direto, token pra autorizar o nó
-é provisionado com sops-nix. Na primeira vez tem que autorizar o serviço no dashboard do
-Tailscale e depois tudo funciona sem ter que expor pra Internet e com certificado let's
-encrypt depois de um warmup de uns 10s se o TLS tiver ativado.
+Agora com um módulo simples consigo subir um ts-proxy para cada serviço que eu
+quero expor, TLS fica atrás de um enable, ou flag se chamar o ts-proxy direto,
+token pra autorizar o nó é provisionado com sops-nix. Na primeira vez tem que
+autorizar o serviço no dashboard do Tailscale e depois tudo funciona sem ter que
+expor pra Internet e com certificado let's encrypt depois de um warmup de uns
+10s se o TLS tiver ativado.
 
-Com esse ajuste do HTTPS o aplicativo oficial, que eu tentei patchear sem sucesso pra aceitar HTTP,
-funcionou sem problemas e começou finalmente a sincronizar.
+Com esse ajuste do HTTPS o aplicativo oficial, que eu tentei patchear sem
+sucesso pra aceitar HTTP, funcionou sem problemas e começou finalmente a
+sincronizar.
 
 # Importar artigos do Pocket e do Instapaper
-É nessa parte que filho chora e mãe não vê, porque eu sou usuário Pocket desde 2015 e nessa conta
-tem uma quantidade imoral de artigos. Quanto imoral? Imoral assim:
+
+É nessa parte que filho chora e mãe não vê, porque eu sou usuário Pocket desde
+2015 e nessa conta tem uma quantidade imoral de artigos. Quanto imoral? Imoral
+assim:
 
 ![tenho tanto artigo na minha conta do pocket que pra exportar os dados tive que apelar](power_guido.png)
 
-Eu tinha começado a importar os artigos antes de configurar HTTPS então o fluxo OAuth pra importar do
-Pocket não funcionava e o importador do Instapaper funciona com um arquivo que o serviço exporta.
-Por causa da quantidade de artigos o import travava o Wallabag inteiro e dava em Gateway Time Out.
+Eu tinha começado a importar os artigos antes de configurar HTTPS então o fluxo
+OAuth pra importar do Pocket não funcionava e o importador do Instapaper
+funciona com um arquivo que o serviço exporta. Por causa da quantidade de
+artigos o import travava o Wallabag inteiro e dava em Gateway Time Out.
 
-Fiz na mão. Basicamente usei uma lib de cliente do Wallabag em Python e respectivamente um parser
-de CSV do Instapaper e um export pra JSON continuável do Pocket. 
+Fiz na mão. Basicamente usei uma lib de cliente do Wallabag em Python e
+respectivamente um parser de CSV do Instapaper e um export pra JSON continuável
+do Pocket.
 
 Primeiro dumpei o Pocket com esse script:
-```python
 
+```python
 # cria um app oauth lá
 consumer_key = "CHANGEME"
 access_token = "CHANGEME"
@@ -138,6 +159,7 @@ for offset in index_gen():
 ```
 
 E pra aplicar:
+
 ```python
 from wallabag.api.add_entry import AddEntry, Params as AddEntryParams
 from wallabag.entry import Entry
@@ -197,12 +219,11 @@ with tqdm(total=len(data), desc="Ingerindo artigos", miniters=1, file=sys.stdout
             # if item is not None:
             #     ops.set_description(f"Ingerido {item.url}")
     print(folders)
-
 ```
 
 E para fazer ingestão do Instapaper
+
 ```python
-  
 from wallabag.api.add_entry import AddEntry, Params as AddEntryParams
 from wallabag.entry import Entry
 from wallabag.config import Configs
@@ -256,9 +277,10 @@ with open("instapaper-export.csv", 'r') as f:
                 # if item is not None:
                 #     ops.set_description(f"Ingerido {item.url}")
         print(folders)
-
 ```
 
-No total isso deu em 14449 artigos depois de rodar o comando de deduplicação de artigos da instância.
+No total isso deu em 14449 artigos depois de rodar o comando de deduplicação de
+artigos da instância.
 
-Tinha uma quantidade significativa de ids sem links no Pocket, provavelmente soft-deletes.
+Tinha uma quantidade significativa de ids sem links no Pocket, provavelmente
+soft-deletes.
