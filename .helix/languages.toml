@@ -1,0 +1,13 @@
+[[language]]
+name = "markdown"
+formatter = { command = "dprint", args = ["fmt", "--stdin", "md"]}
+
+[language-server.ltex-ls]
+command = "ltex-ls"
+
+[language-server.ltex-ls.config.ltex]
+language = "pt-BR"
+
+[[language]]
+name = "markdown"
+
