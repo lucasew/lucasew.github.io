@@ -14,7 +14,7 @@ This post is based in dedicated pages about the subject, such as:
 
 - https://no-hello.com/
 
-Very likely, someone send you here using a link in some sort of chat, like
+Very likely, someone sends you here using a link in some sort of chat, like
 Slack, IRC, WhatsApp, Facebook Messenger, and maybe Telegram after you entered
 the chat and only sent a "hello", or a "good afternoon" or any greeting waiting
 for a response and is curious why this someone sent a link to here.
@@ -28,7 +28,7 @@ Well, yes and no:
   either **force the other to ignore your greeting** or **answer trying to
   understand the reason of the contact**.
 
-Let's imagine Alice and Fred. Alice is working in something difficult and it's
+Let's imagine Alice and Fred. Alice is working in something difficult, and it's
 highly concentrated in the task while Fred wants to ask a question to Alice.
 
 ```
@@ -62,7 +62,7 @@ Details to be noted:
 
 # How I deal with this stuff
 
-- Priority is always text, if the person didn't yet asked I send a "send it"
+- Priority is always text, if the person didn't yet ask I send a "send it"
   when I am ready.
 - If you want me to make some effort to answer fast, do not send audios.
 - Phone in silent 24/7 with floating notifications off. I look when I take it,

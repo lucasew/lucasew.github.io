@@ -2,12 +2,17 @@
 name = "markdown"
 formatter = { command = "dprint", args = ["fmt", "--stdin", "md"]}
 
-[language-server.ltex-ls]
+[language-server.ltex-ls-pt]
 command = "ltex-ls"
+file-types = [ {glob = "*.pt.md" } ]
 
-[language-server.ltex-ls.config.ltex]
+[language-server.ltex-ls-pt.config.ltex]
 language = "pt-BR"
 
-[[language]]
-name = "markdown"
 
+[language-server.ltex-ls-en]
+command = "ltex-ls"
+file-types = [ {glob = "*.en.md" } ]
+
+[language-server.ltex-ls-en.config.ltex]
+language = "en-US"
