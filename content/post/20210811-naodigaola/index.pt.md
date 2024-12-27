@@ -1,7 +1,7 @@
 ---
 title: "Não diga só olá"
 aliases:
-  - /nohello
+  - /nohello.pt
 summary: "Porque você deveria só chegar desenrolando o assunto"
 alsoAvailable:
   - https://blog-do-lucao.vercel.app/post/naodigaola

@@ -1,6 +1,7 @@
 ---
 title: "Do not say hello only"
 aliases:
+  - /nohello.en
   - /nohello
 summary: "Why you should unroll the subject directly"
 alsoAvailable:
