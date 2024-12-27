@@ -1,6 +1,6 @@
 {
   "markdown": {
-    "lineWidth": 72
+    "textWrap": "always"
   },
   "excludes": [],
   "plugins": [
