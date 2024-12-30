@@ -2,7 +2,7 @@
 <html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
 
 {{ $home := "" }}
-{{ with .GetPage "/home" }}
+{{ with .GetPage "/" }}
 {{ $home = .RelPermalink }}
 {{ end }}
 

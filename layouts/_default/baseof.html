@@ -16,13 +16,17 @@
   {{ end }}
   <meta name="description" content="{{ .Params.summary }}">
   <title>{{ .Params.title | default .Site.Title }}</title>
+  <link rel="dns-prefetch" href="https://unpkg.com/" />
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" media="screen" />
+  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css"
+    media="screen and (prefers-color-scheme: dark)" />
+
 </head>
 
 <body hx-boost="true">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/sakura.css" type="text/css">
   <style>
     nav {
       display: flex;
@@ -40,7 +44,7 @@
   <header>
     <nav>
       <div>
-        {{ with .GetPage "/home" }}
+        {{ with .GetPage "/" }}
         <a href="{{ .RelPermalink }}" style="margin: 0">
           <img src="/icon.png" alt="icon" style="margin: 0; height: 1em; vertical-align: middle;" />
           <b>
