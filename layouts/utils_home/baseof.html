@@ -21,13 +21,15 @@
   <meta name="mdpath" content="{{ .Path }}" />
   {{ end }}
   <meta http-equiv="refresh" content="8; URL={{ $home }}" />
-  <script src="https://unpkg.com/htmx.org@2.0.4"
-    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" type="text/css">
 </head>
 
-<body hx-boost="true">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" type="text/css">
+<body>
+  <script>
+    if (window.siteUsesMainTemplate) {
+      window.location.reload()
+    }
+  </script>
   <style>
     :root {
       /* from sakuracss, to be consistent */

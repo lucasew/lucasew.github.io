@@ -1,3 +1,0 @@
----
-type: utils_home
----

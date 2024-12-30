@@ -1,6 +1,7 @@
 ---
 title: Página inicial antiga
 summary: A página inicial antiga com animações
+type: utils_home
 quotes:
   - Usuário de Linux
   - Fuçador

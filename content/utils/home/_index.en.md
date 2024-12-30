@@ -1,6 +1,7 @@
 ---
 title: Old homepage
 summary: The old homepage with animations
+type: utils_home
 quotes:
   - Linux user
   - General purpose hacker
