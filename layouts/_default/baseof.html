@@ -16,6 +16,10 @@
   {{ end }}
   <meta name="description" content="{{ .Params.summary }}">
   <title>{{ .Params.title | default .Site.Title }}</title>
+  {{ with .OutputFormats.Get "rss" -}}
+  {{ printf `
+  <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+  {{ end }}
   <link rel="dns-prefetch" href="https://unpkg.com/" />
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
