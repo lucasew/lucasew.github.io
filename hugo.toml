@@ -24,3 +24,6 @@ disabled = false
     source = 'content'
     target = 'content'
     lang = 'pt'
+
+[markup.goldmark.renderer]
+unsafe= true
