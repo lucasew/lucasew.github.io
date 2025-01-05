@@ -12,6 +12,8 @@ jobs:
     permissions:
       id-token: write
       pages: write
+      contents: write
+      pull-requests: write
     environment:
       name: github-pages
       url: https://lucasew.github.io/
@@ -46,3 +48,14 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+        
+      - name: Create Pull Request if there is new stuff from updaters
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: Updater script changes
+          branch: updater-bot
+          delete-branch: true
+          title: "Updater: stuff changed"
+          body: |
+            Changes caused from update scripts
+          reviewers: lucasew
