@@ -1,4 +1,6 @@
 ---
+
+date: 2025-01-05T00:00:00
 title: Média de posição no Beancount
 summary: A saga para fazer o Beancount funcionar direito com as regras Brasileiras do mercado de ações
 ---

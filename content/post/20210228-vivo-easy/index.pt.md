@@ -1,4 +1,6 @@
 ---
+
+date: 2021-02-28T00:00:00
 title: "Projeto Easy: Uma tentativa para não pagar pelo que eu não uso"
 summary: "O trajeto que eu percorri para portar a minha linha TIM que estava no nome do meu pai para o meu nome no Vivo Easy"
 alsoAvailable:

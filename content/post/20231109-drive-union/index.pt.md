@@ -1,4 +1,6 @@
 ---
+
+date: 2023-11-09T00:00:00
 title: "Como agregar contas do drive?"
 summary: "Como usar a cota de uma conta com mais capacidade sem comprometer o conteúdo que já está lá"
 math: false

@@ -1,4 +1,6 @@
 ---
+
+date: 2024-12-24T00:00:00
 title: How I entered the state of flow reviewing PRs in nixpkgs
 summary: "The story of how nixpkgs-reviewd became a reality"
 language: en

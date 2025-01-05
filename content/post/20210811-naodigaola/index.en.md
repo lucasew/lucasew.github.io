@@ -1,4 +1,6 @@
 ---
+
+date: 2021-08-11T00:00:00
 title: "Do not say hello only"
 aliases:
   - /nohello.en

@@ -1,4 +1,6 @@
 ---
+
+date: 2024-10-14T00:00:00
 title: "Wallabag no NixOS"
 summary: "A saga para configurar o Wallabag como um módulo integrado com HTTPS no NixOS"
 math: false
