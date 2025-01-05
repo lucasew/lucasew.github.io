@@ -20,6 +20,9 @@ jobs:
         with:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
+      - name: Run updaters
+        run: ./update.sh
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
