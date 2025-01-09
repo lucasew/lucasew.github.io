@@ -40,8 +40,10 @@ jobs:
         env:
           PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
         run: |
-          printf 'pr number: "%s"' "$PR_NUMBER"
-
+          if [[ ! -z "$PR_NUMBER" ]]; then
+            echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
