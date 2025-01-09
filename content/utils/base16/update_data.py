@@ -69,7 +69,6 @@ with ThreadPoolExecutor() as tp:
     for repo_theme in tp.map(handle_repo, repos.keys()):
         for theme_name, theme_value in repo_theme.items():
             themes[theme_name] = theme_value
-print(themes)
 
 for theme in list(themes.keys()):
     scheme = themes[theme].get('scheme', theme)
