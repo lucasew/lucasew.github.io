@@ -4,6 +4,8 @@ baseURL = 'https://example.org/'
 title = "lucasew's offtopic"
 # defaultContentLanguage = 'en'
 
+disableKinds = ['taxonomy', 'term']
+
 [languages.en]
 title = "lucasew's offtopic"
 languageName = "🇺🇸"
