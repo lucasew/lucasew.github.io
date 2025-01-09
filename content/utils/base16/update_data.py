@@ -6,6 +6,7 @@ from urllib import request
 import re
 import subprocess
 import json
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT = Path(__file__).parent
 COLOR_KEYS = [
@@ -45,7 +46,9 @@ def read_kv(data):
 scheme_repos = request.urlopen("https://raw.githubusercontent.com/chriskempson/base16-schemes-source/refs/heads/main/list.yaml")
 repos = read_kv(scheme_repos.read())
 themes = {}
-for repo in repos.keys():
+
+def handle_repo(repo):
+    repo_themes = {}
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
         tmpdir.rmdir()
@@ -58,8 +61,14 @@ for repo in repos.keys():
         except Exception as e:
             print(e)
         for theme in tmpdir.glob('**/*.yaml'):
-            themes[theme.stem] = read_kv(theme.read_bytes())
-            themes[theme.stem]['repo'] = repos[repo]
+            repo_themes[theme.stem] = read_kv(theme.read_bytes())
+            repo_themes[theme.stem]['repo'] = repos[repo]
+    return repo_themes
+
+with ThreadPoolExecutor() as tp:
+    for repo_theme in tp.map(handle_repo, repos.keys()):
+        for theme_name, theme_value in repo_theme.items():
+            themes[theme_name] = theme_value
 print(themes)
 
 for theme in list(themes.keys()):
