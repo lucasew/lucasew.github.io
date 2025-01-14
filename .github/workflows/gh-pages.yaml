@@ -49,13 +49,10 @@ jobs:
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: 'latest'
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
-
       - name: Build
         env:
-          URL: ${{ steps.deployment.outputs.page_url }}
+          # URL: ${{ steps.deployment.outputs.page_url }}
+          URL: https://lucasew.github.io
         run: hugo --minify --baseURL "$URL"
 
       - name: Upload static files as artifact
@@ -65,7 +62,8 @@ jobs:
 
       - name: Step summary
         env:
-          URL: ${{ steps.deployment.outputs.page_url }}
+          # URL: ${{ steps.deployment.outputs.page_url }}
+          URL: https://lucasew.github.io
         run: |
           if [[ -z "$URL" ]]; then
             echo "Bad deployment url"
@@ -73,3 +71,7 @@ jobs:
           fi
           printf "Deployed on: %s" "$URL" >> $GITHUB_STEP_SUMMARY
         
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
