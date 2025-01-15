@@ -52,6 +52,7 @@
 
   <script src="{{ $revealjsBaseURL }}/reveal.js"></script>
   <script src="{{ $revealjsBaseURL }}/plugin/zoom/zoom.min.js"></script>
+  <script src="{{ $revealjsBaseURL }}/plugin/math/math.min.js"></script>
   <link rel="stylesheet" href="{{ $revealjsBaseURL }}/reset.min.css"></link>
   <link rel="stylesheet" href="{{ $revealjsBaseURL }}/reveal.min.css"></link>
   <link rel="stylesheet" href="{{ $revealjsBaseURL }}/theme/black.min.css"></link>
@@ -61,7 +62,9 @@
       console.log('RevealJS iniciado')
     })
     Reveal.initialize({
-      
+      plugins: [
+        RevealMath.KaTeX
+      ]
     })
   </script>
 

@@ -43,8 +43,8 @@ pkgs.mkShell {
 
 ## Funciona matemática
 
-- $$x^2$$
-- $$\frac{-b \pm \sqrt{b^2 -4ac}}{2a}$$
+- $x^2$
+- $\frac{-b \pm \sqrt{b^2 -4ac}}{2a}$
 
 ---
 
