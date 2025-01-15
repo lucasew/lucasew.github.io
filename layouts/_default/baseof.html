@@ -20,6 +20,7 @@
   {{ printf `
   <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
   {{ end }}
+  {{- block "head" . -}}
   <link rel="dns-prefetch" href="https://unpkg.com/" />
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
@@ -27,11 +28,14 @@
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" media="screen" />
   <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css"
     media="screen and (prefers-color-scheme: dark)" />
+  {{- end -}}
   <script>
     window.siteUsesMainTemplate = true;
   </script>
 
 </head>
+
+{{- block "body" . -}}
 
 <body hx-boost="true">
   <style>
@@ -82,3 +86,4 @@
     {{- block "content" . -}}{{- end -}}
   </main>
 </body>
+{{ end }}
