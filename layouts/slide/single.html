@@ -44,9 +44,7 @@
     }
   </style>
 
-  {{ $logo := resources.GetRemote .src }}
-
-  <img id="logo" src="{{ $logo.RelPermalink }}" alt="{{ or .alt " " }}">
+  <img id="logo" src="{{ . }}" alt="logo">
 
   {{ end }}
 
