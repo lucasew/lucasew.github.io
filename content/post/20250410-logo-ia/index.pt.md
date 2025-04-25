@@ -149,15 +149,15 @@ eu considero importante. A logo tem que ser generalizável, ser mais uma questã
 
 Agora é vetorizar isso ai.
 
-Tentei pedir pro ChatGPT gerar um CSV da imagem e ele groselhou legal.
+Tentei pedir pro ChatGPT gerar um SVG da imagem e ele groselhou legal.
 
 Tentei uma penca de site malaco, nenhum me gerava um resultado que me deixava contente.
 
 Tentei replicar no Inkscape e tomei capote.
 
-Ai descobri uma extensão para o Figma: Image Tracer. Importei a imagem no Figma, rodei a extensão e exportei em CSV.
+Ai descobri uma extensão para o Figma: Image Tracer. Importei a imagem no Figma, rodei a extensão e exportei em SVG.
 
-A extensão já gera um CSV satisfatório, era só dar uns ajustes no Inkscape para "simplificar a malha" e separar os objetos.
+A extensão já gera um SVG satisfatório, era só dar uns ajustes no Inkscape para "simplificar a malha" e separar os objetos.
 
 Feito isso a logo ficou o seguinte:
 
