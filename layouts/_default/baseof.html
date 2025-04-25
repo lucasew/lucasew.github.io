@@ -25,59 +25,53 @@
   <script src="https://unpkg.com/htmx.org@2.0.4"
     integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
     crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" media="screen" />
-  <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-dark.css"
-    media="screen and (prefers-color-scheme: dark)" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   {{- end -}}
   <script>
     window.siteUsesMainTemplate = true;
   </script>
+  <style>
+    #site-banner {
+      font-size: calc(max(300px, min(800px, 100vw))/13);
+    }
 
+    #icon {
+      margin: 0;
+      height: 1em;
+      display: inline-block;
+    }
+  </style>
 </head>
 
 {{- block "body" . -}}
 
 <body hx-boost="true">
-  <style>
-    nav {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    aside {
-      border-bottom: 1px solid gray;
-    }
-
-    nav>div>a {
-      margin-left: 1rem;
-    }
-  </style>
   <header>
     <nav>
-      <div>
-        {{ with .GetPage "/" }}
-        <a href="{{ .RelPermalink }}" style="margin: 0">
-          <img src="/icon.png" alt="icon" style="margin: 0; height: 1em; vertical-align: middle;" />
-          <b>
+      {{ with .GetPage "/" }}
+      <a id="site-banner" href="{{ .RelPermalink }}" style="margin: 0">
+        <nobr><b>
+            <img id="icon" src="/icon.png" alt="icon" />
             {{ .Site.Title }}
           </b>
-        </a>
-        {{ end }}
-      </div>
-      <div>
-        {{- block "header" . -}}{{- end -}}
-        {{ with .GetPage "/utils" }}
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        {{ end }}
-        {{ with .GetPage "/post" }}
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        {{ end }}
+        </nobr>
+      </a>
+      <br>
+      {{ end }}
+      {{- block "header" . -}}{{- end -}}
+      {{ with .GetPage "/utils" }}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+      {{ with .GetPage "/post" }}
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+      {{ range $.Page.AllTranslations }}
+      <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+      {{ end }}
 
-        {{ range $.Page.AllTranslations }}
-        <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
-        {{ end }}
+      <div style="flex: 1"></div>
 
-      </div>
+
     </nav>
   </header>
   <hr />
