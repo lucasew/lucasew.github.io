@@ -30,8 +30,9 @@ release notes completo das versões no intervalo. É realmente caprichado.
 
 # O Fluxo
 
-A configuração do renovate é feita através da ativação de um app do GitHub. Você autoriza o app e de repente surge um PR [assim
-em todos os projetos que você autorizou](https://github.com/lucasew/bumpkin/pull/2). Eu Autorizei em toda a minha conta.
+A configuração do renovate é feita através da ativação de um [app do GitHub](https://github.com/marketplace/renovate).
+Você autoriza o app e de repente surge um PR [assim em todos os projetos que você autorizou](https://github.com/lucasew/bumpkin/pull/2).
+Eu Autorizei em toda a minha conta e na org do LEWTEC.
 
 Em condições normais de temperatura e pressão, se você quer ativar o renovate é só mergear o PR, senão pode fechar ou deixar lá.
 
