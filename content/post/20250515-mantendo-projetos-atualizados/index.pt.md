@@ -28,6 +28,14 @@ Ataques de supply chain e vulnerabilidades estão acontecendo cada vez mais e al
 inclusive incluem provas de conceito das vulnerabilidades sendo corrigidas na atualização. Alguns PRs tem um
 release notes completo das versões no intervalo. É realmente caprichado.
 
+# O Renovate
+O Renovate é um add-on, que pode ser [auto-hospedado](https://github.com/renovatebot/renovate) e é usado
+para manter dependências atualizadas de forma Jidoka (automação com toque humano). Ele sugere alterações
+em lockfiles e manifestos que atualizam dependências específicas e submete pull-requests que podem ser revisados
+ou configurados para serem mesclados automaticamente se o CI passar, por exemplo.
+
+É uma ferramenta extremamente flexível, prática, com configuração baseada em um arquivo: o renovate.json.
+
 # O Fluxo
 
 A configuração do renovate é feita através da ativação de um [app do GitHub](https://github.com/marketplace/renovate).
