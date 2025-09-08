@@ -22,10 +22,10 @@ jobs:
       name: github-pages
       url: https://lucasew.github.io/
     steps:
-      - uses: jdx/mise-action@v3
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      - uses: jdx/mise-action@v3
 
       - name: Run updaters
         run: ./update.sh
