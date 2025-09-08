@@ -22,6 +22,7 @@ jobs:
       name: github-pages
       url: https://lucasew.github.io/
     steps:
+      - uses: jdx/mise-action@v2
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
@@ -49,10 +50,6 @@ jobs:
             exit 1
           fi
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
-        with:
-          hugo-version: 'latest'
       - name: Build
         env:
           # URL: ${{ steps.deployment.outputs.page_url }}
