@@ -8,8 +8,11 @@ summary: "Murros em pontas de faca e macetes aprendidos no processo"
 
 Aoba, aqui é o Lucão. Primeiro post depois do alinhamento do olho, que eu fiz a exatamente um mês atrás.
 
-Vez ou outra eu me enfezo de fazer algumas limpezas e ajustes. Nos ultimos dias, comecei a configurar o [Mise](https://mise.jdx.dev/)
-em alguns projetos meus simplesmente porque Nix não me deixa pinar uma versão específica de um programa específico. Faço um post dele outra hora.
+Vez ou outra eu me enfezo de fazer algumas limpezas e ajustes. Nos ultimos dias, comecei a configurar o [Mise](https://mise.jdx.dev/)[^mise]
+em alguns projetos meus simplesmente porque Nix não me deixa pinar uma versão específica de um programa específico.
+
+[^mise]: [Post do Mise](../20250911-mise)
+
 
 Também aproveitei um tempo mais de várzea de fim de projeto para dar uma mexida no tal do [Bun](https://bun.com/) e nessa migrei alguns projetos
 para usar ele, pelo menos como gerenciador de pacotes.
@@ -47,8 +50,8 @@ igual nas duas pontas tá massa.
 
 - 41: Uso a porta calculada do alocator como porta padrão do serviço.
 - 43-49: Invocação das options do ts-proxy, meu proxy reverso que expõe o serviço dentro da minha rede do Tailscale, com HTTPS válido e sem ter que expor para a Internet.
-- 51-62: Define a unit do tipo *socket* que dispara o serviço. Systemd padrão basicamente, com algumas pequenas magias NixOSisticas
-- 64-72: Utilização das options do oci-containers para definir o serviço do container. Esse IDLE_TIMEOUT define quanto tempo de
+- 51-62: Define a unit do tipo *socket* que dispara o serviço. Systemd padrão basicamente, com algumas pequenas magias *NixOSisticas*
+- 64-72: Utilização das options do oci-containers para definir o serviço do container. Esse `IDLE_TIMEOUT` define quanto tempo de
 inatividade faz o Svelte derrubar o servidor. Como o socket segue ativo, uma nova requisição simplesmente acorda o serviço. O container também sempre
 vai ficar atualizado pois eu mando checar toda vez que sobe e eu coloquei para o container não subir com o sistema. Só sobe se for usado,
 como se fosse uma lambda!
@@ -65,7 +68,7 @@ Homelab inteligente sem ter que manter configuração de proxy reverso e DNS! E 
 O systemd possui o comando `systemd-socket-activate` que replica o mesmo sistema fora do systemd e eu usei para debugar um bug que eu
 achei no Bun.
 
-O SvelteKit, pelo adapter-node, tem suporte oficial a socket activation sem ter que configurar nada.  Até aquele IDLE_TIMEOUT é opcional, só
+O SvelteKit, pelo adapter-node, tem suporte oficial a socket activation sem ter que configurar nada.  Até aquele `IDLE_TIMEOUT` é opcional, só
 que sem ele a aplicação não para nunca. A mesma aplicação no Node responde normalmente ao socket activation como esperado. No Bun nada acontece.
 O systemd percebe que tem que subir a aplicação, sobe corretamente mas o Bun não consegue receber o file descriptor do socket, ou pelo menos
 não sabe o que fazer com ele e não passa para as primitivas que o SvelteKit tem para operar esse socket activation. Basicamente a conexão
