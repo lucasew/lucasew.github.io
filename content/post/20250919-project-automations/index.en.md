@@ -24,7 +24,9 @@ of choice inertia to be honest.
 
 [^renovate_bot]: Renovate: [GitHub](https://github.com/renovatebot/renovate)
 
-I may translate the renovate post from portuguese to english soon.
+I may translate the renovate post from portuguese[^renovate-portuguese] to english soon.
+
+[^renovate-portuguese]: Renovate post in portuguese: [Post](/pt/post/20250515-mantendo-projetos-atualizados/)
 
 Going back to the release problem, what I did is to basically move it
 all to an Autorelease workflow. In my GitHub, most of the projects
@@ -38,7 +40,7 @@ Basically the repository has the following items:
 - `mise.toml`: Has the toolchain versions and sometimes the
 commands to build the repository.
 - `renovate.json`: Renovate config file, out of the standard
-often there is only some automerge rules to merge patch updates
+often there are only some automerge rules to merge patch updates
 and stuff like that. It merges automatically those cases when
 CI is green by default.
 - `make_release`: Changes version.txt, or some other files if
@@ -148,7 +150,7 @@ jobs:
           echo "RELEASE_VERSION=$(cat version.txt)" >> $GITHUB_ENV
         fi
 
-    - name: Create relase
+    - name: Create release
       if: env.RELEASE_VERSION != ''
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
