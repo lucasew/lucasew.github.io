@@ -3,6 +3,9 @@
 date: 2025-09-19T00:00:00
 title: "Release automation and testing on CI"
 summary: "How I am doing it in my projects"
+discussedOn:
+  - https://lobste.rs/s/isdngh/release_automation_testing_on_ci
+  - https://t.me/canaldolucao/1943
 ---
 
 I am the kind of guy that feels annoyed when doing the same thing
@@ -12,12 +15,14 @@ automate. Also, I do not like to do repetitive stuff often like checking
 for dependencies on my not so active projects.
 
 For this repetitive stuff of checking for dependencies I rely on
-the [renovate bot](https://github.com/renovatebot/renovate),
+the renovate bot[^renovate_bot]
 but often the users don't clone the project
 to use the software, so I had to find a way to setup releases and
 build artifacts to them. As I am using GitHub Actions because I
 am on GitHub and I am most comfortable using it, mostly because
 of choice inertia to be honest.
+
+[^renovate_bot]: Renovate: [GitHub](https://github.com/renovatebot/renovate)
 
 I may translate the renovate post from portuguese to english soon.
 
@@ -49,10 +54,12 @@ It sucks when it happens!
 
 ## How the workflow is set up
 
-I'll take the workflow from [ts-proxy](https://github.com/lucasew/ts-proxy).
+I'll take the workflow from ts-proxy[^ts-proxy-repo].
 I think it's one of the reference implementations and often the one that I
 copy over to new projects when I am setting it up on another project, even
 when the project is not made in Golang.
+
+[^ts-proxy-repo]: ts-proxy: [GitHub](https://github.com/lucasew/ts-proxy).
 
 ```yaml
 name: Autorelease
