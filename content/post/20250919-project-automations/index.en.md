@@ -1,4 +1,6 @@
 ---
+
+date: 2025-09-19T00:00:00
 title: "Release automation and testing on CI"
 summary: "How I am doing it in my projects"
 ---
