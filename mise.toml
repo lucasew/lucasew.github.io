@@ -2,10 +2,6 @@
 hugo = "0.151.0"
 node = "24.8.0"
 
-[tasks."codegen:css"]
-description = "Build Tailwind CSS"
-run = "bunx @tailwindcss/cli -i ./input.css -o ./static/style.css"
-
 [tasks."codegen:data"]
 description = "Run update.sh"
 run = "./update.sh"
