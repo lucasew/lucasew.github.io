@@ -48,9 +48,9 @@
       <div class="navbar-start">
         <a href="{{ .RelPermalink }}">
           <nobr>
-              <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
-              <b>{{ .Site.Title }}</b>
-            
+            <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
+            <b>{{ .Site.Title }}</b>
+
           </nobr>
         </a>
         <br>
@@ -72,7 +72,7 @@
     </nav>
   </header>
 
-  <main class="prose max-w-lg mx-auto">
+  <main class="prose mx-auto">
     {{- block "content" . -}}{{- end -}}
   </main>
 </body>
