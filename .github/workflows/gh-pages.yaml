@@ -28,7 +28,9 @@ jobs:
       - uses: jdx/mise-action@v3
 
       - name: Run updaters
-        run: mise codegen
+        run: |
+          bun install
+          mise codegen
 
       - name: Create Pull Request if there is new stuff from updaters
         uses: peter-evans/create-pull-request@v7
