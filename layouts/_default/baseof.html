@@ -67,6 +67,7 @@
         {{ range $.Page.AllTranslations }}
         <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
         {{ end }}
+        {{ partial "theme-toggle.html" . }}
       </div>
 
     </nav>
