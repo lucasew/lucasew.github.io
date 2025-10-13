@@ -28,58 +28,51 @@
   <script defer src="https://analytics.app.lew.tec.br/script.js"
     data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"></script>
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"> -->
-  <link rel="stylesheet" href="/style.css">
+
+  {{ with (templates.Defer (dict "key" "global")) }}
+  {{ partial "css.html" . }}
+  {{ end }}
   {{- end -}}
   <script>
     window.siteUsesMainTemplate = true;
   </script>
-  <style>
-    #site-banner {
-      font-size: calc(max(300px, min(800px, 100vw))/13);
-    }
 
-    #icon {
-      margin: 0;
-      height: 1em;
-      display: inline-block;
-    }
-  </style>
 </head>
 
 {{- block "body" . -}}
 
 <body hx-boost="true">
   <header>
-    <nav>
+    <nav class="navbar">
       {{ with .GetPage "/" }}
-      <a id="site-banner" href="{{ .RelPermalink }}" style="margin: 0">
-        <nobr><b>
-            <img id="icon" src="/icon.png" alt="icon" />
-            {{ .Site.Title }}
-          </b>
-        </nobr>
-      </a>
-      <br>
-      {{ end }}
-      {{- block "header" . -}}{{- end -}}
-      {{ with .GetPage "/utils" }}
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
-      {{ with .GetPage "/post" }}
-      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-      {{ end }}
-      {{ range $.Page.AllTranslations }}
-      <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
-      {{ end }}
-
-      <div style="flex: 1"></div>
-
+      <div class="navbar-start">
+        <a href="{{ .RelPermalink }}">
+          <nobr>
+              <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
+              {{ .Site.Title }}
+            
+          </nobr>
+        </a>
+        <br>
+      </div>
+      <div class="navbar-end [&>*]:mx-1">
+        {{ end }}
+        {{- block "header" . -}}{{- end -}}
+        {{ with .GetPage "/utils" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        {{ with .GetPage "/post" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        {{ range $.Page.AllTranslations }}
+        <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+        {{ end }}
+      </div>
 
     </nav>
   </header>
-  <hr />
 
-  <main>
+  <main class="prose max-w-lg mx-auto">
     {{- block "content" . -}}{{- end -}}
   </main>
 </body>

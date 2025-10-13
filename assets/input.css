@@ -1,0 +1,6 @@
+@import "tailwindcss" source(none);
+@plugin "daisyui" {
+   themes: light --default, dark --prefersdark;
+};
+@plugin "@tailwindcss/typography";
+@source "hugo_stats.json";

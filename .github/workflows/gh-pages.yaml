@@ -29,7 +29,7 @@ jobs:
 
       - name: Run updaters
         run: |
-          bun install
+          npm install
           mise codegen
 
       - name: Create Pull Request if there is new stuff from updaters

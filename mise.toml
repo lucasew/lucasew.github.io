@@ -1,6 +1,6 @@
 [tools]
-bun = "1.2.21"
-hugo = "0.126.1"
+hugo = "0.151.0"
+node = "24.8.0"
 
 [tasks."codegen:css"]
 description = "Build Tailwind CSS"
