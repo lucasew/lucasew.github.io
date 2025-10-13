@@ -3,11 +3,14 @@
   {{ .Content }}
 
   {{ range .Pages.ByDate.Reverse }}
-
-  <a href="{{ .Permalink | absURL }}">
-    <h2>{{ .Title }}</h2>
-    <p>{{ .Params.summary }}</p>
-  </a>
+  <div class="card bg-base-200 w-96 shadow-sm">
+    <div class="card-body">
+      <a href="{{ .Permalink | absURL }}">
+        <h2 class="card-title">{{ .Title }}</h2>
+        <p>{{ .Params.summary }}</p>
+      </a>
+    </div>
+  </div>
   {{ end }}
 </section>
 {{- end -}}
