@@ -1,5 +1,5 @@
 [tools]
-hugo = "0.151.1"
+hugo = "0.151.2"
 node = "24.10.0"
 
 [tasks."codegen:data"]
