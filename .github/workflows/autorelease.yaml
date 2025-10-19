@@ -1,4 +1,4 @@
-name: GitHub Pages
+name: Autorelease
 
 on:
   push:
@@ -43,7 +43,9 @@ jobs:
           body: |
             Changes caused from update scripts
           reviewers: lucasew
+
       - name: Stop if a pull request was created
+        if: github.event_name != 'pull_request'
         env:
           PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
         run: |
@@ -59,11 +61,13 @@ jobs:
         run: hugo --minify --baseURL "$URL"
 
       - name: Upload static files as artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4 # or specific "vX.X.X" version tag for this action
         with:
           path: ./public
 
       - name: Step summary
+        if: github.event_name != 'pull_request'
         env:
           # URL: ${{ steps.deployment.outputs.page_url }}
           URL: https://lucasew.github.io
@@ -76,5 +80,6 @@ jobs:
         
 
       - name: Deploy to GitHub Pages
+        if: github.event_name != 'pull_request'
         uses: actions/deploy-pages@v4
 
