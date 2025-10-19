@@ -21,14 +21,19 @@
   <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
   {{ end }}
   {{- block "head" . -}}
-  <link rel="dns-prefetch" href="https://unpkg.com/" />
-  <script src="https://unpkg.com/htmx.org@2.0.4"
-    integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
-    crossorigin="anonymous"></script>
-  <script defer src="https://analytics.app.lew.tec.br/script.js"
-    data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"></script>
 
-  {{ partial "sentry.html" . }}
+  {{ with resources.Get "htmx.js" }}
+  <script src="{{ .Permalink }}"></script>
+  {{ end }}
+
+  {{ with resources.Get "analytics.js" }}
+  <script defer src="{{ .Permalink }}" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"></script>
+  {{ end }}
+
+  {{ with resources.Get "sentry.js" }}
+  <script src="{{ .Permalink }}" crossorigin="anonymous"></script>
+  {{ end }}
+
   {{ with (templates.Defer (dict "key" "global")) }}
   {{ partial "css.html" . }}
   {{ end }}
