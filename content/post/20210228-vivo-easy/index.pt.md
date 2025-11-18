@@ -197,6 +197,39 @@ terminou na noite do dia `25/2/2021`.
   da portabilidade então você vai ter que configurar de novo e provavelmente
   marcar mais empresas para bloquear.
 
+# Timeline
+<ul class="timeline timeline-vertical timeline-snap-icon">
+  <li>
+    <div class="timeline-start">10/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Início da saga: a troca de titularidade na TIM só era possível na loja com um plano controle. A solução foi usar o Chat TIM no site.</div>
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">11/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Um bug pós-troca de titularidade faz o nome do titular sumir no app. O suporte pede de 24h a 5 dias para resolver, o que nunca aconteceu.</div>
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">15/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Após 5 dias de espera e sem a correção do bug, a portabilidade para a Vivo é iniciada pelo Twitter, já que a loja física também só oferecia planos controle.</div>
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">18/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Portabilidade para o Vivo Pré é concluída com sucesso após 3 dias.</div>
+  </li>
+  <li>
+    <hr />
+    <div class="timeline-start">25/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Fim da jornada: a migração do Vivo Pré para o Vivo Easy é feita diretamente pelo app, finalizando o processo de 15 dias.</div>
+  </li>
+</ul>
+
 # TL;DR
 
 - Loja física Tim só troca titular para plano pós ou controle
