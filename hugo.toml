@@ -37,5 +37,5 @@ unsafe= true
     source = 'assets/notwatching/hugo_stats\.json'
     target = 'css'
   [[build.cachebusters]]
-    source = '(postcss|tailwind)\.config\.js'
+    source = '(postcss|tailwind)\.config\.(js|ts)'
     target = 'css'

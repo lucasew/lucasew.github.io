@@ -34,8 +34,6 @@
   <script src="{{ .Permalink }}" crossorigin="anonymous"></script>
   {{ end }}
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-
   {{ with (templates.Defer (dict "key" "global")) }}
   {{ partial "css.html" . }}
   {{ end }}
