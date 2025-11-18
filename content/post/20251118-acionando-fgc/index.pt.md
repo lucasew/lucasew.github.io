@@ -11,7 +11,7 @@ Basicamente eu investi no CDB do Banco Master ciente do FGC, dos riscos e acho q
 Não foi uma quantia muito exorbitante mas foi tudo naquela onda de títulos de segunda mão com marcação a mercado favorável. Provavelmente um pessoal estava acima da cota do FGC e estava se preparando para a quebra do banco, o que não era muito uma questão de se mas sim uma questão de quando. Eu aproveitei os títulos muito marcados pra baixo e consegui esses e mais dois de curto prazo que já venceram.
 
 <div class="flex justify-center">
-    <div class="mockup-phone">
+    <div class="mockup-phone border-0">
       <div class="camera"></div>
       <div class="display">
         <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20251118-115049.png" alt="Saldo no dia da quebra" /></div>
@@ -32,7 +32,7 @@ Fui conferir no Google mesmo e tiro e queda, Banco Master oficialmente quebrou. 
 Primeira coisa que eu fiz foi ver como que loga e consulta. Baixei o app, criei minha conta e presenciei a seguinte página lá dentro:
 
 <div class="flex justify-center">
-    <div class="mockup-phone">
+    <div class="mockup-phone border-0">
       <div class="camera"></div>
       <div class="display">
         <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20251118-113612.png" alt="Banco Master tomando gap no app do FGC" /></div>
