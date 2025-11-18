@@ -197,6 +197,28 @@ terminou na noite do dia `25/2/2021`.
   da portabilidade então você vai ter que configurar de novo e provavelmente
   marcar mais empresas para bloquear.
 
+# Timeline
+<ul class="timeline timeline-vertical timeline-snap-icon">
+  <li>
+    <div class="timeline-start">10/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Início da saga com a troca de titularidade na TIM.</div>
+    <hr/>
+  </li>
+  <li>
+    <div class="timeline-start">...</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Dias de espera e processo de portabilidade para a Vivo.</div>
+    <hr/>
+  </li>
+  <li>
+    <div class="timeline-start">25/02/2021</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Migração para o Vivo Easy finalizada. Fim da jornada.</div>
+    <hr/>
+  </li>
+</ul>
+
 # TL;DR
 
 - Loja física Tim só troca titular para plano pós ou controle
