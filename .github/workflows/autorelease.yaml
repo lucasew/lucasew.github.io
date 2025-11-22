@@ -22,10 +22,10 @@ jobs:
     #   name: github-pages
     #   url: https://lucasew.github.io/
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
         with:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@d16887ba50704baed7de72bd1e82e04391e4457a # v3
 
       - name: Run updaters
         run: |
@@ -33,7 +33,7 @@ jobs:
           mise codegen
 
       - name: Create Pull Request if there is new stuff from updaters
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
         if: github.event_name != 'pull_request'
         id: pr_create
         with:
@@ -63,7 +63,7 @@ jobs:
 
       - name: Upload static files as artifact
         if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v4 # or specific "vX.X.X" version tag for this action
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4 # or specific "vX.X.X" version tag for this action
         with:
           path: ./public
 
@@ -82,5 +82,5 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: github.event_name != 'pull_request'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
 
