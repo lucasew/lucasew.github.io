@@ -1,8 +1,6 @@
 [params]
 baseURL = 'https://example.org/'
-# languageCode = 'en-us'
 title = "lucasew's offtopic"
-# defaultContentLanguage = 'en'
 
 disableKinds = ['taxonomy', 'term']
 
