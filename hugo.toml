@@ -1,4 +1,4 @@
-baseURL = 'https://example.org/'
+baseURL = 'https://lucasew.github.io/'
 title = "lucasew's offtopic"
 disableKinds = ['taxonomy', 'term']
 
