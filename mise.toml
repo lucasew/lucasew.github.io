@@ -1,6 +1,6 @@
 [tools]
 hugo = "0.153.5"
-node = "24.11.1"
+node = "24.12.0"
 
 [tasks."codegen:data"]
 description = "Run update.sh"
