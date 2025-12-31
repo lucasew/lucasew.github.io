@@ -1,8 +1,8 @@
-[params]
 baseURL = 'https://example.org/'
 title = "lucasew's offtopic"
-
 disableKinds = ['taxonomy', 'term']
+
+[params]
 
 [languages.en]
 title = "lucasew's offtopic"
