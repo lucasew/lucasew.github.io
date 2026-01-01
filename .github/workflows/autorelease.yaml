@@ -54,7 +54,6 @@ jobs:
 
       - name: Build
         env:
-          # URL: ${{ steps.deployment.outputs.page_url }}
           URL: https://lucasew.github.io
         run: hugo --minify --baseURL "$URL"
 
@@ -67,7 +66,6 @@ jobs:
       - name: Step summary
         if: github.event_name != 'pull_request'
         env:
-          # URL: ${{ steps.deployment.outputs.page_url }}
           URL: https://lucasew.github.io
         run: |
           if [[ -z "$URL" ]]; then
