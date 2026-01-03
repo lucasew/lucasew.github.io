@@ -6,9 +6,6 @@ export default {
     './layouts/**/*.html',
     './content/**/*.md',
   ],
-  theme: {
-    extend: {},
-  },
   plugins: [
     daisyui,
   ],
