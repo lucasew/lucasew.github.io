@@ -198,7 +198,6 @@ terminou na noite do dia `25/2/2021`.
   marcar mais empresas para bloquear.
 
 # Timeline
-
 <ul class="timeline timeline-vertical timeline-snap-icon">
   <li>
     <div class="timeline-start">10/02/2021</div>

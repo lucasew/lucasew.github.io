@@ -64,8 +64,8 @@ Details to be noted:
 
 # How I deal with this stuff
 
-- Priority is always text, if the person didn't yet ask I send a "send it" when
-  I am ready.
+- Priority is always text, if the person didn't yet ask I send a "send it"
+  when I am ready.
 - If you want me to make some effort to answer fast, do not send audios.
 - Phone in silent 24/7 with floating notifications off. I look when I take it,
   and I kinda take it a lot.

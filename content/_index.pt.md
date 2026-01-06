@@ -1,6 +1,5 @@
 ---
 ---
-
 # Offtopic do Lucão
 
 Essa é minha homepage, e blog.

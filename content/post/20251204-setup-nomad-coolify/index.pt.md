@@ -8,11 +8,9 @@ summary: Como eu to conseguindo subir o Nomad e integrar com o Traefik do Coolif
 # Passos
 
 ## Configuração extra no Reverse Proxy
-
 - Abra o coolify
 - Servers -> $SERVER -> Proxy -> Configuration -> Traefik (Coolify Proxy)
-- Em command, cole no fim antes do labels. A ordem na verdade não importa muito
-  mas é nessa lista.
+- Em command, cole no fim antes do labels. A ordem na verdade não importa muito mas é nessa lista.
 
 ```
 - '--providers.nomad=true'

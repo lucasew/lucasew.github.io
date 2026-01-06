@@ -8,13 +8,10 @@ summary: Slides as Hugo site
 ---
 
 ## Funciona a logo da Internet
-
 - A logo é importada como asset então é redistribuida com o site gerado
-- Tem que ser num formato mais padrão tipo PNG ou JPG senão o hugo reclama que
-  não sabe lidar
+- Tem que ser num formato mais padrão tipo PNG ou JPG senão o hugo reclama que não sabe lidar
 
----
-
+----
 %auto-animate%
 
 ## Funciona código
@@ -29,7 +26,6 @@ public class Main {
 ```
 
 ---
-
 %auto-animate%
 
 ## Funciona código
@@ -53,36 +49,29 @@ pkgs.mkShell {
 ---
 
 ## Funciona HTML arbitrário
-
 - Precisa ativar uma flag na configuração do hugo pra dar certo
 
 <button onclick="alert('vai dizer que não')">Testar</button>
 
 ---
-
 ## Funciona embed
 
 <iframe width="420" height="315" allowfullscreen src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=0">
 </iframe>
 
 ---
-
 %auto-animate%
-
 ## Animações
 
 <p>AAAA</p>
 
 ---
-
 %auto-animate%
-
 ## Animações
 
 <p color="red">AAAA</p>
 
 ---
-
 <style>
 img.block {
 width: 100px; height: 100px;
@@ -97,7 +86,6 @@ margin: auto;
 <img class="block" style="background-color: red"></img>
 
 ---
-
 %auto-animate%
 
 # Animações
