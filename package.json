@@ -6,6 +6,11 @@
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.19"
+    "@tailwindcss/typography": "^0.5.19",
+    "dprint": "^0.45.0"
+  },
+  "scripts": {
+    "format": "dprint fmt",
+    "check": "dprint check"
   }
 }
