@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-for item in $(find -executable -type f | grep update_); do
-  echo Running "$item"
-  $item
+for item in $(git ls-files -- "**/update_*"); do
+  if [ -x "$item" ]; then
+    echo "Running $item"
+    "$item"
+  fi
 done
