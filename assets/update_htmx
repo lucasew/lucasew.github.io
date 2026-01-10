@@ -1,3 +1,20 @@
 #!/usr/bin/env bash
+set -euo pipefail
 cd "$(dirname "$0")"
-wget https://unpkg.com/htmx.org@2.0.4 -O htmx.js
+
+EXPECTED_SUM="e209dda5c8235479f3166defc7750e1dbcd5a5c1808b7792fc2e6733768fb447"
+TEMP_FILE=$(mktemp)
+trap 'rm -f "$TEMP_FILE"' EXIT
+
+wget https://unpkg.com/htmx.org@2.0.4 -O "$TEMP_FILE"
+ACTUAL_SUM=$(sha256sum "$TEMP_FILE" | awk '{print $1}')
+
+if [ "$EXPECTED_SUM" != "$ACTUAL_SUM" ]; then
+    echo "Checksum mismatch for htmx.js"
+    echo "Expected: $EXPECTED_SUM"
+    echo "Actual:   $ACTUAL_SUM"
+    exit 1
+fi
+
+mv "$TEMP_FILE" htmx.js
+echo "htmx.js updated successfully."
