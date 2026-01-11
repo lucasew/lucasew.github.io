@@ -1,3 +1,31 @@
 #!/usr/bin/env bash
+set -e
 cd "$(dirname "$0")"
-wget https://analytics.app.lew.tec.br/script.js  -O analytics.js
+
+EXPECTED_SUM="a656812a02ca34d8dc65b86430b3434eb5f17e56bd904b4761566cf542d08b55"
+DOWNLOAD_URL="https://analytics.app.lew.tec.br/script.js"
+OUTPUT_FILE="analytics.js"
+TEMP_FILE=$(mktemp)
+
+trap 'rm -f "$TEMP_FILE"' EXIT
+
+echo "Downloading $DOWNLOAD_URL to temporary file..."
+if ! wget -q "$DOWNLOAD_URL" -O "$TEMP_FILE"; then
+  echo "Error: Download failed from $DOWNLOAD_URL"
+  exit 1
+fi
+
+echo "Verifying checksum..."
+ACTUAL_SUM=$(sha256sum "$TEMP_FILE" | awk '{print $1}')
+
+if [ "$ACTUAL_SUM" != "$EXPECTED_SUM" ]; then
+  echo "FATAL: Checksum verification failed!" >&2
+  echo "Expected: $EXPECTED_SUM" >&2
+  echo "Got:      $ACTUAL_SUM" >&2
+  exit 1
+fi
+
+echo "Checksum OK. Moving temporary file to $OUTPUT_FILE."
+mv "$TEMP_FILE" "$OUTPUT_FILE"
+
+echo "$OUTPUT_FILE has been updated successfully."
