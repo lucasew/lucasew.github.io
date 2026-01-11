@@ -2,5 +2,4 @@
 @plugin "daisyui" {
    themes: light --default, dark;
 };
-@plugin "@tailwindcss/typography";
 @source "hugo_stats.json";
