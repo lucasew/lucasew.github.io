@@ -8,8 +8,8 @@ This journal is for recording CRITICAL refactoring learnings to improve the code
 **Solution:** The change was reverted to restore the dependency. Future dependency removal analysis must include a global search for the package name within all project files, not just configuration scripts.
 **Pattern:** Tailwind CSS plugins can be loaded directly within CSS files via directives like `@plugin`. Always perform a full repository text search for a dependency's name before concluding it is unused.
 
-## YYYY-MM-DD - [Title]
-**Issue:** [What complexity/chaos you found]
-**Root Cause:** [Why it existed]
-**Solution:** [How you simplified it]
-**Pattern:** [Reusable lesson for this codebase]
+## 2026-01-12 - Standardize package.json Dependency Order
+**Issue:** The `devDependencies` in `package.json` were not alphabetically sorted. This is a minor inconsistency but adds friction when visually scanning or manually editing the file.
+**Root Cause:** Dependencies were likely added over time without a consistent ordering convention, which is common in many projects.
+**Solution:** I alphabetized the keys in the `devDependencies` object. This makes the file cleaner, easier to parse visually, and helps prevent duplicate entries in the future.
+**Pattern:** Keep dependencies in `package.json` sorted alphabetically. It is a low-effort, high-impact convention that improves maintainability and signals attention to detail in the codebase.
