@@ -1,0 +1,6 @@
+<li>
+  {{ if not (.Get "first") }}<hr />{{ end }}
+  <div class="timeline-start">{{ .Get "date" }}</div>
+  <div class="timeline-middle"></div>
+  <div class="timeline-end timeline-box">{{ .Inner | markdownify }}</div>
+</li>
