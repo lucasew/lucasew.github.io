@@ -7,3 +7,9 @@
 ## Instructions
 
 * Do not modify or add HTTP headers in `vercel.json`.
+
+
+## 2024-07-25 - Mitigated Tabnabbing Vulnerability
+**Vulnerability:** External links using `target="_blank"` in `layouts/_default/single.html` were missing the `rel="noopener noreferrer"` attribute. This allows the destination page to gain partial control over the source page via `window.opener`, which can be exploited for phishing attacks.
+**Learning:** This vulnerability often goes unnoticed but is critical for protecting users from malicious external sites. It was present in a central template, which means a single fix protects all pages that use it. The codebase relies on Hugo templates for HTML generation, making them a critical point for security reviews.
+**Prevention:** Always add `rel="noopener noreferrer"` to any link that uses `target="_blank"`. This should be enforced through code reviews and, if possible, a linter or static analysis tool configured to catch this specific pattern.
