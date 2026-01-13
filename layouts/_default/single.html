@@ -4,7 +4,7 @@
 {{ with .Params.alsoAvailable }}
 <i>{{ i18n "also-available-on"}}:
   {{ range $k, $v := . }}
-  <a target="_blank" href="{{ $v }}">[{{ add $k 1 }}]</a>
+  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}">[{{ add $k 1 }}]</a>
   {{ end }}
 </i>
 <br />
@@ -13,7 +13,7 @@
 {{ with .Params.discussedOn }}
 <i>{{ i18n "discussed-on"}}:
   {{ range $k, $v := . }}
-  <a target="_blank" href="{{ $v }}">[{{ add $k 1 }}]</a>
+  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}">[{{ add $k 1 }}]</a>
   {{ end }}
 </i>
 <br />
