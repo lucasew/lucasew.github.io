@@ -33,7 +33,8 @@ job "hello-world" {
   meta {
     # User-defined key/value pairs that can be used in your jobs.
     # You can also use this meta block within Group and Task levels.
-    foo = "bar"
+    service_name = "hello"
+    hostname     = "hello.app.lew.tec.br"
   }
 
   # A group defines a series of tasks that should be co-located
@@ -56,17 +57,16 @@ job "hello-world" {
       provider = "nomad"
       port     = "www"
       tags = [
-          "traefik.enable=true",
-        	"traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https",
-        	"traefik.http.routers.hello-http.entryPoints=http",
-        	"traefik.http.routers.hello-http.middlewares=redirect-to-https",
-        	"traefik.http.routers.hello-http.rule=Host(`hello.app.lew.tec.br`)", # teu dominio
-        	"traefik.http.routers.hello-https.entryPoints=https",
-        	"traefik.http.routers.hello-https.tls=true",
-        	"traefik.http.routers.hello-https.rule=Host(`hello.app.lew.tec.br`)", # teu dominio dnv
-        	"traefik.http.routers.hello-https.tls.certresolver=letsencrypt"
-          # TODO: automatizar esse boilerplate?
-        ]
+        "traefik.enable=true",
+        "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https",
+        "traefik.http.routers.${NOMAD_META_service_name}-http.entryPoints=http",
+        "traefik.http.routers.${NOMAD_META_service_name}-http.middlewares=redirect-to-https",
+        "traefik.http.routers.${NOMAD_META_service_name}-http.rule=Host(`${NOMAD_META_hostname}`)",
+        "traefik.http.routers.${NOMAD_META_service_name}-https.entryPoints=https",
+        "traefik.http.routers.${NOMAD_META_service_name}-https.tls=true",
+        "traefik.http.routers.${NOMAD_META_service_name}-https.rule=Host(`${NOMAD_META_hostname}`)",
+        "traefik.http.routers.${NOMAD_META_service_name}-https.tls.certresolver=letsencrypt"
+      ]
     }
 
     # Tasks are individual units of work that are run by Nomad.
