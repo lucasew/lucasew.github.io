@@ -27,3 +27,19 @@ This file lists patterns of changes that have been consistently rejected by huma
 **- Files Affected:** `.github/workflows/autorelease.yaml`
 
 ---
+
+## IGNORE: Centralizing Tailwind CSS Plugin Configuration
+
+**- Pattern:** Do not move all Tailwind CSS plugins into the central `tailwind.config.ts` file.
+**- Justification:** This change was proposed in PR #129 and rejected. The project intentionally uses a decentralized approach where some plugins (e.g., `@tailwindcss/typography`) are loaded via `@plugin` directives directly in CSS files (`assets/input.css`), while others are configured in `tailwind.config.ts`. This architectural choice is deliberate and should be respected.
+**- Files Affected:** `tailwind.config.ts`, `assets/input.css`
+
+---
+
+## IGNORE: Disabling Unsafe Markdown Rendering
+
+**- Pattern:** Do not set `markup.goldmark.renderer.unsafe = false` in the Hugo configuration.
+**- Justification:** This change was proposed in PR #134 to mitigate an XSS vulnerability but was rejected. Disabling this setting is a breaking change, as some blog posts rely on raw HTML to render custom components (e.g., a timeline). The project accepts this risk to maintain existing content.
+**- Files Affected:** `hugo.toml`
+
+---
