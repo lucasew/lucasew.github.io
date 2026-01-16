@@ -1,3 +1,6 @@
+[env]
+_.path = ["./node_modules/.bin"]
+
 [tools]
 "aqua:nodejs/node" = "25.3.0"
 hugo = "0.154.5"
@@ -5,6 +8,15 @@ hugo = "0.154.5"
 [tasks."codegen:data"]
 description = "Run update.sh"
 run = "./update.sh"
+
+[tasks."codegen:fmt"]
+depends = ["fmt"]
+
+[tasks."fmt:dprint"]
+run = "dprint fmt"
+
+[tasks."fmt"]
+depends = ["fmt:*"]
 
 [tasks.codegen]
 description = "Generate all code"
