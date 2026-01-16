@@ -13,3 +13,9 @@ This journal is for recording CRITICAL refactoring learnings to improve the code
 **Root Cause:** Dependencies were likely added over time without a consistent ordering, leading to a disorganized file.
 **Solution:** I alphabetically sorted the `devDependencies` block in `package.json` and regenerated the `package-lock.json` to match.
 **Pattern:** Keeping dependency lists in `package.json` sorted alphabetically is a simple but effective practice for maintaining code quality. It improves readability and helps prevent accidental duplicate entries.
+
+## 2024-05-25 - Add standard metadata to package.json
+**Issue:** The `package.json` file was missing standard, high-level metadata fields (`version`, `description`, `repository`, `author`, `license`).
+**Root Cause:** The file was likely initialized without these fields being populated, leaving it incomplete.
+**Solution:** I added the missing metadata fields, deriving the values from other project files like `hugo.toml` and the repository's context.
+**Pattern:** A complete `package.json` with standard metadata makes the project more professional, easier to understand for new contributors, and provides essential information for tooling and package managers.
