@@ -7,38 +7,43 @@ summary: A saga para fazer o Beancount funcionar direito com as regras Brasileir
 
 Eae pessoal. Primeiro post do ano!
 
-Esse ano, ali por Junho, depois de muito estudo para entender como a banda toca, pelo menos na
-teoria, eu resolvi começar a praticar um pouco essa coisa de investir dinheiro.
+Esse ano, ali por Junho, depois de muito estudo para entender como a banda toca,
+pelo menos na teoria, eu resolvi começar a praticar um pouco essa coisa de
+investir dinheiro.
 
-Por inércia eu tinha todo o meu capital acumulado em poupança. Eu fui criado desde cedo a
-guardar dinheiro e tava já ciente que poupança tem uma relação risco/rentabilidade bem meh,
-mas por outro lado é um negócio com zero manutenção.
+Por inércia eu tinha todo o meu capital acumulado em poupança. Eu fui criado
+desde cedo a guardar dinheiro e tava já ciente que poupança tem uma relação
+risco/rentabilidade bem meh, mas por outro lado é um negócio com zero
+manutenção.
 
-Outros meios já podem ter a questão do leão, de ter que declarar imposto de renda, e confesso
-que eu tava com um tanto de cagaço dessa parte então eu tinha que entrar já sabendo decentemente
-como o jogo funciona.
+Outros meios já podem ter a questão do leão, de ter que declarar imposto de
+renda, e confesso que eu tava com um tanto de cagaço dessa parte então eu tinha
+que entrar já sabendo decentemente como o jogo funciona.
 
-Tecnicamente já tinha alguma experiência com corretoras porque eu já ganhei cripto de airdrop
-e eu cheguei a dar uma brincada com o que eu ganhei no airdrop do Keybase (Stellar), além de
-algumas migalhas de faucet. Quando eu descobri que eu fui elegível no airdrop do Starknet,
-pela minha atividade no nixpkgs, eu já sabia  que tinha que vender para uma cripto de verdade,
-como o BTC, o quanto antes. Sepa ainda faço um post a parte sobre essa saga. Eu já tenho
-todos os dados das transações reunidos na ferramenta que eu vou falar sobre nesse post.
+Tecnicamente já tinha alguma experiência com corretoras porque eu já ganhei
+cripto de airdrop e eu cheguei a dar uma brincada com o que eu ganhei no airdrop
+do Keybase (Stellar), além de algumas migalhas de faucet. Quando eu descobri que
+eu fui elegível no airdrop do Starknet, pela minha atividade no nixpkgs, eu já
+sabia que tinha que vender para uma cripto de verdade, como o BTC, o quanto
+antes. Sepa ainda faço um post a parte sobre essa saga. Eu já tenho todos os
+dados das transações reunidos na ferramenta que eu vou falar sobre nesse post.
 
 ## O que caraglios ser Beancount?
 
-[Beancount](https://github.com/beancount/beancount) é basicamente uma ferramenta de contabilidade
-em texto puro. Basicamente você escreve as transações entre contas em arquivos de texto usando
-a linguagem da ferramenta, que é bem simples, e ela valida se as transações estão certas, se
-as asserções de balanço batem e se não batem, qual o tamanho do rombo. Seria o tipo de ferramenta
-ideal para estruturar dados do portal da transparência se não fosse tão lento para o tanto de dado
-que tem lá.
+[Beancount](https://github.com/beancount/beancount) é basicamente uma ferramenta
+de contabilidade em texto puro. Basicamente você escreve as transações entre
+contas em arquivos de texto usando a linguagem da ferramenta, que é bem simples,
+e ela valida se as transações estão certas, se as asserções de balanço batem e
+se não batem, qual o tamanho do rombo. Seria o tipo de ferramenta ideal para
+estruturar dados do portal da transparência se não fosse tão lento para o tanto
+de dado que tem lá.
 
-É uma ferramenta em Python que possui a funcionalidade de plugins, que podem ser escritos em
-Python e linkados nos seus beancounts. Além de controlar dinheiro ela também funciona para
-controlar ativos, como ações e fundos imobiliários.
+É uma ferramenta em Python que possui a funcionalidade de plugins, que podem ser
+escritos em Python e linkados nos seus beancounts. Além de controlar dinheiro
+ela também funciona para controlar ativos, como ações e fundos imobiliários.
 
-As contas seguem um padrão hierárquico e tem no nome os seguintes prefixos obrigatórios:
+As contas seguem um padrão hierárquico e tem no nome os seguintes prefixos
+obrigatórios:
 
 - `Assets`: O que você tem
 - `Liabilities`: O que você deve
@@ -46,12 +51,13 @@ As contas seguem um padrão hierárquico e tem no nome os seguintes prefixos obr
 - `Income`: O que você ganhou
 - `Equity`: Basicamente é usado para começar a usar
 
-Para começar primeiro você precisa inicializar o saldo. Como não dá pra sempre ser retroativo
-e pegar transações desde o começo você provavelmente vai querer inicializar com um saldo inicial.
+Para começar primeiro você precisa inicializar o saldo. Como não dá pra sempre
+ser retroativo e pegar transações desde o começo você provavelmente vai querer
+inicializar com um saldo inicial.
 
-O jeito é você pegar o saldo inicial de `Equity:Opening-Balances`. Você pode depois ir fazendo as
-transações de forma retroativa conforme for tendo tempo ou interesse. Não é obrigatório preencher
-transação desde o início dos tempos.
+O jeito é você pegar o saldo inicial de `Equity:Opening-Balances`. Você pode
+depois ir fazendo as transações de forma retroativa conforme for tendo tempo ou
+interesse. Não é obrigatório preencher transação desde o início dos tempos.
 
 Exemplo:
 
@@ -60,16 +66,19 @@ Exemplo:
 2025-01-01 balance Assets:Banco:ContaCorrente 420.69BRL
 ```
 
-Você poderia usar uma transação normal? Poderia. Mas com `pad` fica mais fácil, não precisa pensar
-nisso e funciona.
+Você poderia usar uma transação normal? Poderia. Mas com `pad` fica mais fácil,
+não precisa pensar nisso e funciona.
 
-Um detalhe extremamente importante que vai te evitar dor de cabeça é que o **beancount só conta
-a transação no balanço no próximo dia**. Se você colocou uma transação no dia 1 e já botou ela num
-`balance` o `balance` não vai passar. Isso pode dar uns problemas menores usando importers.
+Um detalhe extremamente importante que vai te evitar dor de cabeça é que o
+**beancount só conta a transação no balanço no próximo dia**. Se você colocou
+uma transação no dia 1 e já botou ela num `balance` o `balance` não vai passar.
+Isso pode dar uns problemas menores usando importers.
 
 ## O projeto
-Para definir a compra de uma ação, por exemplo, você precisa passar a posição de compra. Basicamente
-o preço que você pagou por ela. O Beancount então faz o "câmbio" e coloca o valor cambiado no balanço.
+
+Para definir a compra de uma ação, por exemplo, você precisa passar a posição de
+compra. Basicamente o preço que você pagou por ela. O Beancount então faz o
+"câmbio" e coloca o valor cambiado no balanço.
 
 Exemplo:
 
@@ -83,33 +92,40 @@ Exemplo:
   Assets:Banco:Acao 1 B3_MXRF11 {9.10BRL}
   Expenses:Banco:Taxa 0.10 BRL
   Assets:Banco:ContaCorrente
-
 ```
 
-Até ai tudo certo. No Fava, infelizmente, na seção Patrimônio o B3_MXRF11 vai aparecer duas vezes,
-o que não é bem desejável. No Brasil Ibovespa, pelo menos, nós queremos saber o preço médio da posição,
-que no caso é `9.15BRL`, só que o Beancount não suporta esse caso. Nessa eu tentei algumas soluções.
+Até ai tudo certo. No Fava, infelizmente, na seção Patrimônio o B3_MXRF11 vai
+aparecer duas vezes, o que não é bem desejável. No Brasil Ibovespa, pelo menos,
+nós queremos saber o preço médio da posição, que no caso é `9.15BRL`, só que o
+Beancount não suporta esse caso. Nessa eu tentei algumas soluções.
 
 ### A primeira solução: Plugin
-Plugins são basicamente funções Python que recebem a base parseada e um dicionário de opções e entregam
-a base parseada mais transações adicionais e uma lista de erros durante o processo.
 
-Porém, algum problema no Beancount faz ele validar as transações antes e depois da execução dos plugins,
-logo, o plugin não roda direito porque as transações dão erro antes de rodar o plugin. E esse erro só
-acontece depois de registrar uma venda nas posições. Tentei bastante tentar passar por cima disso mas
-sem alterar o código em sí pra não checar os erros antes de passar para os plugins não rola. E eu to
-usando o Beancount 2.x, que eventualmente vai ser depreciado. E o Beancount 3.x tem umas breaking changes
-que eu to com preguiça de arrumar, principalmente na parte dos extratores.
+Plugins são basicamente funções Python que recebem a base parseada e um
+dicionário de opções e entregam a base parseada mais transações adicionais e uma
+lista de erros durante o processo.
+
+Porém, algum problema no Beancount faz ele validar as transações antes e depois
+da execução dos plugins, logo, o plugin não roda direito porque as transações
+dão erro antes de rodar o plugin. E esse erro só acontece depois de registrar
+uma venda nas posições. Tentei bastante tentar passar por cima disso mas sem
+alterar o código em sí pra não checar os erros antes de passar para os plugins
+não rola. E eu to usando o Beancount 2.x, que eventualmente vai ser depreciado.
+E o Beancount 3.x tem umas breaking changes que eu to com preguiça de arrumar,
+principalmente na parte dos extratores.
 
 Depois de um tempo empurrando com a barriga movi para outro aproach.
 
 ### A segunda solução: Codegen
-Além de poder escrever plugins em Python, o Beancount pode ser usado como uma biblioteca. Isso permite
-você escrever geradores de código e lógicas custom que consomem as primitivas do Beancount. E foi o que
-eu fiz. Cada transação e posting pode ter um dicionário de valores que você pode definir e no plugin
-procurar por esses valores para passar alguma configuração para esse plugin. Eu basicamente buscava uma
-opção na diretiva `open`, que cria a conta, para checar se essa solução vai trabalhar com essa conta e
-ai quando ele detectava uma compra ou venda de uma ação na conta ele atualizava o preço médio com uma
+
+Além de poder escrever plugins em Python, o Beancount pode ser usado como uma
+biblioteca. Isso permite você escrever geradores de código e lógicas custom que
+consomem as primitivas do Beancount. E foi o que eu fiz. Cada transação e
+posting pode ter um dicionário de valores que você pode definir e no plugin
+procurar por esses valores para passar alguma configuração para esse plugin. Eu
+basicamente buscava uma opção na diretiva `open`, que cria a conta, para checar
+se essa solução vai trabalhar com essa conta e ai quando ele detectava uma
+compra ou venda de uma ação na conta ele atualizava o preço médio com uma
 transação semelhante a essa:
 
 ```beancount
@@ -118,42 +134,50 @@ transação semelhante a essa:
   Assets:BR:BB:Acao  -20 B3_MXRF11 {10.00 BRL, 2024-08-07}
   Assets:BR:BB:Acao  -10 B3_MXRF11 {9.99 BRL, 2024-09-25}
   Assets:BR:BB:Acao   30 B3_MXRF11 {9.996666666666666666666666667 BRL, 2024-09-25}
-
 ```
 
-Para deixar idempotente, todas as transações geradas vinham com Payee igual a BEANCOUNT, ai eu poderia
-pular elas na iteração e ai ele gerava o que precisava alterar.
+Para deixar idempotente, todas as transações geradas vinham com Payee igual a
+BEANCOUNT, ai eu poderia pular elas na iteração e ai ele gerava o que precisava
+alterar.
 
-Essa propriedade doc_name é outro plugin. Basicamente eu salvo minhas notas de corretagem na pasta docs
-do meu repositório e basicamente sigo o padrão `YYYYMMDD-$nome` sendo nome o valor de doc_name e a data
-obtida da data de transação. É mais copypaste friendly. Recomendo essa abordagem. Daria para automatizar
-ainda mais BTW.
+Essa propriedade doc_name é outro plugin. Basicamente eu salvo minhas notas de
+corretagem na pasta docs do meu repositório e basicamente sigo o padrão
+`YYYYMMDD-$nome` sendo nome o valor de doc_name e a data obtida da data de
+transação. É mais copypaste friendly. Recomendo essa abordagem. Daria para
+automatizar ainda mais BTW.
 
 ## Como eu uso
 
-Agora tenho um negócio basicamente automatizado. Eu só chamo um script e ele arruma a bagunça. Chamo outro
-e ele atualiza os preços. Chamo um terceiro pelo rofi e ele sincroniza o repositório Git. No celular, rodo
-o script de backup e já tenho o backup 3 2 1.
+Agora tenho um negócio basicamente automatizado. Eu só chamo um script e ele
+arruma a bagunça. Chamo outro e ele atualiza os preços. Chamo um terceiro pelo
+rofi e ele sincroniza o repositório Git. No celular, rodo o script de backup e
+já tenho o backup 3 2 1.
 
-A cada dia 2 eu gero os extratos de todas as contas, enquanto isso pego o saldo de cada uma e crio os `balance`
-no `balances.beancount`. Baixo os extratos. PDF para o Mercado Pago, CSV para o Banco do Brasil. Chamo um script
-que faz ingestão. Dou nome aos bois nas transações geradas, removo duplicatas. Baixo todas as notas de corretagem
-e preencho os dados no `b3.beancount`. Rodo o script para equalizar os preços médios, debugo eventuais rombos
-e é isso ai. Todo mês tem um Pix para um nome estranho, mas que no final das contas é um estabelecimento conhecido.
+A cada dia 2 eu gero os extratos de todas as contas, enquanto isso pego o saldo
+de cada uma e crio os `balance` no `balances.beancount`. Baixo os extratos. PDF
+para o Mercado Pago, CSV para o Banco do Brasil. Chamo um script que faz
+ingestão. Dou nome aos bois nas transações geradas, removo duplicatas. Baixo
+todas as notas de corretagem e preencho os dados no `b3.beancount`. Rodo o
+script para equalizar os preços médios, debugo eventuais rombos e é isso ai.
+Todo mês tem um Pix para um nome estranho, mas que no final das contas é um
+estabelecimento conhecido.
 
-Com dinheiro físico é mais difícil porque não tem rastro, ai eu que lute pra descobrir o porque o saldo final esperado
-tá 155 reais maior que o que tem.
+Com dinheiro físico é mais difícil porque não tem rastro, ai eu que lute pra
+descobrir o porque o saldo final esperado tá 155 reais maior que o que tem.
 
-E o mais legal de tudo isso é que é uma ferramenta 100% local, sem política de privacidade, sem servidor tendo que
-rodar 24/7, sem lock-in, usando como base tecnologias que já funcionavam bem sepa desde antes de eu existir.
+E o mais legal de tudo isso é que é uma ferramenta 100% local, sem política de
+privacidade, sem servidor tendo que rodar 24/7, sem lock-in, usando como base
+tecnologias que já funcionavam bem sepa desde antes de eu existir.
 
 ## Os scripts
+
 ### Script para preço médio
-Ele espera que esteja em uma pasta dentro do repositório, que o beancount principal seja o `main.beancount` e que
-salva os resultados no `fixes.beancount`.
+
+Ele espera que esteja em uma pasta dentro do repositório, que o beancount
+principal seja o `main.beancount` e que salva os resultados no
+`fixes.beancount`.
 
 ```python
-  
 #!/usr/bin/env python3
 from beancount import loader
 from beancount.core import data
@@ -340,7 +364,9 @@ if __name__ == '__main__':
 ```
 
 ### Plugin de documentos
-Ele espera que esteja em uma pasta no repositório e que o repositório tenha a pasta docs
+
+Ele espera que esteja em uma pasta no repositório e que o repositório tenha a
+pasta docs
 
 Use a diretiva `plugin` para usar.
 
