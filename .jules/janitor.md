@@ -40,3 +40,7 @@ repository's context. **Pattern:** A complete `package.json` with standard
 metadata makes the project more professional, easier to understand for new
 contributors, and provides essential information for tooling and package
 managers.
+
+## 2026-01-17 - Remove duplicate charset meta tag
+
+**Issue:** The `layouts/_default/baseof.html` template contained duplicate `<meta charset>` declarations (`UTF-8` and `utf-8`), which is invalid HTML and redundant. **Root Cause:** Likely a copy-paste error or a merge oversight where both variations were introduced and persisted. **Solution:** Removed the redundant `<meta charset="utf-8">` tag, keeping the uppercase version for consistency. **Pattern:** Ensure HTML templates define the character set exactly once. Duplicate meta tags increase page size unnecessarily and violate HTML standards.
