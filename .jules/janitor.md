@@ -40,3 +40,10 @@ repository's context. **Pattern:** A complete `package.json` with standard
 metadata makes the project more professional, easier to understand for new
 contributors, and provides essential information for tooling and package
 managers.
+
+## 2026-01-17 - Remove duplicate meta tags and fix attribute typos
+
+**Issue:** `layouts/_default/baseof.html` contained duplicate `<meta charset>` tags (one uppercase, one lowercase) and a typo in the `dir` attribute (leading space in `" auto"`).
+**Root Cause:** Likely copy-paste errors or merge artifacts that accumulated over time.
+**Solution:** Removed the duplicate `<meta charset="UTF-8">` (keeping the lowercase version) and fixed the `dir` attribute value to `"auto"`.
+**Pattern:** Duplicate meta tags can occur when combining templates or during refactors. Always check `baseof.html` or equivalent layouts for redundancy.
