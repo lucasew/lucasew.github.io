@@ -30,3 +30,11 @@ security reviews. **Prevention:** Always add `rel="noopener noreferrer"` to any
 link that uses `target="_blank"`. This should be enforced through code reviews
 and, if possible, a linter or static analysis tool configured to catch this
 specific pattern.
+
+## 2026-01-17 - Missing SRI and Analytics Configuration
+
+**Vulnerability:** Local JavaScript assets (`htmx.js`, `analytics.js`, `sentry.js`) were served without Subresource Integrity (SRI), making them vulnerable to tampering if the host file system is compromised. Additionally, `analytics.js` was missing the `data-host-url` configuration, causing it to default to a non-existent local endpoint.
+
+**Learning:** External scripts downloaded to `assets/` must be fingerprinted in the Hugo template to ensure integrity at runtime. Also, the analytics script requires explicit configuration of the reporting URL to function correctly, which was likely overlooked during initial setup or migration.
+
+**Prevention:** Always use `| fingerprint` for assets in Hugo templates and include the `integrity` attribute. Verify analytics configuration by checking network requests in the browser devtools.
