@@ -68,6 +68,54 @@ dinheiro recuperado. Cadastrei a conta do Banco do Brasil mesmo e é isso ai. V�
 mandar por transferência bancária então eu não to esperando que vai vir um Pix
 do nada como é com a restituição do IR.
 
+# Pedindo o resgate
+
+Ontem (17/01) enfim começaram a liberar os pedidos de pagamento do FGC. Um processo que,
+eu pessoalmente, achei tranquilo e nada fora do esperado.
+
+No dia 17 o app até abria mas começou a dar uns capotes e eu cheguei a tentar alguams vezes
+mas sem sucesso ai eu só deixei quieto e voltei a mexer hoje (18).
+
+O processo é bem tranquilo, você cadastra tua conta bancária, pode cadastrar mais de uma
+contanto que ela esteja no teu CPF. Isso já dava pra cadastrar antes de liberarem o
+pedido de garantia do Master.
+
+No processo de pedido da garantia o app aparece assim:
+
+![](./Screenshot_20260117-124255.png)
+
+Quando clica pra pedir aparece assim:
+
+![](./Screenshot_20260117-124302.png)
+
+E ali começa o assistentezinho:
+
+![](./Screenshot_20260117-124449.png)
+
+Na parte de validar documento é basicamente um botão pra enviar o documento e um pra mandar
+a foto da cara. E eles aceitam mandar o PDF da carteira digital de trânsito, o que já bota 
+um app de contingência na frente do KYC de muito banco já.
+
+A parte de validação de cara pareceu custom, eu basicamente encaixei minha cara no desenho,
+ele detectou, pediu pra segurar parado e foi de primeira (????).
+
+Eu acho que foi assim de boa porque o objetivo do app é transferir para uma conta do mesmo CPF, o desafio de implementar KYC é mais simples.
+
+E como último passo tem o valor que eles vão pagar, onde eles vão pagar e um termo
+para aceitar.
+
+![](./Screenshot_20260118-084841.png)
+
+No fim das contas mostra que eles estão processando o pagamento, ai é só esperar:
+
+![](./Screenshot_20260118-084933.png)
+
+# Impressões até o momento
+- Para um app criado para uma situação específica, tá muito bom, muito liso, muito bem feito. É impressionante. Eu esperava um processo mais burocrático.
+- Se fosse para sugerir um detalhe, seria a possibilidade de receber o valor pago no Pix com chave CPF, como já existe a opção para restituição de imposto de renda. Poderia ser mais dinâmico. A validação do CPF já foi feita pelo banco, teoricamente não teria onde dar problema.
+
+
+
 Conforme os próximos capítulos dessa saga forem acontecendo eu vou mantendo
 atualizado.
 
@@ -78,6 +126,18 @@ atualizado.
     <div class="timeline-start">18/11/2025</div>
     <div class="timeline-middle"></div>
     <div class="timeline-end timeline-box">Início do trâmite</div>
+    <hr/>
+  </li>
+  <li>
+    <div class="timeline-start">17/01/2026</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Liberação dos pedidos</div>
+    <hr/>
+  </li>
+  <li>
+    <div class="timeline-start">18/01/2026</div>
+    <div class="timeline-middle"></div>
+    <div class="timeline-end timeline-box">Quando eu pedi</div>
     <hr/>
   </li>
   <li>
