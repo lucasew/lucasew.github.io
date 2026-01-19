@@ -70,8 +70,11 @@ breaking change, as some blog posts rely on raw HTML to render custom components
 
 ## IGNORE: Adding HSTS Security Header
 
-**- Pattern:** Do not add the `Strict-Transport-Security` (HSTS) header.
-**- Justification:** This change has been proposed multiple times and rejected. It is considered an operational risk because it can break subdomains that do not support HTTPS. This is a classic example of a security enhancement that, while good in theory, is a breaking change in this specific context.
-**- Files Affected:** `src/hooks.server.ts`, `vercel.json`
+**- Pattern:** Do not add the `Strict-Transport-Security` (HSTS) header. **-
+Justification:** This change has been proposed multiple times and rejected. It
+is considered an operational risk because it can break subdomains that do not
+support HTTPS. This is a classic example of a security enhancement that, while
+good in theory, is a breaking change in this specific context. **- Files
+Affected:** `src/hooks.server.ts`, `vercel.json`
 
 ---
