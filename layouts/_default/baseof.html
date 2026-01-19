@@ -21,16 +21,17 @@
   {{ end }}
   {{- block "head" . -}}
 
-  {{ with resources.Get "htmx.js" }}
-  <script src="{{ .Permalink }}"></script>
+  {{ with resources.Get "htmx.js" | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
   {{ end }}
 
-  {{ with resources.Get "analytics.js" }}
-  <script defer src="{{ .Permalink }}" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70" data-host-url="https://analytics.app.lew.tec.br"></script>
+
+  {{ with resources.Get "analytics.js" | fingerprint }}
+  <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70" data-host-url="https://analytics.app.lew.tec.br"></script>
   {{ end }}
 
-  {{ with resources.Get "sentry.js" }}
-  <script src="{{ .Permalink }}" crossorigin="anonymous"></script>
+  {{ with resources.Get "sentry.js" | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
   {{ end }}
 
   {{ with (templates.Defer (dict "key" "global")) }}
