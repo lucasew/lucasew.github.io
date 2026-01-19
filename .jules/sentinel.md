@@ -33,8 +33,18 @@ specific pattern.
 
 ## 2026-01-17 - Missing Subresource Integrity (SRI) for Local Scripts
 
-**Vulnerability:** The scripts `htmx.js`, `analytics.js`, and `sentry.js` in `layouts/_default/baseof.html` were included without Subresource Integrity (SRI) hashes. Although these scripts are self-hosted, serving them without integrity checks means that if the files were modified on the server or during delivery (e.g., via CDN tampering), browsers would execute the modified code.
+**Vulnerability:** The scripts `htmx.js`, `analytics.js`, and `sentry.js` in
+`layouts/_default/baseof.html` were included without Subresource Integrity (SRI)
+hashes. Although these scripts are self-hosted, serving them without integrity
+checks means that if the files were modified on the server or during delivery
+(e.g., via CDN tampering), browsers would execute the modified code.
 
-**Learning:** Hugo's `fingerprint` pipe makes it trivial to add SRI to local resources at build time. This ensures that the file served to the user matches exactly what was generated during the build, protecting against tampering. Even for self-hosted assets, this is a best practice that adds a layer of defense-in-depth.
+**Learning:** Hugo's `fingerprint` pipe makes it trivial to add SRI to local
+resources at build time. This ensures that the file served to the user matches
+exactly what was generated during the build, protecting against tampering. Even
+for self-hosted assets, this is a best practice that adds a layer of
+defense-in-depth.
 
-**Prevention:** Always use `resources.Get "..." | fingerprint` for local JavaScript and CSS assets, and include the `integrity` attribute in the corresponding HTML tag.
+**Prevention:** Always use `resources.Get "..." | fingerprint` for local
+JavaScript and CSS assets, and include the `integrity` attribute in the
+corresponding HTML tag.
