@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
@@ -26,8 +25,9 @@
   <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
   {{ end }}
 
+
   {{ with resources.Get "analytics.js" | fingerprint }}
-  <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"></script>
+  <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70" data-host-url="https://analytics.app.lew.tec.br"></script>
   {{ end }}
 
   {{ with resources.Get "sentry.js" | fingerprint }}
