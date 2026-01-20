@@ -1,0 +1,81 @@
+name: Autorelease
+
+on:
+  push:
+    branches:
+      - main  # Set a branch to deploy
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * 6' # saturday 2am
+
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      id-token: write
+      pages: write
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        with:
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3
+
+      - name: Run updaters
+        run: |
+          npm install
+          mise codegen
+
+      - name: Create Pull Request if there is new stuff from updaters
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8
+        if: github.event_name != 'pull_request'
+        id: pr_create
+        with:
+          commit-message: Updater script changes
+          branch: updater-bot
+          delete-branch: true
+          title: "Updater: stuff changed"
+          body: |
+            Changes caused from update scripts
+          reviewers: lucasew
+
+      - name: Stop if a pull request was created
+        if: github.event_name != 'pull_request'
+        env:
+          PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
+        run: |
+          if [[ ! -z "$PR_NUMBER" ]]; then
+            echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+      - name: Build
+        env:
+          URL: https://lucasew.github.io
+        run: hugo --minify --baseURL "$URL"
+
+      - name: Upload static files as artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4 # or specific "vX.X.X" version tag for this action
+        with:
+          path: ./public
+
+      - name: Step summary
+        if: github.event_name != 'pull_request'
+        env:
+          URL: https://lucasew.github.io
+        run: |
+          if [[ -z "$URL" ]]; then
+            echo "Bad deployment url"
+            exit 1
+          fi
+          printf "Deployed on: %s" "$URL" >> $GITHUB_STEP_SUMMARY
+        
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name != 'pull_request'
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+

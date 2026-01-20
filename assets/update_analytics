@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd "$(dirname "$0")"
+wget https://analytics.app.lew.tec.br/script.js  -O analytics.js

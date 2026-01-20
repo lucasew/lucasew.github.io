@@ -1,0 +1,37 @@
+baseURL = '/'
+title = "lucasew's offtopic"
+disableKinds = ['taxonomy', 'term']
+
+[languages.en]
+title = "lucasew's offtopic"
+languageName = "🇺🇸"
+disabled = false
+
+[languages.pt]
+title = "offtopic do lucasew"
+languageCode = "pt_BR"
+languageName = "🇧🇷"
+disabled = false
+
+[module]
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'en'
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+    lang = 'pt'
+
+[markup.goldmark.renderer]
+unsafe= true
+
+[build]
+  [build.buildStats]
+    enable = true
+  [[build.cachebusters]]
+    source = 'assets/notwatching/hugo_stats\.json'
+    target = 'css'
+  [[build.cachebusters]]
+    source = '(postcss|tailwind)\.config\.(js|ts)'
+    target = 'css'

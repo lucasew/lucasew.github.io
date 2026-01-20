@@ -1,0 +1,6 @@
+---
+author: "Unknown. Maintained by Alex Mirrington (https://github.com/alexmirrington)"
+title: "Espresso"
+summary: "https://github.com/alexmirrington/base16-espresso-scheme"
+colors: ["2d2d2d", "393939", "515151", "777777", "b4b7b4", "cccccc", "e0e0e0", "ffffff", "d25252", "f9a959", "ffc66d", "a5c261", "bed6ff", "6c99bb", "d197d9", "f97394"]
+---

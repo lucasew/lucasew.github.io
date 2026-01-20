@@ -1,0 +1,14 @@
+{
+  "name": "lucasew.github.io",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.14",
+    "daisyui": "^5.2.3",
+    "tailwindcss": "^4.1.14",
+    "@tailwindcss/typography": "^0.5.19",
+    "dprint": "^0.51.0"
+  },
+  "scripts": {
+    "format": "dprint fmt",
+    "check": "dprint check"
+  }
+}

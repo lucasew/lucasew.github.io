@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language }}" dir="{{ .Language.LanguageDirection | default " auto" }}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  {{- if hugo.IsProduction | or (eq .Site.Params.env "production") }}
+  <meta name="robots" content="index, follow">
+  {{- else }}
+  <meta name="robots" content="noindex, nofollow">
+  {{- end }}
+  {{ with .Page.File }}
+  <meta name="mdpath" content="{{ .Path }}" />
+  {{ end }}
+  <meta name="description" content="{{ .Params.summary }}">
+  <title>{{ .Params.title | default .Site.Title }}</title>
+  {{ with .OutputFormats.Get "rss" -}}
+  {{ printf `
+  <link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+  {{ end }}
+  {{- block "head" . -}}
+
+  {{ with resources.Get "htmx.js" }}
+  <script src="{{ .Permalink }}"></script>
+  {{ end }}
+
+  {{ with resources.Get "analytics.js" }}
+  <script defer src="{{ .Permalink }}" data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"></script>
+  {{ end }}
+
+  {{ with resources.Get "sentry.js" }}
+  <script src="{{ .Permalink }}" crossorigin="anonymous"></script>
+  {{ end }}
+
+  {{ with (templates.Defer (dict "key" "global")) }}
+  {{ partial "css.html" . }}
+  {{ end }}
+  {{- end -}}
+  <script>
+    window.siteUsesMainTemplate = true;
+  </script>
+
+</head>
+
+{{- block "body" . -}}
+
+<body hx-boost="true">
+  <header>
+    <nav class="navbar">
+      {{ with .GetPage "/" }}
+      <div class="navbar-start">
+        <a href="{{ .RelPermalink }}">
+          <nobr>
+            <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
+            <b>{{ .Site.Title }}</b>
+
+          </nobr>
+        </a>
+        <br>
+      </div>
+      <div class="navbar-end [&>*]:mx-1">
+        {{ end }}
+        {{- block "header" . -}}{{- end -}}
+        {{ with .GetPage "/utils" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        {{ with .GetPage "/post" }}
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ end }}
+        {{ range $.Page.AllTranslations }}
+        <a href="{{ .RelPermalink }}">{{ .Language.LanguageName }}</a>
+        {{ end }}
+        {{ partial "theme-toggle.html" . }}
+      </div>
+
+    </nav>
+  </header>
+
+  <main class="prose mx-auto">
+    {{- block "content" . -}}{{- end -}}
+  </main>
+</body>
+{{ end }}
