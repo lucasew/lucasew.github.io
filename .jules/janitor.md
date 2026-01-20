@@ -51,3 +51,10 @@ redundant `<meta charset="utf-8">` tag, keeping the uppercase version for
 consistency. **Pattern:** Ensure HTML templates define the character set exactly
 once. Duplicate meta tags increase page size unnecessarily and violate HTML
 standards.
+
+## 2026-01-20 - Fix greedy regex in frontmatter update script
+
+**Issue:** The `content/post/update_dates.py` script used a greedy regex (`.*`) to match frontmatter content. This caused it to incorrectly capture the entire file content up to the last `---` if multiple `---` separators existed (e.g., horizontal rules), leading to incorrect date detection logic where a date in the body prevented the script from updating the frontmatter.
+**Root Cause:** The regex `r"^---\n(.*)\n---"` combined with `re.DOTALL` is greedy by default.
+**Solution:** Changed the regex to be non-greedy `r"^---\n(.*?)\n---"` and switched to `re.search` with span-based replacement to ensure only the actual frontmatter is targeted.
+**Pattern:** When parsing delimited blocks like YAML frontmatter with regex, always use non-greedy quantifiers (`.*?`) or explicit anchors to prevent consuming subsequent delimiters in the file body.
