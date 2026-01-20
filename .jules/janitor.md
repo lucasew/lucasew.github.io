@@ -58,3 +58,17 @@ standards.
 **Root Cause:** The regex `r"^---\n(.*)\n---"` combined with `re.DOTALL` is greedy by default.
 **Solution:** Changed the regex to be non-greedy `r"^---\n(.*?)\n---"` and switched to `re.search` with span-based replacement to ensure only the actual frontmatter is targeted.
 **Pattern:** When parsing delimited blocks like YAML frontmatter with regex, always use non-greedy quantifiers (`.*?`) or explicit anchors to prevent consuming subsequent delimiters in the file body.
+## 2026-01-20 - Fix invalid HTML nesting in base template
+
+**Issue:** The `layouts/_default/baseof.html` template had a broken HTML
+structure where the `navbar-end` div opening tag was inside a `with` block, but
+its closing tag was outside. This relies on the `with` block always executing to
+produce balanced HTML. Additionally, the deprecated `shrink-to-fit=no` attribute
+was present on the viewport meta tag. **Root Cause:** Likely a mistake when
+grouping navbar elements, placing the closing `{{ end }}` tag of the `with`
+block after the opening `div` tag of the next section. **Solution:** Moved the
+`{{ end }}` tag to correctly close the `navbar-start` logic before the
+`navbar-end` section begins. Removed the deprecated viewport attribute.
+**Pattern:** Ensure HTML tags are properly balanced within template logic
+blocks. Avoid splitting opening and closing tags across conditional boundaries
+unless strictly necessary.
