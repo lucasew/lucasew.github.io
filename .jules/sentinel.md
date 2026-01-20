@@ -48,3 +48,11 @@ defense-in-depth.
 **Prevention:** Always use `resources.Get "..." | fingerprint` for local
 JavaScript and CSS assets, and include the `integrity` attribute in the
 corresponding HTML tag.
+
+## 2026-01-18 - Tabnabbing Vulnerability in Markdown Links
+
+**Vulnerability:** Links generated from Markdown (using `layouts/_default/_markup/render-link.html`) were unconditionally setting `target="_blank"` but failing to include `rel="noopener noreferrer"`. This exposed users to reverse tabnabbing attacks, where a malicious external page could manipulate the referring page via `window.opener`.
+
+**Learning:** While `layouts/_default/single.html` was previously fixed, custom Markdown render hooks are easily overlooked. Since this hook applies to all content, it was a widespread vulnerability. Enforcing `target="_blank"` on all links (including internal ones) necessitates using `noopener` globally for both security and performance.
+
+**Prevention:** Ensure that any template generating `target="_blank"` links automatically adds `rel="noopener noreferrer"`. This should be a standard check in code reviews for any link-generating code.
