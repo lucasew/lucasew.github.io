@@ -51,3 +51,7 @@ redundant `<meta charset="utf-8">` tag, keeping the uppercase version for
 consistency. **Pattern:** Ensure HTML templates define the character set exactly
 once. Duplicate meta tags increase page size unnecessarily and violate HTML
 standards.
+
+## 2026-01-20 - Fix invalid HTML nesting in base template
+
+**Issue:** The `layouts/_default/baseof.html` template had a broken HTML structure where the `navbar-end` div opening tag was inside a `with` block, but its closing tag was outside. This relies on the `with` block always executing to produce balanced HTML. Additionally, the deprecated `shrink-to-fit=no` attribute was present on the viewport meta tag. **Root Cause:** Likely a mistake when grouping navbar elements, placing the closing `{{ end }}` tag of the `with` block after the opening `div` tag of the next section. **Solution:** Moved the `{{ end }}` tag to correctly close the `navbar-start` logic before the `navbar-end` section begins. Removed the deprecated viewport attribute. **Pattern:** Ensure HTML tags are properly balanced within template logic blocks. Avoid splitting opening and closing tags across conditional boundaries unless strictly necessary.
