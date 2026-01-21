@@ -113,6 +113,12 @@ esperar:
 
 ![](./Screenshot_20260118-084933.png)
 
+# O pagamento
+
+Do nada chegou uma notificação de uma transferência recebida, e esse foi o fim da saga.
+
+![](./Screenshot_20260121-141342.png)
+
 # Impressões até o momento
 
 - Para um app criado para uma situação específica, tá muito bom, muito liso,
@@ -122,8 +128,6 @@ esperar:
   de renda. Poderia ser mais dinâmico. A validação do CPF já foi feita pelo
   banco, teoricamente não teria onde dar problema.
 
-Conforme os próximos capítulos dessa saga forem acontecendo eu vou mantendo
-atualizado.
 
 # Timeline
 
@@ -141,15 +145,15 @@ atualizado.
     <hr/>
   </li>
   <li>
-    <div class="timeline-start">18/01/2026</div>
+    <div class="timeline-start">18/01/2026 8h</div>
     <div class="timeline-middle"></div>
     <div class="timeline-end timeline-box">Quando eu pedi</div>
     <hr/>
   </li>
   <li>
-    <div class="timeline-start">??/??/????</div>
+    <div class="timeline-start">21/01/2026 14h</div>
     <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Procedimentos intermediários</div>
+    <div class="timeline-end timeline-box">Recebimento do dinheiro</div>
     <hr/>
   </li>
   <li>
