@@ -115,7 +115,8 @@ esperar:
 
 # O pagamento
 
-Do nada chegou uma notificação de uma transferência recebida, e esse foi o fim da saga.
+Do nada chegou uma notificação de uma transferência recebida, e esse foi o fim
+da saga.
 
 ![](./Screenshot_20260121-141342.png)
 
@@ -129,9 +130,13 @@ Do nada chegou uma notificação de uma transferência recebida, e esse foi o fi
   banco, teoricamente não teria onde dar problema.
 
 # Situações que eu presenciei por aí
-- Fiquei sabendo de pessoas que tiveram problemas na fase de validação de documentos se não usassem a CNH digital. CNH digital é tiro dado bugiu deitado basicamente.
-- Will Bank entrou na ceifa e também vai ser coberto pelo FGC, e provavelmente vai entrar na mesma cota do Banco Master. Pra ser sincero não sei como esse detalhe vai funcionar. O Master tinha alguma relação com o Will.
 
+- Fiquei sabendo de pessoas que tiveram problemas na fase de validação de
+  documentos se não usassem a CNH digital. CNH digital é tiro dado bugiu deitado
+  basicamente.
+- Will Bank entrou na ceifa e também vai ser coberto pelo FGC, e provavelmente
+  vai entrar na mesma cota do Banco Master. Pra ser sincero não sei como esse
+  detalhe vai funcionar. O Master tinha alguma relação com o Will.
 
 # Timeline
 
