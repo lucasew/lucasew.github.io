@@ -80,3 +80,7 @@ block after the opening `div` tag of the next section. **Solution:** Moved the
 **Pattern:** Ensure HTML tags are properly balanced within template logic
 blocks. Avoid splitting opening and closing tags across conditional boundaries
 unless strictly necessary.
+
+## 2026-01-21 - Refactor base16 update script for robustness
+
+**Issue:** The `content/utils/base16/update_data.py` script contained several bad practices: code execution at module level (no `if __name__ == "__main__"`), inefficient regex compilation inside a loop, deprecated `subprocess.call` usage without error checking, and risky `rmdir` calls on temporary directories. **Root Cause:** The script was likely written as a quick one-off utility without structural best practices. **Solution:** Encapsulated logic in a `main()` function, moved regex compilation to global scope, replaced `subprocess.call` with `subprocess.run(check=True)`, and improved error handling for network and git operations. **Pattern:** Even for internal utility scripts, use the `if __name__ == "__main__":` idiom to prevent execution on import (allowing for testing) and use robust subprocess handling (`check=True`) to ensure failures are detected early.
