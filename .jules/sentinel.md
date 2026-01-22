@@ -68,3 +68,19 @@ crucial.
 includes `rel="noopener noreferrer"`. Review all custom render hooks
 (`_markup/*.html`) during security audits as they often bypass standard theme
 logic.
+
+## 2026-01-22 - Missing SRI for External Reveal.js Resources
+
+**Vulnerability:** The slide layout template (`layouts/slide/single.html`) loads
+Reveal.js scripts and styles from `cdnjs.cloudflare.com` without Subresource
+Integrity (SRI) hashes. This means that if the CDN were compromised, malicious
+code could be injected into any page using this layout.
+
+**Learning:** When using external CDNs, we trust a third party. Adding SRI
+(`integrity` attribute) converts this trust into verification, ensuring that the
+browser only executes the code if it matches the expected hash. This is a
+critical defense-in-depth measure for all external dependencies.
+
+**Prevention:** Always calculate and include SRI hashes for any external
+resource loaded via `<script>` or `<link>` tags. Tools like `openssl` or online
+SRI generators can be used to obtain these hashes.
