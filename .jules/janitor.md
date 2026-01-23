@@ -80,3 +80,7 @@ block after the opening `div` tag of the next section. **Solution:** Moved the
 **Pattern:** Ensure HTML tags are properly balanced within template logic
 blocks. Avoid splitting opening and closing tags across conditional boundaries
 unless strictly necessary.
+
+## 2026-01-23 - Refactor base16 update script structure
+
+**Issue:** The `content/utils/base16/update_data.py` script contained global execution logic, lacked a main entry point, and used hardcoded values, making it hard to import or test. **Root Cause:** The script was likely written as a quick utility without adhering to structural best practices. **Solution:** Encapsulated the logic into a `main()` function, added an `if __name__ == "__main__":` block, extracted constants, and added type hints. **Pattern:** Always wrap executable script logic in a `main()` function and use the `if __name__ == "__main__":` idiom to prevent side effects on import and improve testability.
