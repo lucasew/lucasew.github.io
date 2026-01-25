@@ -76,12 +76,13 @@ Reveal.js resources from `cdnjs` without Subresource Integrity (SRI) hashes.
 This meant that if the CDN were compromised or the files tampered with,
 malicious code could be injected into the presentation slides.
 
-**Learning:** While SRI was previously added for local scripts (2026-01-17),
-external scripts hosted on CDNs are even more critical candidates for SRI
-because they are outside our direct control. Relying on version variables
-without coupled hashes creates a false sense of security.
+**Learning:** Managing SRI hashes manually for external resources is error-prone
+and tedious. Hugo's `resources.GetRemote` combined with `fingerprint` allows us
+to fetch external assets during the build process, generate their hashes
+automatically, and serve them from our own domain (or just use the hash). This
+provides the security of SRI without the maintenance burden of manual manual
+hash updates.
 
-**Prevention:** Always include `integrity` and `crossorigin="anonymous"`
-attributes when loading scripts or stylesheets from CDNs. Hardcoding the
-versioned URL alongside the hash ensures that the file content matches exactly
-what is expected.
+**Prevention:** Instead of hardcoding external URLs and hashes, use
+`resources.GetRemote <url> | fingerprint`. This ensures the asset is verified at
+build time and the correct integrity hash is always used.
