@@ -48,12 +48,29 @@
 
   {{ end }}
 
-  <script src="{{ $revealjsBaseURL }}/reveal.js"></script>
-  <script src="{{ $revealjsBaseURL }}/plugin/zoom/zoom.min.js"></script>
-  <script src="{{ $revealjsBaseURL }}/plugin/math/math.min.js"></script>
-  <link rel="stylesheet" href="{{ $revealjsBaseURL }}/reset.min.css"></link>
-  <link rel="stylesheet" href="{{ $revealjsBaseURL }}/reveal.min.css"></link>
-  <link rel="stylesheet" href="{{ $revealjsBaseURL }}/theme/black.min.css"></link>
+  {{ with resources.GetRemote (printf "%s/reveal.js" $revealjsBaseURL) | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ end }}
+
+  {{ with resources.GetRemote (printf "%s/plugin/zoom/zoom.min.js" $revealjsBaseURL) | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ end }}
+
+  {{ with resources.GetRemote (printf "%s/plugin/math/math.min.js" $revealjsBaseURL) | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+  {{ end }}
+
+  {{ with resources.GetRemote (printf "%s/reset.min.css" $revealjsBaseURL) | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></link>
+  {{ end }}
+
+  {{ with resources.GetRemote (printf "%s/reveal.min.css" $revealjsBaseURL) | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></link>
+  {{ end }}
+
+  {{ with resources.GetRemote (printf "%s/theme/black.min.css" $revealjsBaseURL) | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></link>
+  {{ end }}
 
   <script>
     Reveal.on('ready', () => {

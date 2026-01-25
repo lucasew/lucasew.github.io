@@ -68,3 +68,21 @@ crucial.
 includes `rel="noopener noreferrer"`. Review all custom render hooks
 (`_markup/*.html`) during security audits as they often bypass standard theme
 logic.
+
+## 2026-01-21 - Missing Subresource Integrity (SRI) for External Scripts
+
+**Vulnerability:** The template `layouts/slide/single.html` loaded external
+Reveal.js resources from `cdnjs` without Subresource Integrity (SRI) hashes.
+This meant that if the CDN were compromised or the files tampered with,
+malicious code could be injected into the presentation slides.
+
+**Learning:** Managing SRI hashes manually for external resources is error-prone
+and tedious. Hugo's `resources.GetRemote` combined with `fingerprint` allows us
+to fetch external assets during the build process, generate their hashes
+automatically, and serve them from our own domain (or just use the hash). This
+provides the security of SRI without the maintenance burden of manual manual
+hash updates.
+
+**Prevention:** Instead of hardcoding external URLs and hashes, use
+`resources.GetRemote <url> | fingerprint`. This ensures the asset is verified at
+build time and the correct integrity hash is always used.
