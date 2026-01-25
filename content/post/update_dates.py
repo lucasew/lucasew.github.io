@@ -1,4 +1,23 @@
 #!/usr/bin/env python3
+"""
+Post Date Backfiller
+
+This script automatically populates the `date` field in the frontmatter of Hugo content files
+based on the directory naming convention.
+
+Convention:
+    The script assumes a directory structure like `content/post/YYYYMMDD-slug/index.md`.
+    It extracts the date from the `YYYYMMDD` prefix of the parent directory.
+
+Purpose:
+    - To avoid manually typing dates for imported or new posts that follow the naming convention.
+    - To ensure consistency between the filesystem structure and the metadata.
+
+Idempotency:
+    - The script checks if `date:` is already present in the frontmatter.
+    - If found, it skips the file, preserving any manual overrides or existing dates.
+"""
+
 import re
 import logging
 from pathlib import Path
@@ -11,6 +30,22 @@ logger = logging.getLogger(__name__)
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 def update_file(file_path: Path, root: Path):
+    """
+    Updates the frontmatter of a single file with a date derived from its directory.
+
+    Logic:
+    1. Reads the file content.
+    2. Extracts existing frontmatter using regex.
+    3. Checks if 'date:' key already exists (skips if true).
+    4. Parses the parent directory name (expected format: YYYYMMDD-slug) to extract the date.
+    5. Formats the date as ISO 8601 (YYYY-MM-DDTHH:MM:SS).
+    6. Prepends the date to the frontmatter content.
+    7. Writes the modified content back to the file.
+
+    Args:
+        file_path: Path object pointing to the markdown file (e.g., .../20210228-slug/index.md).
+        root: The root directory for relative path calculations (usually content/post).
+    """
     try:
         content = file_path.read_text(encoding='utf-8')
     except Exception as e:
@@ -63,6 +98,9 @@ def update_file(file_path: Path, root: Path):
         logger.error(f"{file_path}: Failed to write: {e}")
 
 def main():
+    """
+    Main entry point. Scans for index files in subdirectories and updates them.
+    """
     root = Path(__file__).parent
     # Iterate over all index files in subdirectories
     for item in root.glob('**/index*'):
