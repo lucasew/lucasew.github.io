@@ -1,4 +1,25 @@
 #!/usr/bin/env python3
+"""
+Base16 Theme Updater
+
+This script automates the process of fetching, parsing, and generating Hugo-compatible
+markdown files for base16 themes. It queries the official base16 schemes source list,
+clones each repository, extracts theme definitions (YAML), and converts them into
+markdown files with frontmatter that can be used by the Hugo site.
+
+Flow:
+1. Fetch the master list of theme repositories.
+2. Clone each repository in parallel (using ThreadPoolExecutor) to a temporary directory.
+3. Parse YAML files to extract color schemes.
+4. Filter out incomplete themes (missing required base00-base0F keys).
+5. Generate individual markdown files (theme_*.md) in the script's directory.
+
+Note:
+    - This script requires `git` to be installed and available in the PATH.
+    - It uses temporary directories for cloning to ensure a clean state and avoid conflicts.
+    - Network errors during cloning are logged but do not stop the entire process.
+"""
+
 import json
 import logging
 import os
@@ -37,7 +58,20 @@ SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes
 
 
 def read_kv(data: str | bytes) -> Dict[str, str]:
-    """Parses key-value pairs from yaml-like content."""
+    """
+    Parses key-value pairs from simple YAML-like content.
+
+    This function manually parses lines in the format `key: value` to avoid
+    dependency on an external YAML parser (like PyYAML), keeping the script
+    lightweight and standard-library only.
+
+    Args:
+        data: The content to parse, as a string or bytes.
+
+    Returns:
+        A dictionary containing the parsed key-value pairs. Returns an empty
+        dict if no valid pairs are found.
+    """
     line_regexp = re.compile(r"^(?P<key>.*): (?P<value>[^#]*)")
     ret = {}
     if isinstance(data, bytes):
@@ -54,7 +88,18 @@ def read_kv(data: str | bytes) -> Dict[str, str]:
 
 
 def fetch_repo_list(url: str) -> Dict[str, str]:
-    """Fetches the list of scheme repositories."""
+    """
+    Fetches the authoritative list of base16 scheme repositories.
+
+    Retrieves the YAML list from the official base16-schemes-source repository.
+    This list maps scheme names to their GitHub repository URLs.
+
+    Args:
+        url: The URL of the scheme list YAML file.
+
+    Returns:
+        A dictionary mapping repo names to their Git URLs.
+    """
     logger.info(f"Fetching scheme list from {url}")
     try:
         with request.urlopen(url) as response:
@@ -65,30 +110,43 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
 
 
 def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
-    """Clones a repo and extracts theme data."""
+    """
+    Clones a single theme repository and extracts all valid theme definitions.
+
+    This function performs the following steps:
+    1. Creates a temporary directory.
+    2. Clones the git repository into it (silencing git prompts).
+    3. Scans for `*.yaml` files within the cloned repo.
+    4. Parses each file using `read_kv`.
+
+    Nuance:
+        We explicitly remove the temporary directory created by `TemporaryDirectory`
+        before calling `git clone` because `git clone` expects the target directory
+        to be non-existent or empty.
+
+    Args:
+        repo_name: The name of the repository (for logging).
+        repo_url: The git URL to clone.
+
+    Returns:
+        A dictionary where keys are theme filenames (stem) and values are the
+        parsed theme data dictionaries. Returns an empty dict on failure.
+    """
     repo_themes = {}
     logger.info(f"Processing repo: {repo_name} ({repo_url})")
 
     with tempfile.TemporaryDirectory() as tmpdir_str:
         tmpdir = Path(tmpdir_str)
-        # Check if directory exists before removing (TemporaryDirectory creates it)
-        # The original code did tmpdir.rmdir(), then passed it to git clone.
-        # git clone expects the target directory to be empty or non-existent.
-        # TemporaryDirectory creates an empty dir.
-        # So we don't need to rmdir, unless git clone refuses to clone into empty dir (it usually accepts empty dir).
-        # However, the original code specifically did:
-        # tmpdir = Path(tmpdir)
-        # tmpdir.rmdir()
-        # subprocess.call(['git', 'clone', repos[repo], tmpdir], ...)
-        # This implies they wanted git to create the directory.
 
-        # Let's replicate that behavior to be safe.
+        # Git clone expects the directory to be empty or non-existent.
+        # TemporaryDirectory creates the directory, so we remove it first.
         try:
             tmpdir.rmdir()
         except OSError:
-            pass # Already gone
+            pass # Directory might already be gone
 
         try:
+            # Disable terminal prompts to prevent hanging on authentication requests
             subprocess.run(
                 ['git', 'clone', repo_url, str(tmpdir)],
                 env={
@@ -118,7 +176,20 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
 
 
 def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
-    """Processes raw theme data, filtering and formatting it."""
+    """
+    Normalizes and validates raw theme data.
+
+    This step ensures that:
+    1. The theme has a 'scheme', 'repo', and all 16 required color keys (base00-base0F).
+    2. Data is formatted correctly for the Hugo template (colors as a list).
+
+    Args:
+        themes_raw: A dictionary of raw theme data extracted from files.
+
+    Returns:
+        A filtered and normalized dictionary of themes ready for markdown generation.
+        Themes missing required data are excluded.
+    """
     processed_themes = {}
 
     for theme_name, theme_data in themes_raw.items():
@@ -130,7 +201,7 @@ def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
             data.pop('scheme')
 
         if 'repo' not in data:
-            # Should check this, though our logic adds it.
+            # Should have been added by process_theme_repo, but good to be safe
             continue
 
         repo = data.pop('repo')
@@ -156,7 +227,16 @@ def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
-    """Generates markdown files for each theme."""
+    """
+    Writes the processed themes to individual Markdown files.
+
+    Existing `theme_*.md` files in the output directory are deleted first to
+    ensure that removed themes are not retained (cleanup).
+
+    Args:
+        themes: The dictionary of processed themes.
+        output_dir: The directory where markdown files will be written.
+    """
     logger.info(f"Removing existing theme files in {output_dir}")
     for item in output_dir.glob('theme_*.md'):
         try:
@@ -178,6 +258,13 @@ def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
 
 
 def main():
+    """
+    Main execution flow.
+    1. Fetches repo list.
+    2. Downloads and extracts themes in parallel.
+    3. Processes and filters data.
+    4. Generates Markdown files.
+    """
     repos = fetch_repo_list(SCHEME_LIST_URL)
 
     all_raw_themes = {}
