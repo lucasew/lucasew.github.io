@@ -82,15 +82,36 @@ de liberarem o pedido de garantia do Master.
 
 No processo de pedido da garantia o app aparece assim:
 
-![](./Screenshot_20260117-124255.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124255.png" alt="Tela inicial do pedido de garantia no app do FGC" /></div>
+      </div>
+    </div>
+</div>
 
 Quando clica pra pedir aparece assim:
 
-![](./Screenshot_20260117-124302.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124302.png" alt="Detalhes do pedido de garantia" /></div>
+      </div>
+    </div>
+</div>
 
 E ali começa o assistentezinho:
 
-![](./Screenshot_20260117-124449.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124449.png" alt="Assistente de solicitação de garantia" /></div>
+      </div>
+    </div>
+</div>
 
 Na parte de validar documento é basicamente um botão pra enviar o documento e um
 pra mandar a foto da cara. E eles aceitam mandar o PDF da carteira digital de
@@ -106,19 +127,40 @@ conta do mesmo CPF, o desafio de implementar KYC é mais simples.
 E como último passo tem o valor que eles vão pagar, onde eles vão pagar e um
 termo para aceitar.
 
-![](./Screenshot_20260118-084841.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260118-084841.png" alt="Confirmação dos dados de pagamento e aceite dos termos" /></div>
+      </div>
+    </div>
+</div>
 
 No fim das contas mostra que eles estão processando o pagamento, ai é só
 esperar:
 
-![](./Screenshot_20260118-084933.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260118-084933.png" alt="Confirmação de que o pagamento está sendo processado" /></div>
+      </div>
+    </div>
+</div>
 
 # O pagamento
 
 Do nada chegou uma notificação de uma transferência recebida, e esse foi o fim
 da saga.
 
-![](./Screenshot_20260121-141342.png)
+<div class="flex justify-center">
+    <div class="mockup-phone border-0">
+      <div class="camera"></div>
+      <div class="display">
+        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260121-141342.png" alt="Notificação de transferência recebida do FGC" /></div>
+      </div>
+    </div>
+</div>
 
 # Impressões até o momento
 
@@ -165,12 +207,4 @@ da saga.
     <div class="timeline-end timeline-box">Recebimento do dinheiro</div>
     <hr/>
   </li>
-  <li>
-    <div class="timeline-start">??/??/????</div>
-    <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Recebimento do dinheiro</div>
-    <hr/>
-  </li>
-  <li>
-
 </ul>
