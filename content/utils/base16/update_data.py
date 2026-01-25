@@ -1,4 +1,13 @@
 #!/usr/bin/env python3
+"""
+Updates Base16 theme data by fetching it from official sources and generating Markdown files.
+
+This script:
+1.  Fetches the list of official Base16 scheme repositories.
+2.  Clones each repository in parallel to extract theme YAML files.
+3.  Normalizes the theme data (keys, colors).
+4.  Generates Hugo-compatible Markdown files for each theme in the same directory.
+"""
 import json
 import logging
 import os
@@ -37,7 +46,19 @@ SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes
 
 
 def read_kv(data: str | bytes) -> Dict[str, str]:
-    """Parses key-value pairs from yaml-like content."""
+    """
+    Parses key-value pairs from yaml-like content using regex.
+
+    This function avoids using a heavy YAML parser dependency by assuming a simple
+    structure: `key: "value"` or `key: value`. It is robust enough for the
+    Base16 scheme format.
+
+    Args:
+        data: The content to parse (bytes or string).
+
+    Returns:
+        A dictionary of key-value pairs.
+    """
     line_regexp = re.compile(r"^(?P<key>.*): (?P<value>[^#]*)")
     ret = {}
     if isinstance(data, bytes):
@@ -54,7 +75,15 @@ def read_kv(data: str | bytes) -> Dict[str, str]:
 
 
 def fetch_repo_list(url: str) -> Dict[str, str]:
-    """Fetches the list of scheme repositories."""
+    """
+    Fetches the list of scheme repositories from the official Base16 source.
+
+    Args:
+        url: The URL to the `list.yaml` file.
+
+    Returns:
+        A dictionary mapping repository names to their URLs.
+    """
     logger.info(f"Fetching scheme list from {url}")
     try:
         with request.urlopen(url) as response:
@@ -65,7 +94,20 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
 
 
 def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
-    """Clones a repo and extracts theme data."""
+    """
+    Clones a git repository and extracts theme data from YAML files within it.
+
+    Uses a temporary directory for the clone to ensure a clean state and avoid
+    cluttering the filesystem. It handles git cloning securely by disabling
+    interactive prompts.
+
+    Args:
+        repo_name: The name of the repository.
+        repo_url: The git URL of the repository.
+
+    Returns:
+        A dictionary mapping theme names (from filenames) to their data.
+    """
     repo_themes = {}
     logger.info(f"Processing repo: {repo_name} ({repo_url})")
 
@@ -118,7 +160,20 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
 
 
 def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
-    """Processes raw theme data, filtering and formatting it."""
+    """
+    Normalizes raw theme data for Hugo consumption.
+
+    It performs validation (checking for all base16 colors) and formatting:
+    -   Extracts the 'scheme' name as 'title'.
+    -   Uses the 'repo' URL as 'summary'.
+    -   Collects all 16 colors into a 'colors' list.
+
+    Args:
+        themes_raw: A dictionary of raw theme data keyed by theme name.
+
+    Returns:
+        A filtered and normalized dictionary of themes.
+    """
     processed_themes = {}
 
     for theme_name, theme_data in themes_raw.items():
@@ -156,7 +211,16 @@ def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
-    """Generates markdown files for each theme."""
+    """
+    Generates Hugo-compatible Markdown files for each theme.
+
+    This function wipes existing `theme_*.md` files in the output directory
+    before writing new ones to ensure deleted themes are removed.
+
+    Args:
+        themes: The normalized theme data.
+        output_dir: The directory where markdown files should be written.
+    """
     logger.info(f"Removing existing theme files in {output_dir}")
     for item in output_dir.glob('theme_*.md'):
         try:
@@ -178,6 +242,9 @@ def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
 
 
 def main():
+    """
+    Orchestrates the update process: fetch list, clone repos (in parallel), process data, and generate files.
+    """
     repos = fetch_repo_list(SCHEME_LIST_URL)
 
     all_raw_themes = {}

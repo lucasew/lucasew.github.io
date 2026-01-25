@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""
+Backfills the 'date' frontmatter field for Hugo posts based on directory naming conventions.
+
+This script iterates through subdirectories in the script's parent folder, expects a
+'YYYYMMDD-slug' naming pattern, and extracts the date. It then inserts this date
+into the post's frontmatter if it's missing.
+
+This automates date management for legacy posts or new drafts created without
+explicit dates, ensuring Hugo orders them correctly.
+"""
 import re
 import logging
 from pathlib import Path
@@ -11,6 +21,20 @@ logger = logging.getLogger(__name__)
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 def update_file(file_path: Path, root: Path):
+    """
+    Updates a single file to inject the date into its frontmatter.
+
+    It performs the following steps:
+    1.  Reads the file content.
+    2.  Extracts the YAML frontmatter block.
+    3.  Checks if 'date:' is already present.
+    4.  Extracts the date from the parent directory name (format: YYYYMMDD-...).
+    5.  Injects the formatted date (YYYY-MM-DDT00:00:00) into the frontmatter.
+
+    Args:
+        file_path (Path): The path to the markdown file to update.
+        root (Path): The root directory used to calculate relative paths for date extraction.
+    """
     try:
         content = file_path.read_text(encoding='utf-8')
     except Exception as e:
@@ -63,6 +87,12 @@ def update_file(file_path: Path, root: Path):
         logger.error(f"{file_path}: Failed to write: {e}")
 
 def main():
+    """
+    Entry point for the script.
+
+    Finds the script's parent directory and iterates over all `index*` files
+    (e.g., `index.md`, `_index.md`) in its subdirectories to apply date updates.
+    """
     root = Path(__file__).parent
     # Iterate over all index files in subdirectories
     for item in root.glob('**/index*'):
