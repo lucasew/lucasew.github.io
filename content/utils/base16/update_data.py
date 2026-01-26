@@ -55,6 +55,7 @@ COLOR_KEYS = [
     'base0F',
 ]
 SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes-source/refs/heads/main/list.yaml"
+TIMEOUT = 30
 
 
 def read_kv(data: str | bytes) -> Dict[str, str]:
@@ -102,7 +103,7 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
     """
     logger.info(f"Fetching scheme list from {url}")
     try:
-        with request.urlopen(url) as response:
+        with request.urlopen(url, timeout=TIMEOUT) as response:
             return read_kv(response.read())
     except Exception as e:
         logger.error(f"Failed to fetch repo list: {e}")
@@ -143,10 +144,14 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
                     'GIT_TERMINAL_PROMPT': '0'
                 },
                 check=True,
-                capture_output=True
+                capture_output=True,
+                timeout=TIMEOUT
             )
         except subprocess.CalledProcessError as e:
             logger.error(f"Git clone failed for {repo_name}: {e}")
+            return {}
+        except subprocess.TimeoutExpired as e:
+            logger.error(f"Git clone timed out for {repo_name}: {e}")
             return {}
         except Exception as e:
             logger.error(f"Error processing {repo_name}: {e}")

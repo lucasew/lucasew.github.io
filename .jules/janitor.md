@@ -95,3 +95,7 @@ correctly with the empty directory provided by `TemporaryDirectory`.
 **Pattern:** Avoid writing code to solve problems that don't exist ("defensive
 coding" gone wrong). Trust standard library tools (like `TemporaryDirectory`) to
 do their job unless proven otherwise.
+
+## 2026-01-27 - Add timeouts to network operations in base16 updater
+
+**Issue:** The `content/utils/base16/update_data.py` script performed network operations (`urllib.request.urlopen` and `git clone`) without any timeouts. This could cause the script to hang indefinitely if a remote server was unresponsive or the network connection stalled. **Root Cause:** Missing `timeout` parameter in `urlopen` and `subprocess.run` calls. Default behavior for these functions is to wait indefinitely. **Solution:** Added a global `TIMEOUT` constant (set to 30 seconds) and passed it to both `request.urlopen` and `subprocess.run`. **Pattern:** Always define explicit timeouts for network operations or external process executions to prevent infinite blocking and ensure script robustness.
