@@ -83,4 +83,15 @@ unless strictly necessary.
 
 ## 2026-01-26 - Remove redundant directory cleanup in base16 updater
 
-**Issue:** The `content/utils/base16/update_data.py` script unnecessarily deleted the temporary directory created by `tempfile.TemporaryDirectory` before calling `git clone`, under the mistaken belief that `git clone` fails if the directory exists. **Root Cause:** Misunderstanding of `git clone` behavior combined with `TemporaryDirectory`. `TemporaryDirectory` creates an empty directory, and `git clone` supports cloning into an empty directory. The code was adding unnecessary complexity and confusion. **Solution:** Removed the `rmdir` call and the misleading comment. Verified that `git clone` works correctly with the empty directory provided by `TemporaryDirectory`. **Pattern:** Avoid writing code to solve problems that don't exist ("defensive coding" gone wrong). Trust standard library tools (like `TemporaryDirectory`) to do their job unless proven otherwise.
+**Issue:** The `content/utils/base16/update_data.py` script unnecessarily
+deleted the temporary directory created by `tempfile.TemporaryDirectory` before
+calling `git clone`, under the mistaken belief that `git clone` fails if the
+directory exists. **Root Cause:** Misunderstanding of `git clone` behavior
+combined with `TemporaryDirectory`. `TemporaryDirectory` creates an empty
+directory, and `git clone` supports cloning into an empty directory. The code
+was adding unnecessary complexity and confusion. **Solution:** Removed the
+`rmdir` call and the misleading comment. Verified that `git clone` works
+correctly with the empty directory provided by `TemporaryDirectory`.
+**Pattern:** Avoid writing code to solve problems that don't exist ("defensive
+coding" gone wrong). Trust standard library tools (like `TemporaryDirectory`) to
+do their job unless proven otherwise.
