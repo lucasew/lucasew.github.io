@@ -119,11 +119,6 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
     3. Scans for `*.yaml` files within the cloned repo.
     4. Parses each file using `read_kv`.
 
-    Nuance:
-        We explicitly remove the temporary directory created by `TemporaryDirectory`
-        before calling `git clone` because `git clone` expects the target directory
-        to be non-existent or empty.
-
     Args:
         repo_name: The name of the repository (for logging).
         repo_url: The git URL to clone.
@@ -137,13 +132,6 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
 
     with tempfile.TemporaryDirectory() as tmpdir_str:
         tmpdir = Path(tmpdir_str)
-
-        # Git clone expects the directory to be empty or non-existent.
-        # TemporaryDirectory creates the directory, so we remove it first.
-        try:
-            tmpdir.rmdir()
-        except OSError:
-            pass # Directory might already be gone
 
         try:
             # Disable terminal prompts to prevent hanging on authentication requests
