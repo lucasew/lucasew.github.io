@@ -27,14 +27,15 @@ from typing import Optional
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
+# Non-greedy regex to capture frontmatter content between ---
+FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
+
 
 class Post:
     """
     Represents a blog post page bundle (directory) and handles frontmatter manipulation
     for all markdown files within it.
     """
-    # Non-greedy regex to capture frontmatter content between ---
-    FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
     def __init__(self, bundle_dir: Path, root: Path):
         """
@@ -69,7 +70,7 @@ class Post:
 
     def has_existing_date(self, content: str) -> bool:
         """Checks if the 'date:' key is already present in the frontmatter."""
-        match = self.FRONTMATTER_PATTERN.search(content)
+        match = FRONTMATTER_PATTERN.search(content)
         if not match:
             return False
         frontmatter_content = match.group(1)
@@ -80,7 +81,7 @@ class Post:
         Injects the date into the frontmatter.
         Returns the modified content.
         """
-        match = self.FRONTMATTER_PATTERN.search(content)
+        match = FRONTMATTER_PATTERN.search(content)
         if not match:
             return content
 
