@@ -15,6 +15,7 @@ Purpose:
 
 Refactoring:
     - Encapsulated logic into `Post` class for better structure and testability.
+    - Post class now represents a Page Bundle (directory) and processes all markdown files within it.
 """
 
 import re
@@ -29,48 +30,41 @@ logger = logging.getLogger(__name__)
 
 class Post:
     """
-    Represents a blog post file and handles frontmatter manipulation.
+    Represents a blog post page bundle (directory) and handles frontmatter manipulation
+    for all markdown files within it.
     """
     # Non-greedy regex to capture frontmatter content between ---
     FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
-    def __init__(self, path: Path, root: Path):
+    def __init__(self, bundle_dir: Path, root: Path):
         """
         Args:
-            path: Path object pointing to the markdown file.
+            bundle_dir: Path object pointing to the page bundle directory.
             root: The root directory for relative path calculations.
         """
-        self.path = path
+        self.bundle_dir = bundle_dir
         self.root = root
-
-    def read_content(self) -> str:
-        """Reads the file content."""
-        return self.path.read_text(encoding='utf-8')
-
-    def save_content(self, content: str):
-        """Writes content back to the file."""
-        self.path.write_text(content, encoding='utf-8')
 
     def extract_date(self) -> Optional[str]:
         """
-        Extracts the date from the parent directory name (YYYYMMDD-slug).
+        Extracts the date from the bundle directory name (YYYYMMDD-slug).
         Returns:
             ISO 8601 date string (YYYY-MM-DDTHH:MM:SS) or None if invalid.
         """
         try:
-            # e.g. "content/post/20210228-slug/index.md" -> relative "20210228-slug/index.md"
+            # e.g. "content/post/20210228-slug" -> relative "20210228-slug"
             # -> parts[0] "20210228-slug"
-            dir_name = self.path.relative_to(self.root).parts[0]
+            dir_name = self.bundle_dir.relative_to(self.root).parts[0]
             date_part = dir_name.split('-')[0]
 
             if len(date_part) != 8 or not date_part.isdigit():
-                logger.warning(f"{self.path}: Could not extract valid date from '{dir_name}'.")
+                logger.warning(f"{self.bundle_dir}: Could not extract valid date from '{dir_name}'.")
                 return None
 
             y, m, d = date_part[0:4], date_part[4:6], date_part[6:8]
             return f"{y}-{m}-{d}T00:00:00"
         except Exception as e:
-            logger.warning(f"{self.path}: Error extracting date: {e}")
+            logger.warning(f"{self.bundle_dir}: Error extracting date: {e}")
             return None
 
     def has_existing_date(self, content: str) -> bool:
@@ -97,45 +91,55 @@ class Post:
         start, end = match.span(1)
         return content[:start] + new_frontmatter_body + content[end:]
 
-    def process(self):
-        """
-        Orchestrates the update process for this post.
-        """
+    def _process_file(self, file_path: Path, date_str: str):
+        """Helper to process a single markdown file."""
         try:
-            content = self.read_content()
+            content = file_path.read_text(encoding='utf-8')
         except Exception as e:
-            logger.error(f"Failed to read {self.path}: {e}")
+            logger.error(f"Failed to read {file_path}: {e}")
             return
 
         if self.has_existing_date(content):
             return
 
+        logger.info(f"{file_path}: Adding date {date_str}")
+        new_content = self.inject_date(content, date_str)
+
+        try:
+            file_path.write_text(new_content, encoding='utf-8')
+        except Exception as e:
+            logger.error(f"{file_path}: Failed to write: {e}")
+
+    def process(self):
+        """
+        Orchestrates the update process for all markdown files in the bundle.
+        """
         date_str = self.extract_date()
         if not date_str:
             return
 
-        logger.info(f"{self.path}: Adding date {date_str}")
-        new_content = self.inject_date(content, date_str)
-
-        try:
-            self.save_content(new_content)
-        except Exception as e:
-            logger.error(f"{self.path}: Failed to write: {e}")
+        # Iterate over all markdown files (e.g., index.md, index.pt.md)
+        for file_path in self.bundle_dir.glob("index*.md"):
+             self._process_file(file_path, date_str)
 
 
 def main():
     """
-    Main entry point. Scans for index files in subdirectories and updates them.
+    Main entry point. Scans for page bundles and updates them.
     """
     root = Path(__file__).parent
-    # Iterate over all index files in subdirectories
-    for item in root.glob('**/index*'):
-        # Skip the root index files if any match the pattern, although glob '**/index*' usually picks them up
-        # We generally expect content/post/SLUG/index.md
-        if item.parent == root:
-            continue
 
-        post = Post(item, root)
+    # Collect unique page bundle directories
+    # We find all index files, then take their parent directories.
+    # Using a set to ensure uniqueness.
+    bundle_dirs = {
+        item.parent
+        for item in root.glob('**/index*')
+        if item.parent != root
+    }
+
+    for bundle_dir in bundle_dirs:
+        post = Post(bundle_dir, root)
         post.process()
 
 
