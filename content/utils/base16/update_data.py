@@ -130,13 +130,20 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
     repo_themes = {}
     logger.info(f"Processing repo: {repo_name} ({repo_url})")
 
+    # SECURITY: Validate protocol to prevent schemes like file:// or ssh:// (which can have options injection risks)
+    if not repo_url.startswith("https://"):
+        logger.error(f"Skipping {repo_name}: Invalid protocol in {repo_url} (only https allowed)")
+        return {}
+
     with tempfile.TemporaryDirectory() as tmpdir_str:
         tmpdir = Path(tmpdir_str)
 
         try:
             # Disable terminal prompts to prevent hanging on authentication requests
+            # SECURITY: Use '--' to separate options from positional arguments (the URL)
+            # This prevents argument injection if repo_url starts with '-'
             subprocess.run(
-                ['git', 'clone', repo_url, str(tmpdir)],
+                ['git', 'clone', '--', repo_url, str(tmpdir)],
                 env={
                     **os.environ,
                     'GIT_ASKPASS': 'false',

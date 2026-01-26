@@ -86,3 +86,26 @@ hash updates.
 **Prevention:** Instead of hardcoding external URLs and hashes, use
 `resources.GetRemote <url> | fingerprint`. This ensures the asset is verified at
 build time and the correct integrity hash is always used.
+
+## 2026-01-22 - Argument Injection and Protocol Policy in Base16 Updater
+
+**Vulnerability:** The `content/utils/base16/update_data.py` script passed the
+`repo_url` (derived from an external YAML list) directly to
+`subprocess.run(['git', 'clone', ...])`. If the YAML source were compromised to
+include a "URL" starting with `-`, `git clone` would interpret it as an option
+(Argument Injection), potentially leading to command execution (e.g. via
+`--upload-pack`). Additionally, there was no restriction on the protocol,
+allowing potentially dangerous schemes like `ssh://` or `file://`.
+
+**Learning:** When invoking shell commands with user-controlled or external
+input, always assume the input might be interpreted as a flag. Python's
+`subprocess` module avoids shell injection when using a list of arguments, but
+it does _not_ prevent argument injection into the called program itself.
+
+**Prevention:**
+
+1. **Protocol Whitelisting:** Enforce strictly expected protocols (e.g.,
+   `https://` only) to reduce the attack surface.
+2. **Argument Separation:** Use the `--` separator (e.g., `git clone -- <url>`)
+   to explicitly tell the command that subsequent arguments are positional,
+   preventing them from being interpreted as options.
