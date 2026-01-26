@@ -27,7 +27,8 @@ from typing import Optional
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
-# Non-greedy regex to capture frontmatter content between ---
+# Constants
+ROOT = Path(__file__).parent
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -37,14 +38,12 @@ class Post:
     for all markdown files within it.
     """
 
-    def __init__(self, bundle_dir: Path, root: Path):
+    def __init__(self, bundle_dir: Path):
         """
         Args:
             bundle_dir: Path object pointing to the page bundle directory.
-            root: The root directory for relative path calculations.
         """
         self.bundle_dir = bundle_dir
-        self.root = root
 
     def extract_date(self) -> Optional[str]:
         """
@@ -55,7 +54,7 @@ class Post:
         try:
             # e.g. "content/post/20210228-slug" -> relative "20210228-slug"
             # -> parts[0] "20210228-slug"
-            dir_name = self.bundle_dir.relative_to(self.root).parts[0]
+            dir_name = self.bundle_dir.relative_to(ROOT).parts[0]
             date_part = dir_name.split('-')[0]
 
             if len(date_part) != 8 or not date_part.isdigit():
@@ -128,19 +127,17 @@ def main():
     """
     Main entry point. Scans for page bundles and updates them.
     """
-    root = Path(__file__).parent
-
     # Collect unique page bundle directories
     # We find all index files, then take their parent directories.
     # Using a set to ensure uniqueness.
     bundle_dirs = {
         item.parent
-        for item in root.glob('**/index*')
-        if item.parent != root
+        for item in ROOT.glob('**/index*')
+        if item.parent != ROOT
     }
 
     for bundle_dir in bundle_dirs:
-        post = Post(bundle_dir, root)
+        post = Post(bundle_dir)
         post.process()
 
 
