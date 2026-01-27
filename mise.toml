@@ -2,7 +2,7 @@
 _.path = ["./node_modules/.bin"]
 
 [tools]
-"aqua:nodejs/node" = "25.4.0"
+node = "25.4.0"
 hugo = "0.154.5"
 
 [tasks."codegen:data"]
