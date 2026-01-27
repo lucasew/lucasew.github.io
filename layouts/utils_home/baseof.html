@@ -21,7 +21,9 @@
   <meta name="mdpath" content="{{ .Path }}" />
   {{ end }}
   <meta http-equiv="refresh" content="8; URL={{ $home }}" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" type="text/css">
+  {{ with resources.GetRemote "https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css" | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" type="text/css">
+  {{ end }}
 </head>
 
 <body>
