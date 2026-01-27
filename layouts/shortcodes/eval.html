@@ -1,5 +1,3 @@
-{{- $content := .Inner -}}
-{{- $f := md5 $content | printf "%s.txt" -}}
-{{- $content := resources.FromString $f $content -}}
-{{- $content := $content | resources.ExecuteAsTemplate $f .Page -}}
-{{- $content.Content | safeHTML -}}
+{{- $content := .Inner -}} {{- $f := md5 $content | printf "%s.txt" -}} {{-
+$content := resources.FromString $f $content -}} {{- $content := $content |
+resources.ExecuteAsTemplate $f .Page -}} {{- $content.Content | safeHTML -}}

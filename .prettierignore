@@ -1,0 +1,8 @@
+public/
+resources/
+node_modules/
+assets/analytics.js
+assets/htmx.js
+assets/sentry.js
+*.md
+layouts/**/*.html
