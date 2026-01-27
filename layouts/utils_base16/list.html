@@ -52,9 +52,7 @@
 </style>
 
 <section>
-  {{ .Content }}
-
-  {{ range .Pages }}
+  {{ .Content }} {{ range .Pages }}
   <div class="theme-card">
     <div class="theme-card-info-container">
       <a href="{{ .Permalink | absURL }}">
@@ -64,7 +62,10 @@
     </div>
     <div class="theme-card-sample-container">
       {{ range .Params.colors }}
-      <div class="theme-card-color-container" style="background-color: #{{ . }}">
+      <div
+        class="theme-card-color-container"
+        style="background-color: #{{ . }}"
+      >
         <p>#{{ . }}</p>
       </div>
       {{ end }}

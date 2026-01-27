@@ -53,8 +53,7 @@
 
 <section>
   <h1>{{ .Title }}</h1>
-  {{ .Params.summary | markdownify }}
-  {{ .Content }}
+  {{ .Params.summary | markdownify }} {{ .Content }}
   <p>by {{ .Params.author }}</p>
   <div class="theme-card-sample-container">
     {{ range .Params.colors }}
