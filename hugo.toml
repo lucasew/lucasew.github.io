@@ -24,7 +24,7 @@ disabled = false
     lang = 'pt'
 
 [markup.goldmark.renderer]
-unsafe= true
+unsafe= false
 
 [build]
   [build.buildStats]

@@ -1,0 +1,7 @@
+<li>
+  {{ if .Get "hr_top" }}<hr />{{ end }}
+  <div class="timeline-start">{{ .Get "date" }}</div>
+  <div class="timeline-middle"></div>
+  <div class="timeline-end timeline-box">{{ .Inner | markdownify }}</div>
+  {{ if .Get "hr_bottom" }}<hr />{{ end }}
+</li>

@@ -54,7 +54,8 @@ pkgs.mkShell {
 
 ## Funciona HTML arbitrário
 
-- Precisa ativar uma flag na configuração do hugo pra dar certo
+- HTML arbitrário agora é desativado por segurança. O código abaixo será
+  escapado.
 
 <button onclick="alert('vai dizer que não')">Testar</button>
 
@@ -62,8 +63,7 @@ pkgs.mkShell {
 
 ## Funciona embed
 
-<iframe width="420" height="315" allowfullscreen src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&mute=0">
-</iframe>
+{{< youtube dQw4w9WgXcQ >}}
 
 ---
 
@@ -83,18 +83,15 @@ pkgs.mkShell {
 
 ---
 
-<style>
-img.block {
-width: 100px; height: 100px;
-margin: auto;
-}
-</style>
+<!-- Unsafe style removed -->
 
 %auto-animate%
 
 # Animações
 
-<img class="block" style="background-color: red"></img>
+<!-- Unsafe img removed -->
+
+Imagem vermelha (HTML removido)
 
 ---
 
@@ -102,4 +99,6 @@ margin: auto;
 
 # Animações
 
-<img class="block" style="background-color: blue; margin-top: 100px"></img>
+<!-- Unsafe img removed -->
+
+Imagem azul (HTML removido)

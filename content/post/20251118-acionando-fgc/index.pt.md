@@ -18,14 +18,8 @@ era muito uma questão de se mas sim uma questão de quando. Eu aproveitei os
 títulos muito marcados pra baixo e consegui esses e mais dois de curto prazo que
 já venceram.
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20251118-115049.png" alt="Saldo no dia da quebra" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}} ![Saldo no dia da quebra](./Screenshot_20251118-115049.png)
+{{< /mockup-phone >}}
 
 Como dá pra ver pelo aplicativo, eu não tenho conta no Banco Master e comprei os
 CDBs por corretora, no caso o BTG/AUVP Capital.
@@ -52,14 +46,9 @@ do BRK.
 Primeira coisa que eu fiz foi ver como que loga e consulta. Baixei o app, criei
 minha conta e presenciei a seguinte página lá dentro:
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20251118-113612.png" alt="Banco Master tomando gap no app do FGC" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Banco Master tomando gap no app do FGC](./Screenshot_20251118-113612.png) {{<
+/mockup-phone >}}
 
 Basicamente procedimento padrão de criar conta, CPF, senha, email, pipipipopopo.
 
@@ -82,36 +71,21 @@ de liberarem o pedido de garantia do Master.
 
 No processo de pedido da garantia o app aparece assim:
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124255.png" alt="Tela inicial do pedido de garantia no app do FGC" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Tela inicial do pedido de garantia no app do FGC](./Screenshot_20260117-124255.png)
+{{< /mockup-phone >}}
 
 Quando clica pra pedir aparece assim:
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124302.png" alt="Detalhes do pedido de garantia" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Detalhes do pedido de garantia](./Screenshot_20260117-124302.png) {{<
+/mockup-phone >}}
 
 E ali começa o assistentezinho:
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260117-124449.png" alt="Assistente de solicitação de garantia" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Assistente de solicitação de garantia](./Screenshot_20260117-124449.png) {{<
+/mockup-phone >}}
 
 Na parte de validar documento é basicamente um botão pra enviar o documento e um
 pra mandar a foto da cara. E eles aceitam mandar o PDF da carteira digital de
@@ -127,40 +101,25 @@ conta do mesmo CPF, o desafio de implementar KYC é mais simples.
 E como último passo tem o valor que eles vão pagar, onde eles vão pagar e um
 termo para aceitar.
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260118-084841.png" alt="Confirmação dos dados de pagamento e aceite dos termos" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Confirmação dos dados de pagamento e aceite dos termos](./Screenshot_20260118-084841.png)
+{{< /mockup-phone >}}
 
 No fim das contas mostra que eles estão processando o pagamento, ai é só
 esperar:
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260118-084933.png" alt="Confirmação de que o pagamento está sendo processado" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Confirmação de que o pagamento está sendo processado](./Screenshot_20260118-084933.png)
+{{< /mockup-phone >}}
 
 # O pagamento
 
 Do nada chegou uma notificação de uma transferência recebida, e esse foi o fim
 da saga.
 
-<div class="flex justify-center">
-    <div class="mockup-phone border-0">
-      <div class="camera"></div>
-      <div class="display">
-        <div class="artboard artboard-demo phone-1"><img src="./Screenshot_20260121-141342.png" alt="Notificação de transferência recebida do FGC" /></div>
-      </div>
-    </div>
-</div>
+{{< mockup-phone >}}
+![Notificação de transferência recebida do FGC](./Screenshot_20260121-141342.png)
+{{< /mockup-phone >}}
 
 # Impressões até o momento
 
@@ -182,29 +141,9 @@ da saga.
 
 # Timeline
 
-<ul class="timeline timeline-vertical timeline-snap-icon">
-  <li>
-    <div class="timeline-start">18/11/2025</div>
-    <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Início do trâmite</div>
-    <hr/>
-  </li>
-  <li>
-    <div class="timeline-start">17/01/2026</div>
-    <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Liberação dos pedidos</div>
-    <hr/>
-  </li>
-  <li>
-    <div class="timeline-start">18/01/2026 8h</div>
-    <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Quando eu pedi</div>
-    <hr/>
-  </li>
-  <li>
-    <div class="timeline-start">21/01/2026 14h</div>
-    <div class="timeline-middle"></div>
-    <div class="timeline-end timeline-box">Recebimento do dinheiro</div>
-    <hr/>
-  </li>
-</ul>
+{{< timeline >}} {{< timeline-item date="18/11/2025" hr_bottom="true" >}}Início
+do trâmite{{< /timeline-item >}} {{< timeline-item date="17/01/2026"
+hr_bottom="true" >}}Liberação dos pedidos{{< /timeline-item >}} {{<
+timeline-item date="18/01/2026 8h" hr_bottom="true" >}}Quando eu pedi{{<
+/timeline-item >}} {{< timeline-item date="21/01/2026 14h" hr_bottom="true"
+>}}Recebimento do dinheiro{{< /timeline-item >}} {{< /timeline >}}
