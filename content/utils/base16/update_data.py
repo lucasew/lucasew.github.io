@@ -27,8 +27,9 @@ import re
 import subprocess
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 from urllib import request
 
 # Configure logging
@@ -57,20 +58,82 @@ COLOR_KEYS = [
 SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes-source/refs/heads/main/list.yaml"
 
 
+@dataclass
+class Base16Theme:
+    """
+    Represents a Base16 theme, encapsulating its data validation and normalization.
+
+    Attributes:
+        name: The name of the theme (usually the filename stem).
+        repo_url: The URL of the repository where the theme was found.
+        raw_data: The raw dictionary parsed from the theme's YAML file.
+    """
+    name: str
+    repo_url: str
+    raw_data: Dict[str, str]
+    normalized_data: Dict[str, Any] = field(default_factory=dict, init=False)
+
+    def is_valid(self) -> bool:
+        """
+        Checks if the theme contains all required color keys (base00-base0F).
+        """
+        return all(key in self.raw_data for key in COLOR_KEYS)
+
+    def normalize(self) -> None:
+        """
+        Normalizes the raw data into a format suitable for Hugo templates.
+        Populates self.normalized_data.
+        """
+        data = self.raw_data.copy()
+
+        # Extract metadata
+        scheme = data.pop('scheme', self.name)
+        author = data.pop('author', '')
+
+        self.normalized_data = {
+            'title': scheme,
+            'summary': self.repo_url,
+            'author': author
+        }
+
+        # Extract colors in order
+        colors = []
+        for k in COLOR_KEYS:
+            if k in data:
+                colors.append(data.pop(k))
+
+        self.normalized_data['colors'] = colors
+
+        # Keep any remaining keys if needed, though usually we just want the colors
+        # self.normalized_data.update(data)
+
+    def save(self, output_dir: Path) -> None:
+        """
+        Writes the normalized theme data to a Markdown file.
+        """
+        if not self.normalized_data:
+            self.normalize()
+
+        file_path = output_dir / f"theme_{self.name}.md"
+        try:
+            with file_path.open('w', encoding='utf-8') as f:
+                print('---', file=f)
+                for k, v in self.normalized_data.items():
+                    print(f"{k}: {json.dumps(v)}", file=f)
+                print('---', file=f)
+        except Exception as e:
+            logger.error(f"Failed to write {file_path}: {e}")
+
+
 def read_kv(data: str | bytes) -> Dict[str, str]:
     """
     Parses key-value pairs from simple YAML-like content.
-
-    This function manually parses lines in the format `key: value` to avoid
-    dependency on an external YAML parser (like PyYAML), keeping the script
-    lightweight and standard-library only.
 
     Args:
         data: The content to parse, as a string or bytes.
 
     Returns:
-        A dictionary containing the parsed key-value pairs. Returns an empty
-        dict if no valid pairs are found.
+        A dictionary containing the parsed key-value pairs.
     """
     line_regexp = re.compile(r"^(?P<key>.*): (?P<value>[^#]*)")
     ret = {}
@@ -91,9 +154,6 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
     """
     Fetches the authoritative list of base16 scheme repositories.
 
-    Retrieves the YAML list from the official base16-schemes-source repository.
-    This list maps scheme names to their GitHub repository URLs.
-
     Args:
         url: The URL of the scheme list YAML file.
 
@@ -102,46 +162,37 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
     """
     logger.info(f"Fetching scheme list from {url}")
     try:
-        with request.urlopen(url) as response:
+        with request.urlopen(url, timeout=10) as response:
             return read_kv(response.read())
     except Exception as e:
         logger.error(f"Failed to fetch repo list: {e}")
         return {}
 
 
-def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
+def process_theme_repo(repo_name: str, repo_url: str) -> List[Base16Theme]:
     """
     Clones a single theme repository and extracts all valid theme definitions.
-
-    This function performs the following steps:
-    1. Creates a temporary directory.
-    2. Clones the git repository into it (silencing git prompts).
-    3. Scans for `*.yaml` files within the cloned repo.
-    4. Parses each file using `read_kv`.
 
     Args:
         repo_name: The name of the repository (for logging).
         repo_url: The git URL to clone.
 
     Returns:
-        A dictionary where keys are theme filenames (stem) and values are the
-        parsed theme data dictionaries. Returns an empty dict on failure.
+        A list of Base16Theme objects extracted from the repository.
     """
-    repo_themes = {}
+    themes: List[Base16Theme] = []
     logger.info(f"Processing repo: {repo_name} ({repo_url})")
 
-    # SECURITY: Validate protocol to prevent schemes like file:// or ssh:// (which can have options injection risks)
+    # SECURITY: Validate protocol to prevent schemes like file:// or ssh://
     if not repo_url.startswith("https://"):
         logger.error(f"Skipping {repo_name}: Invalid protocol in {repo_url} (only https allowed)")
-        return {}
+        return []
 
     with tempfile.TemporaryDirectory() as tmpdir_str:
         tmpdir = Path(tmpdir_str)
 
         try:
-            # Disable terminal prompts to prevent hanging on authentication requests
-            # SECURITY: Use '--' to separate options from positional arguments (the URL)
-            # This prevents argument injection if repo_url starts with '-'
+            # Disable terminal prompts and set timeout
             subprocess.run(
                 ['git', 'clone', '--', repo_url, str(tmpdir)],
                 env={
@@ -150,88 +201,38 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
                     'GIT_TERMINAL_PROMPT': '0'
                 },
                 check=True,
-                capture_output=True
+                capture_output=True,
+                timeout=30
             )
+        except subprocess.TimeoutExpired:
+            logger.error(f"Git clone timed out for {repo_name}")
+            return []
         except subprocess.CalledProcessError as e:
             logger.error(f"Git clone failed for {repo_name}: {e}")
-            return {}
+            return []
         except Exception as e:
             logger.error(f"Error processing {repo_name}: {e}")
-            return {}
+            return []
 
         for theme_file in tmpdir.glob('**/*.yaml'):
             try:
                 theme_data = read_kv(theme_file.read_bytes())
-                theme_data['repo'] = repo_url
-                repo_themes[theme_file.stem] = theme_data
+                theme = Base16Theme(
+                    name=theme_file.stem,
+                    repo_url=repo_url,
+                    raw_data=theme_data
+                )
+                if theme.is_valid():
+                    theme.normalize()
+                    themes.append(theme)
             except Exception as e:
-                logger.warning(f"Failed to read theme file {theme_file}: {e}")
+                logger.warning(f"Failed to read/parse theme file {theme_file}: {e}")
 
-    return repo_themes
-
-
-def process_themes(themes_raw: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Normalizes and validates raw theme data.
-
-    This step ensures that:
-    1. The theme has a 'scheme', 'repo', and all 16 required color keys (base00-base0F).
-    2. Data is formatted correctly for the Hugo template (colors as a list).
-
-    Args:
-        themes_raw: A dictionary of raw theme data extracted from files.
-
-    Returns:
-        A filtered and normalized dictionary of themes ready for markdown generation.
-        Themes missing required data are excluded.
-    """
-    processed_themes = {}
-
-    for theme_name, theme_data in themes_raw.items():
-        # Copy to avoid modifying original if passed by reference
-        data = theme_data.copy()
-
-        scheme = data.get('scheme', theme_name)
-        if 'scheme' in data:
-            data.pop('scheme')
-
-        if 'repo' not in data:
-            # Should have been added by process_theme_repo, but good to be safe
-            continue
-
-        repo = data.pop('repo')
-
-        data['title'] = scheme
-        data['summary'] = repo
-
-        colors = []
-        skip_theme = False
-        for k in COLOR_KEYS:
-            if k not in data:
-                skip_theme = True
-                break
-            colors.append(data.pop(k))
-
-        if skip_theme:
-            continue
-
-        data['colors'] = colors
-        processed_themes[theme_name] = data
-
-    return processed_themes
+    return themes
 
 
-def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
-    """
-    Writes the processed themes to individual Markdown files.
-
-    Existing `theme_*.md` files in the output directory are deleted first to
-    ensure that removed themes are not retained (cleanup).
-
-    Args:
-        themes: The dictionary of processed themes.
-        output_dir: The directory where markdown files will be written.
-    """
+def clean_existing_themes(output_dir: Path):
+    """Removes existing theme files in the output directory."""
     logger.info(f"Removing existing theme files in {output_dir}")
     for item in output_dir.glob('theme_*.md'):
         try:
@@ -239,30 +240,14 @@ def generate_markdown_files(themes: Dict[str, Any], output_dir: Path):
         except Exception as e:
             logger.error(f"Failed to delete {item}: {e}")
 
-    logger.info(f"Generating {len(themes)} theme files...")
-    for theme_name, theme_data in themes.items():
-        file_path = output_dir / f"theme_{theme_name}.md"
-        try:
-            with file_path.open('w') as f:
-                print('---', file=f)
-                for k, v in theme_data.items():
-                    print(f"{k}: {json.dumps(v)}", file=f)
-                print('---', file=f)
-        except Exception as e:
-            logger.error(f"Failed to write {file_path}: {e}")
-
 
 def main():
     """
     Main execution flow.
-    1. Fetches repo list.
-    2. Downloads and extracts themes in parallel.
-    3. Processes and filters data.
-    4. Generates Markdown files.
     """
     repos = fetch_repo_list(SCHEME_LIST_URL)
 
-    all_raw_themes = {}
+    all_themes: List[Base16Theme] = []
 
     # Process repos in parallel
     with ThreadPoolExecutor() as executor:
@@ -270,10 +255,14 @@ def main():
         results = executor.map(lambda item: process_theme_repo(item[0], item[1]), repos.items())
 
         for repo_themes in results:
-            all_raw_themes.update(repo_themes)
+            all_themes.extend(repo_themes)
 
-    processed_themes = process_themes(all_raw_themes)
-    generate_markdown_files(processed_themes, ROOT)
+    clean_existing_themes(ROOT)
+
+    logger.info(f"Generating {len(all_themes)} theme files...")
+    for theme in all_themes:
+        theme.save(ROOT)
+
     logger.info("Done.")
 
 
