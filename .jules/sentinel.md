@@ -109,3 +109,25 @@ it does _not_ prevent argument injection into the called program itself.
 2. **Argument Separation:** Use the `--` separator (e.g., `git clone -- <url>`)
    to explicitly tell the command that subsequent arguments are positional,
    preventing them from being interpreted as options.
+
+## 2026-01-28 - Cross-Site Scripting (XSS) via Unsafe Markdown Rendering
+
+**Vulnerability:** The Hugo configuration `hugo.toml` had
+`[markup.goldmark.renderer] unsafe = true`, allowing raw HTML injection in
+Markdown files. This exposed the site to Stored XSS attacks if malicious content
+were introduced (e.g., via a compromised contributor account or unsafe merge).
+
+**Learning:** The project relied on raw HTML for specific components like
+"timeline" and "mockup-phone", which forced the insecure configuration. By
+encapsulating these patterns into secure Hugo Shortcodes (`timeline`,
+`mockup-phone`), we removed the dependency on raw HTML. This enables us to
+enforce `unsafe = false` globally, significantly hardening the site against XSS.
+
+**Prevention:**
+
+1. **Disable Unsafe Rendering:** Set `markup.goldmark.renderer.unsafe = false`
+   in `hugo.toml`.
+2. **Use Shortcodes:** Encapsulate complex UI components in shortcodes instead
+   of embedding raw HTML in content.
+3. **Review Legacy Content:** Refactor existing content to comply with the
+   secure configuration.
