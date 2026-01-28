@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-cd "$(dirname "$0")"
-wget https://js.sentry-cdn.com/df310b7f294d8efd87f5d28526f5189d.min.js -O sentry.js
