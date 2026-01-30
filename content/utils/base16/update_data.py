@@ -102,7 +102,7 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
     """
     logger.info(f"Fetching scheme list from {url}")
     try:
-        with request.urlopen(url) as response:
+        with request.urlopen(url, timeout=30) as response:
             return read_kv(response.read())
     except Exception as e:
         logger.error(f"Failed to fetch repo list: {e}")
@@ -150,8 +150,12 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
                     'GIT_TERMINAL_PROMPT': '0'
                 },
                 check=True,
-                capture_output=True
+                capture_output=True,
+                timeout=60
             )
+        except subprocess.TimeoutExpired:
+            logger.error(f"Git clone timed out for {repo_name}")
+            return {}
         except subprocess.CalledProcessError as e:
             logger.error(f"Git clone failed for {repo_name}: {e}")
             return {}
