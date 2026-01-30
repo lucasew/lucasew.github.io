@@ -98,4 +98,12 @@ do their job unless proven otherwise.
 
 ## 2026-01-30 - Add timeouts to Base16 update script
 
-**Issue:** The `content/utils/base16/update_data.py` script performed network operations (`urllib.request.urlopen` and `subprocess.run` for `git clone`) without specifying timeouts. This could cause the script to hang indefinitely if the network was unreachable or the remote server didn't respond. **Root Cause:** Missing `timeout` parameter in blocking I/O calls. **Solution:** Added explicit `timeout=30` to `urlopen` and `timeout=60` to `subprocess.run`. Also added a specific exception handler for `subprocess.TimeoutExpired`. **Pattern:** Always define explicit timeouts for network requests and subprocess execution to prevent indefinite blocking and ensure script robustness.
+**Issue:** The `content/utils/base16/update_data.py` script performed network
+operations (`urllib.request.urlopen` and `subprocess.run` for `git clone`)
+without specifying timeouts. This could cause the script to hang indefinitely if
+the network was unreachable or the remote server didn't respond. **Root Cause:**
+Missing `timeout` parameter in blocking I/O calls. **Solution:** Added explicit
+`timeout=30` to `urlopen` and `timeout=60` to `subprocess.run`. Also added a
+specific exception handler for `subprocess.TimeoutExpired`. **Pattern:** Always
+define explicit timeouts for network requests and subprocess execution to
+prevent indefinite blocking and ensure script robustness.
