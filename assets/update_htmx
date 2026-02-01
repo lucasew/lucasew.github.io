@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
+#
+# Fetches the HTMX library.
+#
+# Source: https://unpkg.com/htmx.org@2.0.4
+# Destination: assets/htmx.js
+#
+# Why:
+# - Pins version 2.0.4 to ensure stability and reproducibility.
+# - Downloaded to assets/ to be processed by Hugo's asset pipeline.
+#
+
 cd "$(dirname "$0")"
 wget https://unpkg.com/htmx.org@2.0.4 -O htmx.js

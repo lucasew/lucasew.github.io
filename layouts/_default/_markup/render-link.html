@@ -1,3 +1,13 @@
+{{/*
+    Custom Link Render Hook
+
+    Overrides default Markdown link rendering to enforce security and UX best practices.
+
+    Behavior:
+    - target="_blank": Opens all links in a new tab.
+    - rel="noopener noreferrer": Prevents tabnabbing and leaks of referrer info.
+    - rel="external": Added only if the URL is absolute (external link).
+*/}}
 {{- $u := urls.Parse .Destination -}}
 <a href="{{ .Destination | safeURL }}" target="_blank" {{- with .Title }} title="{{ . }}" {{ end -}} rel="noopener noreferrer{{ if $u.IsAbs }} external{{ end }}">
   {{- .Text | safeHTML -}}

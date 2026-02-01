@@ -1,3 +1,18 @@
+{{/*
+    Eval Shortcode
+
+    Executes the inner content as a Go template.
+    This allows dynamic logic (like partials, variables, or functions) to be used
+    directly inside a Markdown file.
+
+    Flow:
+    1. Hashing: Generates a unique filename based on content hash.
+    2. Resource Creation: Creates a Hugo resource from the string.
+    3. Execution: Executes the resource as a template with the current Page context.
+    4. Output: Renders the result as safe HTML.
+
+    Note: Use with caution as this allows arbitrary template execution.
+*/}}
 {{- $content := .Inner -}}
 {{- $f := md5 $content | printf "%s.txt" -}}
 {{- $content := resources.FromString $f $content -}}

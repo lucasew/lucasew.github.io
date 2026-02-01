@@ -7,11 +7,27 @@
     </label>
 
     <script>
-        
+        /**
+         * Theme Toggle Logic
+         *
+         * Handles switching between dark and light modes.
+         * Priority:
+         * 1. LocalStorage 'theme' key.
+         * 2. System preference (prefers-color-scheme).
+         *
+         * Uses an IIFE to avoid polluting the global scope.
+         */
         (function () {
+            // Prevent double initialization if script is re-evaluated (e.g. by HTMX)
             if (document.currentScript.dataset.setup) return      
             const toggle = document.getElementById("theme-toggle")
             const themeKey = "theme"
+
+            /**
+             * Updates the theme based on events or initial load.
+             *
+             * @param {Event} [e] - The event that triggered the update (change event).
+             */
             function onThemeUpdate(e) {
                 const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 const savedTheme = localStorage.getItem(themeKey)  ?? (userPrefersDark ? 'dark' : 'light')
