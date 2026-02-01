@@ -12,6 +12,7 @@ Convention:
 Purpose:
     - To avoid manually typing dates for imported or new posts that follow the naming convention.
     - To ensure consistency between the filesystem structure and the metadata.
+    - Runs as part of the `update.sh` task in the CI pipeline or local development.
 
 Refactoring:
     - Encapsulated logic into `Post` class for better structure and testability.
@@ -29,6 +30,8 @@ logger = logging.getLogger(__name__)
 
 # Constants
 ROOT = Path(__file__).parent
+# Non-greedy match (.*?) ensures we only capture the first frontmatter block,
+# even if horizontal rules (---) exist later in the content.
 FRONTMATTER_PATTERN = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -36,20 +39,31 @@ class Post:
     """
     Represents a blog post page bundle (directory) and handles frontmatter manipulation
     for all markdown files within it.
+
+    This abstraction simplifies handling multiple files (e.g., localized versions like index.pt.md)
+    that belong to the same post and should share the same date derived from the directory.
     """
 
     def __init__(self, bundle_dir: Path):
         """
+        Initializes the Post instance.
+
         Args:
             bundle_dir: Path object pointing to the page bundle directory.
+                        Expected to follow the naming convention `YYYYMMDD-slug`.
         """
         self.bundle_dir = bundle_dir
 
     def extract_date(self) -> Optional[str]:
         """
         Extracts the date from the bundle directory name (YYYYMMDD-slug).
+
+        It parses the directory name relative to the script's root, expecting the
+        first 8 characters to be digits representing YYYYMMDD.
+
         Returns:
-            ISO 8601 date string (YYYY-MM-DDTHH:MM:SS) or None if invalid.
+            ISO 8601 date string (YYYY-MM-DDTHH:MM:SS) if the format matches,
+            or None if the directory name doesn't follow the convention or is invalid.
         """
         try:
             # e.g. "content/post/20210228-slug" -> relative "20210228-slug"
@@ -68,7 +82,12 @@ class Post:
             return None
 
     def has_existing_date(self, content: str) -> bool:
-        """Checks if the 'date:' key is already present in the frontmatter."""
+        """
+        Checks if the 'date:' key is already present in the frontmatter.
+
+        Uses regex to search only within the YAML frontmatter block to avoid
+        false positives if 'date:' appears in the post body.
+        """
         match = FRONTMATTER_PATTERN.search(content)
         if not match:
             return False
@@ -78,7 +97,13 @@ class Post:
     def inject_date(self, content: str, date_str: str) -> str:
         """
         Injects the date into the frontmatter.
-        Returns the modified content.
+
+        The method prepends `date: <date_str>` to the beginning of the frontmatter body.
+        It preserves all existing frontmatter fields and the rest of the file content.
+
+        Returns:
+            The modified content with the injected date. Returns original content
+            if no frontmatter block is found.
         """
         match = FRONTMATTER_PATTERN.search(content)
         if not match:
@@ -92,7 +117,15 @@ class Post:
         return content[:start] + new_frontmatter_body + content[end:]
 
     def _process_file(self, file_path: Path, date_str: str):
-        """Helper to process a single markdown file."""
+        """
+        Helper to process a single markdown file.
+
+        Reads the file, checks for existing date, and writes back the modified content
+        if necessary. Logs errors if read/write operations fail.
+
+        Side Effects:
+            - Modifies the file at `file_path` in-place.
+        """
         try:
             content = file_path.read_text(encoding='utf-8')
         except Exception as e:
@@ -113,6 +146,9 @@ class Post:
     def process(self):
         """
         Orchestrates the update process for all markdown files in the bundle.
+
+        It derives the date once from the directory name and applies it to all
+        `index*.md` files (e.g., `index.md`, `index.pt.md`) found in the bundle.
         """
         date_str = self.extract_date()
         if not date_str:
@@ -126,6 +162,11 @@ class Post:
 def main():
     """
     Main entry point. Scans for page bundles and updates them.
+
+    Strategy:
+        1. Find all `index*.md` files recursively.
+        2. Identify unique parent directories (Page Bundles).
+        3. Instantiate a `Post` object for each bundle and process it.
     """
     # Collect unique page bundle directories
     # We find all index files, then take their parent directories.
