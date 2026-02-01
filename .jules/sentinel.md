@@ -109,3 +109,11 @@ it does _not_ prevent argument injection into the called program itself.
 2. **Argument Separation:** Use the `--` separator (e.g., `git clone -- <url>`)
    to explicitly tell the command that subsequent arguments are positional,
    preventing them from being interpreted as options.
+
+## 2026-01-23 - Missing Subresource Integrity (SRI) for External CSS
+
+**Vulnerability:** The `layouts/utils_home/baseof.html` template loads an external CSS file (`normalize.css`) from `jsdelivr` without an integrity hash.
+
+**Learning:** Loading external resources without integrity checks allows for supply chain attacks if the CDN is compromised.
+
+**Prevention:** Use `resources.GetRemote` and `fingerprint` for all external assets.
