@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
+#
+# Fetches the Sentry SDK.
+#
+# Source: https://js.sentry-cdn.com/df310b7f294d8efd87f5d28526f5189d.min.js
+# Destination: assets/sentry.js
+#
+# Why:
+# - Uses the specific project loader URL for this site.
+# - Local download prevents render-blocking 3rd party requests.
+#
+
 cd "$(dirname "$0")"
 wget https://js.sentry-cdn.com/df310b7f294d8efd87f5d28526f5189d.min.js -O sentry.js
