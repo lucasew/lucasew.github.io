@@ -107,3 +107,16 @@ Missing `timeout` parameter in blocking I/O calls. **Solution:** Added explicit
 specific exception handler for `subprocess.TimeoutExpired`. **Pattern:** Always
 define explicit timeouts for network requests and subprocess execution to
 prevent indefinite blocking and ensure script robustness.
+
+## 2026-02-05 - Refactor constants in base16 update script
+
+**Issue:** The `content/utils/base16/update_data.py` script defined `COLOR_KEYS`
+as a 16-line hardcoded list (`base00` to `base0F`) and re-compiled a regex
+pattern inside the `read_kv` function, which is verbose and slightly
+inefficient. **Root Cause:** Explicitly listing sequential keys adds visual
+noise and increases the risk of typos. Compiling regex inside a function that is
+called repeatedly is not ideal. **Solution:** Replaced the list with a list
+comprehension `[f"base{i:02X}" for i in range(16)]` and moved the regex
+compilation to a module-level constant `KV_PATTERN`. **Pattern:** Use list
+comprehensions for predictable sequences to reduce code volume. Define constant
+regex patterns at the module level to improve readability and signal intent.

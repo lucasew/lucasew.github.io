@@ -36,25 +36,9 @@ logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).parent
-COLOR_KEYS = [
-    'base00',
-    'base01',
-    'base02',
-    'base03',
-    'base04',
-    'base05',
-    'base06',
-    'base07',
-    'base08',
-    'base09',
-    'base0A',
-    'base0B',
-    'base0C',
-    'base0D',
-    'base0E',
-    'base0F',
-]
+COLOR_KEYS = [f"base{i:02X}" for i in range(16)]
 SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes-source/refs/heads/main/list.yaml"
+KV_PATTERN = re.compile(r"^(?P<key>.*): (?P<value>[^#]*)")
 
 
 def read_kv(data: str | bytes) -> Dict[str, str]:
@@ -72,13 +56,12 @@ def read_kv(data: str | bytes) -> Dict[str, str]:
         A dictionary containing the parsed key-value pairs. Returns an empty
         dict if no valid pairs are found.
     """
-    line_regexp = re.compile(r"^(?P<key>.*): (?P<value>[^#]*)")
     ret = {}
     if isinstance(data, bytes):
         data = data.decode('utf-8')
     for item in data.split('\n'):
         item_str = item.strip()
-        match = line_regexp.match(item_str)
+        match = KV_PATTERN.match(item_str)
         if not match:
             continue
         key = match.group('key').strip()
