@@ -5,9 +5,9 @@ _.path = ["./node_modules/.bin"]
 node = "25.4.0"
 hugo = "0.154.5"
 python = "3.12"
-ruff = "latest"
-actionlint = "latest"
-shellcheck = "latest"
+ruff = "0.15.0"
+actionlint = "1.7.10"
+shellcheck = "0.11.0"
 
 [tasks.install]
 description = "Install dependencies"
