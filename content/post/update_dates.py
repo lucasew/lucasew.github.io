@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Optional
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger(__name__)
 
 # Constants
@@ -57,7 +57,7 @@ class Post:
             # e.g. "content/post/20210228-slug" -> relative "20210228-slug"
             # -> parts[0] "20210228-slug"
             dir_name = self.bundle_dir.relative_to(ROOT).parts[0]
-            date_part = dir_name.split('-')[0]
+            date_part = dir_name.split("-")[0]
 
             if len(date_part) != 8 or not date_part.isdigit():
                 logger.warning(
@@ -78,7 +78,7 @@ class Post:
         if not match:
             return False
         frontmatter_content = match.group(1)
-        return 'date:' in frontmatter_content
+        return "date:" in frontmatter_content
 
     def inject_date(self, content: str, date_str: str) -> str:
         """
@@ -99,7 +99,7 @@ class Post:
     def _process_file(self, file_path: Path, date_str: str):
         """Helper to process a single markdown file."""
         try:
-            content = file_path.read_text(encoding='utf-8')
+            content = file_path.read_text(encoding="utf-8")
         except Exception as e:
             logger.error(f"Failed to read {file_path}: {e}")
             return
@@ -111,7 +111,7 @@ class Post:
         new_content = self.inject_date(content, date_str)
 
         try:
-            file_path.write_text(new_content, encoding='utf-8')
+            file_path.write_text(new_content, encoding="utf-8")
         except Exception as e:
             logger.error(f"{file_path}: Failed to write: {e}")
 
@@ -125,7 +125,7 @@ class Post:
 
         # Iterate over all markdown files (e.g., index.md, index.pt.md)
         for file_path in self.bundle_dir.glob("index*.md"):
-             self._process_file(file_path, date_str)
+            self._process_file(file_path, date_str)
 
 
 def main():
@@ -136,9 +136,7 @@ def main():
     # We find all index files, then take their parent directories.
     # Using a set to ensure uniqueness.
     bundle_dirs = {
-        item.parent
-        for item in ROOT.glob('**/index*')
-        if item.parent != ROOT
+        item.parent for item in ROOT.glob("**/index*") if item.parent != ROOT
     }
 
     for bundle_dir in bundle_dirs:
