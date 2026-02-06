@@ -1,6 +1,8 @@
 {{- define "content" -}}
 <section>
-  {{ .Content }} {{ range .Pages.ByDate.Reverse }}
+  {{ .Content }}
+
+  {{ range .Pages.ByDate.Reverse }}
   <div class="card bg-base-200 shadow-sm m-2">
     <div class="card-body">
       <a href="{{ .Permalink | absURL }}">

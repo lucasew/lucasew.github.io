@@ -2,21 +2,22 @@
 <h1>{{ .Title }}</h1>
 
 {{ with .Params.alsoAvailable }}
-<i
-  >{{ i18n "also-available-on"}}: {{ range $k, $v := . }}
-  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}"
-    >[{{ add $k 1 }}]</a
-  >
+<i>{{ i18n "also-available-on"}}:
+  {{ range $k, $v := . }}
+  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}">[{{ add $k 1 }}]</a>
   {{ end }}
 </i>
 <br />
-{{ end }} {{ with .Params.discussedOn }}
-<i
-  >{{ i18n "discussed-on"}}: {{ range $k, $v := . }}
-  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}"
-    >[{{ add $k 1 }}]</a
-  >
+{{ end }}
+
+{{ with .Params.discussedOn }}
+<i>{{ i18n "discussed-on"}}:
+  {{ range $k, $v := . }}
+  <a target="_blank" rel="noopener noreferrer" href="{{ $v }}">[{{ add $k 1 }}]</a>
   {{ end }}
 </i>
 <br />
-{{ end }} {{ .Content }} {{- end -}}
+{{ end }}
+
+{{ .Content }}
+{{- end -}}
