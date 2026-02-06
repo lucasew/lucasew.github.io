@@ -1,5 +1,4 @@
 ---
-
 date: 2025-12-04T00:00:00
 title: Setup Nomad com Coolify
 summary: Como eu to conseguindo subir o Nomad e integrar com o Traefik do Coolify
@@ -81,7 +80,7 @@ job "hello-world" {
         command = "httpd"
         args    = ["-v", "-f", "-p", "${NOMAD_PORT_www}", "-h", "/local"]
         ports   = ["www"]
-        
+
       }
 
       template {

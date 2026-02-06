@@ -2,22 +2,61 @@
 _.path = ["./node_modules/.bin"]
 
 [tools]
-node = "25.4.0"
-hugo = "0.154.5"
+node = "22.13.1"
+hugo = "0.145.0"
+python = "3.12"
+ruff = "latest"
+actionlint = "latest"
+
+[tasks.install]
+description = "Install dependencies"
+run = "npm install"
+
+[tasks.lint]
+description = "Lint all code"
+depends = ["lint:*"]
+
+[tasks."lint:ruff"]
+run = "ruff check ."
+
+[tasks."lint:eslint"]
+run = "npx eslint ."
+
+[tasks."lint:prettier"]
+run = "npx prettier --check ."
+
+[tasks."lint:actionlint"]
+run = "actionlint"
+
+[tasks.fmt]
+description = "Format all code"
+depends = ["fmt:*"]
+
+[tasks."fmt:ruff"]
+run = "bash -c 'ruff check --fix . && ruff format .'"
+
+[tasks."fmt:prettier"]
+run = "npx prettier --write ."
+
+[tasks."fmt:dprint"]
+run = "dprint fmt"
+
+[tasks.test]
+description = "Run tests"
+run = "echo 'No tests found'"
+
+[tasks.codegen]
+description = "Generate all code"
+depends = ["codegen:*"]
 
 [tasks."codegen:data"]
 description = "Run update.sh"
 run = "./update.sh"
 
-[tasks."codegen:fmt"]
-depends = ["fmt"]
+[tasks.build]
+description = "Build the site"
+run = "hugo --minify --baseURL ${URL:-https://lucasew.github.io}"
 
-[tasks."fmt:dprint"]
-run = "dprint fmt"
-
-[tasks."fmt"]
-depends = ["fmt:*"]
-
-[tasks.codegen]
-description = "Generate all code"
-depends = ["codegen:*"]
+[tasks.ci]
+description = "Run CI checks"
+depends = ["lint", "test", "build"]

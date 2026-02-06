@@ -1,12 +1,11 @@
 ---
-
 date: 2023-11-09T00:00:00
-title: "Como agregar contas do drive?"
-summary: "Como usar a cota de uma conta com mais capacidade sem comprometer o conteúdo que já está lá"
+title: 'Como agregar contas do drive?'
+summary: 'Como usar a cota de uma conta com mais capacidade sem comprometer o conteúdo que já está lá'
 math: false
 showToc: true
 alsoAvailable:
-   - https://blog-do-lucao.vercel.app/post/20231109-drive-union/
+  - https://blog-do-lucao.vercel.app/post/20231109-drive-union/
 ---
 
 # Overview
@@ -196,13 +195,13 @@ Setting your own is recommended.
 See https://rclone.org/drive/#making-your-own-client-id for how to create your own.
 If you leave this blank, it will use an internal key which is low performance.
 Enter a value. Press Enter to leave empty.
-client_id> 
+client_id>
 
 Option client_secret.
 OAuth Client Secret.
 Leave blank normally.
 Enter a value. Press Enter to leave empty.
-client_secret> 
+client_secret>
 
 Option scope.
 Scope that rclone should use when requesting access from drive.
@@ -230,7 +229,7 @@ Leave blank normally.
 Needed only if you want use SA instead of interactive login.
 Leading `~` will be expanded in the file name as will environment variables such as `${RCLONE_CONFIG_DIR}`.
 Enter a value. Press Enter to leave empty.
-service_account_file> 
+service_account_file>
 
 Edit advanced config?
 y) Yes
@@ -244,7 +243,7 @@ If not sure try Y. If Y failed, try N.
 
 y) Yes (default)
 n) No
-y/n> 
+y/n>
 
 2023/11/09 10:41:12 NOTICE: If your browser doesn't open automatically go to the following link: http://127.0.0.1:53682/auth?state=vascodagama
 2023/11/09 10:41:12 NOTICE: Log in and authorize rclone for access

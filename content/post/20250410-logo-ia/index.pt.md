@@ -1,5 +1,4 @@
 ---
-
 date: 2025-04-10T00:00:00
 title: Como a IA me ajudou a fazer uma logo
 summary: O processo que eu segui para fazer uma logo que ficasse do meu agrado

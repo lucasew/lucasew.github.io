@@ -1,8 +1,7 @@
 ---
-
 date: 2025-09-19T00:00:00
-title: "Release automation and testing on CI"
-summary: "How I am doing it in my projects"
+title: 'Release automation and testing on CI'
+summary: 'How I am doing it in my projects'
 discussedOn:
   - https://lobste.rs/s/isdngh/release_automation_testing_on_ci
   - https://t.me/canaldolucao/1943
@@ -65,9 +64,9 @@ name: Autorelease
 on:
   push:
     branches:
-    - main
+      - main
     tags:
-    - '*'
+      - '*'
   workflow_dispatch:
     inputs:
       new_version:
@@ -89,101 +88,100 @@ jobs:
       id-token: write
       pull-requests: write
     steps:
+      - uses: actions/checkout@v5
+      - name: Setup git config
+        run: |
+          git config user.name actions-bot
+          git config user.email actions-bot@users.noreply.github.com
 
-    - uses: actions/checkout@v5
-    - name: Setup git config
-      run: |
-        git config user.name actions-bot
-        git config user.email actions-bot@users.noreply.github.com
+      - uses: jdx/mise-action@v3
 
-    - uses: jdx/mise-action@v3
+      - name: Create Pull Request if there is new stuff from updaters
+        uses: peter-evans/create-pull-request@v7
+        id: pr_create
+        with:
+          commit-message: Updater script changes
+          branch: updater-bot
+          delete-branch: true
+          title: 'Updater: stuff changed'
+          body: |
+            Changes caused from update scripts
 
-    - name: Create Pull Request if there is new stuff from updaters
-      uses: peter-evans/create-pull-request@v7
-      id: pr_create
-      with:
-        commit-message: Updater script changes
-        branch: updater-bot
-        delete-branch: true
-        title: "Updater: stuff changed"
-        body: |
-          Changes caused from update scripts
+      - name: Stop if a pull request was created
+        env:
+          PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
+        run: |
+          if [[ ! -z "$PR_NUMBER" ]]; then
+            echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
 
-    - name: Stop if a pull request was created
-      env:
-        PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
-      run: |
-        if [[ ! -z "$PR_NUMBER" ]]; then
-          echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
-          exit 1
-        fi
-
-    - name: Build binaries
-      env:
-        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      run: |
-        echo "::group::Build container"
-        docker build -t "$TAG:latest" .
-        echo "::endgroup::"
-
-        mkdir build -p && ls && pwd
-
-        echo "# Built targets" >> $GITHUB_STEP_SUMMARY
-        export CGO_ENABLED=0
-        go tool dist list | grep -v wasm | while IFS=/ read -r GOOS GOARCH; do
-          echo "::group::Build $GOOS/$GOARCH"
-          GOOS=$GOOS GOARCH=$GOARCH go build -v -o build/ts-proxyd-$GOOS-$GOARCH ./cmd/ts-proxyd && (echo "- $GOOS/$GOARCH" >> $GITHUB_STEP_SUMMARY) || true
+      - name: Build binaries
+        env:
+          TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        run: |
+          echo "::group::Build container"
+          docker build -t "$TAG:latest" .
           echo "::endgroup::"
-        done
 
-    - name: Make release if everything looks right
-      env:
-        NEW_VERSION: ${{ github.event.inputs.new_version }}
-      run: |
-        if [[ ! -z "$NEW_VERSION" ]]; then
-          NO_TAG=1 ./make_release "$NEW_VERSION"
-          echo "New version: $(cat version.txt)" >> $GITHUB_STEP_SUMMARY
-          echo "RELEASE_VERSION=$(cat version.txt)" >> $GITHUB_ENV
-        fi
+          mkdir build -p && ls && pwd
 
-    - name: Create release
-      if: env.RELEASE_VERSION != ''
-      env:
+          echo "# Built targets" >> $GITHUB_STEP_SUMMARY
+          export CGO_ENABLED=0
+          go tool dist list | grep -v wasm | while IFS=/ read -r GOOS GOARCH; do
+            echo "::group::Build $GOOS/$GOARCH"
+            GOOS=$GOOS GOARCH=$GOARCH go build -v -o build/ts-proxyd-$GOOS-$GOARCH ./cmd/ts-proxyd && (echo "- $GOOS/$GOARCH" >> $GITHUB_STEP_SUMMARY) || true
+            echo "::endgroup::"
+          done
+
+      - name: Make release if everything looks right
+        env:
+          NEW_VERSION: ${{ github.event.inputs.new_version }}
+        run: |
+          if [[ ! -z "$NEW_VERSION" ]]; then
+            NO_TAG=1 ./make_release "$NEW_VERSION"
+            echo "New version: $(cat version.txt)" >> $GITHUB_STEP_SUMMARY
+            echo "RELEASE_VERSION=$(cat version.txt)" >> $GITHUB_ENV
+          fi
+
+      - name: Create release
+        if: env.RELEASE_VERSION != ''
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ env.RELEASE_VERSION }}
           TITLE: Release ${{ env.RELEASE_VERSION }}
-      run: |
-        gh release create "$TAG" \
-          --title "$TITLE" \
-          --generate-notes \
-          --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName) 
+        run: |
+          gh release create "$TAG" \
+            --title "$TITLE" \
+            --generate-notes \
+            --notes-start-tag $(gh release list --limit 1 --json tagName -q .[].tagName)
 
-    - uses: svenstaro/upload-release-action@v2
-      if: env.RELEASE_VERSION != ''
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/*
-        tag: ${{ env.RELEASE_VERSION }}
-        overwrite: true
-        file_glob: true
+      - uses: svenstaro/upload-release-action@v2
+        if: env.RELEASE_VERSION != ''
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: build/*
+          tag: ${{ env.RELEASE_VERSION }}
+          overwrite: true
+          file_glob: true
 
-    - name: Login to registry
-      uses: docker/login-action@v3
-      if: env.RELEASE_VERSION != ''
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ env.USERNAME }}
-        password: ${{ github.token }}
+      - name: Login to registry
+        uses: docker/login-action@v3
+        if: env.RELEASE_VERSION != ''
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.USERNAME }}
+          password: ${{ github.token }}
 
-    - name: "Build and publish container"
-      env:
-        TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      if: env.RELEASE_VERSION != ''
-      run: |
-        VERSION="$(cat version.txt)"
-        docker tag "$TAG:latest" "$TAG:$VERSION"
-        docker push "$TAG:$VERSION"
-        docker push "$TAG:latest"
+      - name: 'Build and publish container'
+        env:
+          TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        if: env.RELEASE_VERSION != ''
+        run: |
+          VERSION="$(cat version.txt)"
+          docker tag "$TAG:latest" "$TAG:$VERSION"
+          docker push "$TAG:$VERSION"
+          docker push "$TAG:latest"
 ```
 
 First things first, if you want to take a workflow like this, you must in the

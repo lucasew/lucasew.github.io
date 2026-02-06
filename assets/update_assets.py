@@ -2,18 +2,19 @@
 """
 Asset Updater
 
-Consolidates the downloading of external static assets into a single, data-driven script.
-Replaces multiple bash scripts to improve maintainability and centralize configuration.
+Consolidates the downloading of external static assets into a single,
+data-driven script. Replaces multiple bash scripts to improve
+maintainability and centralize configuration.
 
 Design Pattern: Command / Table-Driven
 Principle: Single Responsibility Principle (SRP), Don't Repeat Yourself (DRY)
 """
 
 import logging
-import urllib.request
 import urllib.error
-from pathlib import Path
+import urllib.request
 from dataclasses import dataclass
+from pathlib import Path
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')

@@ -1,32 +1,43 @@
-    <label class="swap swap-rotate" title="Toggle theme">
-        <input id="theme-toggle" type="checkbox" class="theme-controller" data-toggle-theme="dark,light" aria-label="Toggle theme" value="dark" />
-        <!-- sun emoji shown when checked -->
-        <span class="swap-on text-xl">☀️</span>
-        <!-- moon emoji shown when unchecked -->
-        <span class="swap-off text-xl">🌙</span>
-    </label>
+<label class="swap swap-rotate" title="Toggle theme">
+  <input
+    id="theme-toggle"
+    type="checkbox"
+    class="theme-controller"
+    data-toggle-theme="dark,light"
+    aria-label="Toggle theme"
+    value="dark"
+  />
+  <!-- sun emoji shown when checked -->
+  <span class="swap-on text-xl">☀️</span>
+  <!-- moon emoji shown when unchecked -->
+  <span class="swap-off text-xl">🌙</span>
+</label>
 
-    <script>
-        
-        (function () {
-            if (document.currentScript.dataset.setup) return      
-            const toggle = document.getElementById("theme-toggle")
-            const themeKey = "theme"
-            function onThemeUpdate(e) {
-                const userPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const savedTheme = localStorage.getItem(themeKey)  ?? (userPrefersDark ? 'dark' : 'light')
-                
-                toggle.checked = savedTheme == 'dark'
-                // console.log('change theme', savedTheme, userPrefersDark, e)
-                if (e && e.target) {
-                    toggle.checked = !toggle.checked
-                    localStorage.setItem(themeKey, e.target.checked ? 'dark' : 'light')
-                }
-            }
-            onThemeUpdate()    
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => onThemeUpdate())
-            toggle.addEventListener('change', onThemeUpdate)
+<script>
+  ;(function () {
+    if (document.currentScript.dataset.setup) return
+    const toggle = document.getElementById('theme-toggle')
+    const themeKey = 'theme'
+    function onThemeUpdate(e) {
+      const userPrefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)',
+      ).matches
+      const savedTheme =
+        localStorage.getItem(themeKey) ?? (userPrefersDark ? 'dark' : 'light')
 
-            document.currentScript.dataset.setup = true
-        })()
-    </script>
+      toggle.checked = savedTheme == 'dark'
+      // console.log('change theme', savedTheme, userPrefersDark, e)
+      if (e && e.target) {
+        toggle.checked = !toggle.checked
+        localStorage.setItem(themeKey, e.target.checked ? 'dark' : 'light')
+      }
+    }
+    onThemeUpdate()
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', () => onThemeUpdate())
+    toggle.addEventListener('change', onThemeUpdate)
+
+    document.currentScript.dataset.setup = true
+  })()
+</script>

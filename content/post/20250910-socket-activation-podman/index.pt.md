@@ -1,9 +1,8 @@
 ---
-
 date: 2025-09-10T00:00:00
 
-title: "Socket activation com systemd e podman"
-summary: "Murros em pontas de faca e macetes aprendidos no processo"
+title: 'Socket activation com systemd e podman'
+summary: 'Murros em pontas de faca e macetes aprendidos no processo'
 ---
 
 Aoba, aqui é o Lucão. Primeiro post depois do alinhamento do olho, que eu fiz a

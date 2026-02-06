@@ -1,5 +1,4 @@
 ---
-
 date: 2025-11-18T00:00:00
 title: Acionando FGC
 summary: O processo de acionar o FGC na prática

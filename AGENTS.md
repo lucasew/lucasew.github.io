@@ -8,11 +8,12 @@ Security headers are not a priority as there is no dynamic content or user data.
 
 ## Environment & Commands
 
-- **Setup**: `mise install`
+- **Setup**: `mise install` (tools) && `mise run install` (dependencies)
 - **Dev**: `hugo server` (http://localhost:1313)
-- **Build**: `hugo` or `hugo --minify --baseURL https://lucasew.github.io`
-- **Format**: `dprint fmt`
-- **Maintenance**: `./update.sh` (runs Python scripts prefixed with `update_`)
+- **Build**: `mise run build`
+- **Lint**: `mise run lint`
+- **Format**: `mise run fmt`
+- **Maintenance**: `mise run codegen` (runs `./update.sh`)
 
 ## Architecture
 
@@ -27,5 +28,5 @@ Security headers are not a priority as there is no dynamic content or user data.
 - **Hugo Version**: Must match in `mise.toml` and `vercel.json`. mise.toml takes
   precedence.
 - **Goldmark**: Unsafe mode is enabled for raw HTML.
-- **CI/CD**: GitHub Actions (`.github/workflows/gh-pages.yaml`) runs
-  `./update.sh` weekly and on push.
+- **CI/CD**: GitHub Actions (`.github/workflows/autorelease.yaml`) runs
+  `mise run codegen` and `mise run ci`.

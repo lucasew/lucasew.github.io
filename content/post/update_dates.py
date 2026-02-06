@@ -2,24 +2,26 @@
 """
 Post Date Backfiller
 
-This script automatically populates the `date` field in the frontmatter of Hugo content files
-based on the directory naming convention.
+This script automatically populates the `date` field in the frontmatter of
+Hugo content files based on the directory naming convention.
 
 Convention:
     The script assumes a directory structure like `content/post/YYYYMMDD-slug/index.md`.
     It extracts the date from the `YYYYMMDD` prefix of the parent directory.
 
 Purpose:
-    - To avoid manually typing dates for imported or new posts that follow the naming convention.
+    - To avoid manually typing dates for imported or new posts that follow the
+      naming convention.
     - To ensure consistency between the filesystem structure and the metadata.
 
 Refactoring:
     - Encapsulated logic into `Post` class for better structure and testability.
-    - Post class now represents a Page Bundle (directory) and processes all markdown files within it.
+    - Post class now represents a Page Bundle (directory) and processes all
+      markdown files within it.
 """
 
-import re
 import logging
+import re
 from pathlib import Path
 from typing import Optional
 
@@ -58,7 +60,10 @@ class Post:
             date_part = dir_name.split('-')[0]
 
             if len(date_part) != 8 or not date_part.isdigit():
-                logger.warning(f"{self.bundle_dir}: Could not extract valid date from '{dir_name}'.")
+                logger.warning(
+                    f"{self.bundle_dir}: Could not extract valid date from "
+                    f"'{dir_name}'."
+                )
                 return None
 
             y, m, d = date_part[0:4], date_part[4:6], date_part[6:8]

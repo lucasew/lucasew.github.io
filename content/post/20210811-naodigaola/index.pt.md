@@ -1,10 +1,9 @@
 ---
-
 date: 2021-08-11T00:00:00
-title: "Não diga só olá"
+title: 'Não diga só olá'
 aliases:
   - /nohello.pt
-summary: "Porque você deveria só chegar desenrolando o assunto"
+summary: 'Porque você deveria só chegar desenrolando o assunto'
 alsoAvailable:
   - https://blog-do-lucao.vercel.app/post/naodigaola
 ---

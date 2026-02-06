@@ -1,5 +1,4 @@
 ---
-
 date: 2025-01-05T00:00:00
 title: Média de posição no Beancount
 summary: A saga para fazer o Beancount funcionar direito com as regras Brasileiras do mercado de ações
@@ -192,14 +191,14 @@ fixers = {}
 def fixer(func):
     fixers[func.__name__] = func
     return func
-       
+
 
 def counter(initial=0):
     i = initial
     while True:
         yield i
         i += 1
-            
+
 
 @fixer
 def b3(entries):

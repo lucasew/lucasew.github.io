@@ -1,6 +1,6 @@
 ---
-title: "Publicações"
-summary: "Postagens de blog"
+title: 'Publicações'
+summary: 'Postagens de blog'
 ---
 
 # Publicações

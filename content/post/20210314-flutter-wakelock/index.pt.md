@@ -1,9 +1,9 @@
 ---
-title: "Como manter a tela ligada durante o desenvolvimento de um app Flutter"
+title: 'Como manter a tela ligada durante o desenvolvimento de um app Flutter'
 date: 2021-03-14T10:53:51-03:00
-summary: "Configurando um wakelock se o aplicativo estiver sendo executado em modo dev"
+summary: 'Configurando um wakelock se o aplicativo estiver sendo executado em modo dev'
 alsoAvailable:
-- https://blog-do-lucao.vercel.app/post/flutter_wakelock
+  - https://blog-do-lucao.vercel.app/post/flutter_wakelock
 ---
 
 # Overview

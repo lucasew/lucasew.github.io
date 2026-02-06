@@ -1,0 +1,17 @@
+# Generated files
+public/
+resources/
+content/utils/base16/
+
+# Assets handled by external scripts
+assets/*.js
+
+# Node
+node_modules/
+
+# Markdown handled by dprint
+*.md
+
+# Hugo
+hugo_stats.json
+layouts/

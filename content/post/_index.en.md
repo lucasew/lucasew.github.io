@@ -1,6 +1,6 @@
 ---
-title: "Posts"
-summary: "Blog posts"
+title: 'Posts'
+summary: 'Blog posts'
 ---
 
 # Posts

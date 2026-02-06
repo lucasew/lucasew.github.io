@@ -1,12 +1,11 @@
 ---
-
 date: 2024-10-14T00:00:00
-title: "Wallabag no NixOS"
-summary: "A saga para configurar o Wallabag como um módulo integrado com HTTPS no NixOS"
+title: 'Wallabag no NixOS'
+summary: 'A saga para configurar o Wallabag como um módulo integrado com HTTPS no NixOS'
 math: false
 showToc: true
 alsoAvailable:
-    - https://blog-do-lucao.vercel.app/post/20241014-wallabag/
+  - https://blog-do-lucao.vercel.app/post/20241014-wallabag/
 ---
 
 Eae pessoal!!! Quanto tempo!
@@ -196,7 +195,7 @@ def find_urls():
                 AddEntryParams.TITLE: post['resolved_title'],
                 AddEntryParams.STARRED: post['favorite'] == 1
             })
-    
+
 data = find_urls()
 data  = list(data)
 # print(data[:4])

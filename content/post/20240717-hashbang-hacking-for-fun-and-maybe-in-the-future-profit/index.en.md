@@ -1,7 +1,6 @@
 ---
-
 date: 2024-07-17T00:00:00
-title: Hashbang hacking for fun and, maybe in the future, profit 
+title: Hashbang hacking for fun and, maybe in the future, profit
 summary: This is the story of how I created a thing to make self contained scripts.
 language: en
 alsoAvailable:

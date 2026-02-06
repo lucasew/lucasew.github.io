@@ -1,6 +1,6 @@
 ---
 title: Utilities
-summary: "Utilities and small tools"
+summary: 'Utilities and small tools'
 ---
 
 # Utilities

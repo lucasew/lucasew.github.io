@@ -9,14 +9,16 @@ markdown files with frontmatter that can be used by the Hugo site.
 
 Flow:
 1. Fetch the master list of theme repositories.
-2. Clone each repository in parallel (using ThreadPoolExecutor) to a temporary directory.
+2. Clone each repository in parallel (using ThreadPoolExecutor) to a temporary
+   directory.
 3. Parse YAML files to extract color schemes.
 4. Filter out incomplete themes (missing required base00-base0F keys).
 5. Generate individual markdown files (theme_*.md) in the script's directory.
 
 Note:
     - This script requires `git` to be installed and available in the PATH.
-    - It uses temporary directories for cloning to ensure a clean state and avoid conflicts.
+    - It uses temporary directories for cloning to ensure a clean state and avoid
+      conflicts.
     - Network errors during cloning are logged but do not stop the entire process.
 """
 
@@ -28,7 +30,7 @@ import subprocess
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 from urllib import request
 
 # Configure logging
@@ -130,9 +132,13 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
     repo_themes = {}
     logger.info(f"Processing repo: {repo_name} ({repo_url})")
 
-    # SECURITY: Validate protocol to prevent schemes like file:// or ssh:// (which can have options injection risks)
+    # SECURITY: Validate protocol to prevent schemes like file:// or ssh://
+    # (which can have options injection risks)
     if not repo_url.startswith("https://"):
-        logger.error(f"Skipping {repo_name}: Invalid protocol in {repo_url} (only https allowed)")
+        logger.error(
+            f"Skipping {repo_name}: Invalid protocol in {repo_url} "
+            "(only https allowed)"
+        )
         return {}
 
     with tempfile.TemporaryDirectory() as tmpdir_str:
@@ -271,7 +277,9 @@ def main():
     # Process repos in parallel
     with ThreadPoolExecutor() as executor:
         # map returns a generator, iterate to consume
-        results = executor.map(lambda item: process_theme_repo(item[0], item[1]), repos.items())
+        results = executor.map(
+            lambda item: process_theme_repo(item[0], item[1]), repos.items()
+        )
 
         for repo_themes in results:
             all_raw_themes.update(repo_themes)
