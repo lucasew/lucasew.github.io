@@ -59,7 +59,7 @@ run = "./update.sh"
 
 [tasks."codegen:fmt"]
 description = "Format generated code"
-depends = ["fmt"]
+depends = ["codegen:data", "fmt"]
 
 [tasks.build]
 description = "Build the site"
