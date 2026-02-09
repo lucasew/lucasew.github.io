@@ -13,3 +13,6 @@ hugo.linux
 /.hugo_build.lock
 node_modules
 hugo.log
+
+# Python
+__pycache__/

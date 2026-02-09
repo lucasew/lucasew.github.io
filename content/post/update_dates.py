@@ -23,8 +23,10 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+import pylib.utils
+
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+pylib.utils.setup_logging()
 logger = logging.getLogger(__name__)
 
 # Constants

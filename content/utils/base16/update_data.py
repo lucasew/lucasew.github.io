@@ -22,38 +22,20 @@ Note:
 
 import json
 import logging
-import os
 import re
-import subprocess
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from urllib import request
+
+import pylib.utils
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+pylib.utils.setup_logging()
 logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).parent
-COLOR_KEYS = [
-    'base00',
-    'base01',
-    'base02',
-    'base03',
-    'base04',
-    'base05',
-    'base06',
-    'base07',
-    'base08',
-    'base09',
-    'base0A',
-    'base0B',
-    'base0C',
-    'base0D',
-    'base0E',
-    'base0F',
-]
+COLOR_KEYS = [f"base{i:02X}" for i in range(16)]
 SCHEME_LIST_URL = "https://raw.githubusercontent.com/chriskempson/base16-schemes-source/refs/heads/main/list.yaml"
 
 
@@ -102,10 +84,9 @@ def fetch_repo_list(url: str) -> Dict[str, str]:
     """
     logger.info(f"Fetching scheme list from {url}")
     try:
-        with request.urlopen(url, timeout=30) as response:
-            return read_kv(response.read())
-    except Exception as e:
-        logger.error(f"Failed to fetch repo list: {e}")
+        content = pylib.utils.fetch_url_content(url)
+        return read_kv(content)
+    except Exception:
         return {}
 
 
@@ -139,28 +120,8 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
         tmpdir = Path(tmpdir_str)
 
         try:
-            # Disable terminal prompts to prevent hanging on authentication requests
-            # SECURITY: Use '--' to separate options from positional arguments (the URL)
-            # This prevents argument injection if repo_url starts with '-'
-            subprocess.run(
-                ['git', 'clone', '--', repo_url, str(tmpdir)],
-                env={
-                    **os.environ,
-                    'GIT_ASKPASS': 'false',
-                    'GIT_TERMINAL_PROMPT': '0'
-                },
-                check=True,
-                capture_output=True,
-                timeout=60
-            )
-        except subprocess.TimeoutExpired:
-            logger.error(f"Git clone timed out for {repo_name}")
-            return {}
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Git clone failed for {repo_name}: {e}")
-            return {}
-        except Exception as e:
-            logger.error(f"Error processing {repo_name}: {e}")
+            pylib.utils.run_git_clone(repo_url, str(tmpdir))
+        except Exception:
             return {}
 
         for theme_file in tmpdir.glob('**/*.yaml'):

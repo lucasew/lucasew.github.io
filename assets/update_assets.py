@@ -10,13 +10,13 @@ Principle: Single Responsibility Principle (SRP), Don't Repeat Yourself (DRY)
 """
 
 import logging
-import urllib.request
-import urllib.error
 from pathlib import Path
 from dataclasses import dataclass
 
+import pylib.utils
+
 # Configure logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+pylib.utils.setup_logging()
 logger = logging.getLogger(__name__)
 
 ROOT = Path(__file__).parent
@@ -36,15 +36,12 @@ def update_asset(asset: Asset):
     target_path = ROOT / asset.filename
     logger.info(f"Updating {asset.filename} from {asset.url}")
     try:
-        # Use a timeout to prevent hanging indefinitely
-        with urllib.request.urlopen(asset.url, timeout=30) as response:
-             content = response.read()
-             target_path.write_bytes(content)
-             logger.info(f"Successfully updated {asset.filename}")
-    except urllib.error.URLError as e:
-        logger.error(f"Failed to download {asset.filename}: {e}")
-    except Exception as e:
-        logger.error(f"Error processing {asset.filename}: {e}")
+        content = pylib.utils.fetch_url_content(asset.url)
+        target_path.write_bytes(content)
+        logger.info(f"Successfully updated {asset.filename}")
+    except Exception:
+        # Errors are logged by fetch_url_content
+        pass
 
 def main():
     logger.info("Starting asset update...")
