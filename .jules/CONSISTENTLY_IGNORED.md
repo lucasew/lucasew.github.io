@@ -81,18 +81,34 @@ Affected:** `src/hooks.server.ts`, `vercel.json`
 
 ## IGNORE: Shared Python Utility Libraries
 
-**- Pattern:** Creation of shared Python modules (e.g., `pylib`) or `__init__.py` files to abstract standard library functionality (logging, urllib) across independent maintenance scripts. **- Justification:** Maintenance scripts must remain self-contained and decoupled. Shared libraries introduce implicit dependencies (`PYTHONPATH`), make scripts harder to execute individually, and over-engineer simple tasks that are better served by the standard library directly. **- Files Affected:** `pylib/`, `assets/*.py`, `content/**/*.py`, `update.sh`
+**- Pattern:** Creation of shared Python modules (e.g., `pylib`) or
+`__init__.py` files to abstract standard library functionality (logging, urllib)
+across independent maintenance scripts. **- Justification:** Maintenance scripts
+must remain self-contained and decoupled. Shared libraries introduce implicit
+dependencies (`PYTHONPATH`), make scripts harder to execute individually, and
+over-engineer simple tasks that are better served by the standard library
+directly. **- Files Affected:** `pylib/`, `assets/*.py`, `content/**/*.py`,
+`update.sh`
 
 ---
 
 ## IGNORE: Scope Creep / Mixed Concerns
 
-**- Pattern:** Bundling a specific fix (e.g., Security, XSS) with unrelated, large-scale changes (e.g., adding `install_mise.sh`, massive config refactors) or unrelated dependency updates. **- Justification:** Violates the Single Responsibility Principle for PRs. Reviewers cannot safely approve the critical fix without auditing the unrelated noise. Increases risk of introducing bugs. **- Files Affected:** `*`
+**- Pattern:** Bundling a specific fix (e.g., Security, XSS) with unrelated,
+large-scale changes (e.g., adding `install_mise.sh`, massive config refactors)
+or unrelated dependency updates. **- Justification:** Violates the Single
+Responsibility Principle for PRs. Reviewers cannot safely approve the critical
+fix without auditing the unrelated noise. Increases risk of introducing bugs.
+**- Files Affected:** `*`
 
 ---
 
 ## IGNORE: Redundant Documentation
 
-**- Pattern:** Adding docstrings that merely restate the function signature or type hints (e.g., "Args: path: Path object", "Returns: None"). **- Justification:** Documentation must be value-driven, explaining the *why* and *nuance*. Redundant comments reduce the signal-to-noise ratio and require maintenance without adding understanding. **- Files Affected:** `*.py`
+**- Pattern:** Adding docstrings that merely restate the function signature or
+type hints (e.g., "Args: path: Path object", "Returns: None"). **-
+Justification:** Documentation must be value-driven, explaining the _why_ and
+_nuance_. Redundant comments reduce the signal-to-noise ratio and require
+maintenance without adding understanding. **- Files Affected:** `*.py`
 
 ---
