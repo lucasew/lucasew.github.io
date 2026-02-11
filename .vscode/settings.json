@@ -1,5 +1,5 @@
 {
-    "debug.javascript.defaultRuntimeExecutable": {
-        "pwa-node": "/home/lucasew/.local/share/mise/shims/node"
-    }
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "/home/lucasew/.local/share/mise/shims/node"
+  }
 }
