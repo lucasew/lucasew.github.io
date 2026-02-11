@@ -23,6 +23,13 @@ ROOT = Path(__file__).parent
 
 @dataclass
 class Asset:
+    """
+    Represents an external asset to be downloaded, mapping a local filename to a remote URL.
+
+    Attributes:
+        filename: The local filename to save the asset as.
+        url: The remote URL to download the asset from.
+    """
     filename: str
     url: str
 
@@ -33,6 +40,15 @@ ASSETS = [
 ]
 
 def update_asset(asset: Asset):
+    """
+    Downloads a single asset from its URL to the local filesystem.
+
+    Handles network timeouts (30s) and logs errors without raising, ensuring failure
+    of one asset does not stop the entire update process.
+
+    Args:
+        asset: The Asset object containing the filename and URL.
+    """
     target_path = ROOT / asset.filename
     logger.info(f"Updating {asset.filename} from {asset.url}")
     try:
@@ -47,6 +63,9 @@ def update_asset(asset: Asset):
         logger.error(f"Error processing {asset.filename}: {e}")
 
 def main():
+    """
+    Orchestrates the update process for all defined assets.
+    """
     logger.info("Starting asset update...")
     for asset in ASSETS:
         update_asset(asset)
