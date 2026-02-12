@@ -112,3 +112,27 @@ _nuance_. Redundant comments reduce the signal-to-noise ratio and require
 maintenance without adding understanding. **- Files Affected:** `*.py`
 
 ---
+
+## IGNORE: Object-Oriented Over-Engineering in Maintenance Scripts
+
+**- Pattern:** Refactoring simple procedural scripts (like `content/utils/base16/update_data.py`) into class-based structures (e.g., `Base16Theme`).
+**- Justification:** Procedural scripts are preferred for simple ETL tasks. Classes add unnecessary boilerplate and are considered over-engineering.
+**- Files Affected:** `content/utils/base16/update_data.py`
+
+---
+
+## IGNORE: Verbose File Headers
+
+**- Pattern:** Adding extensive comment headers to scripts (e.g., "Source:", "Destination:", "Why:") that duplicate code logic.
+**- Justification:** Code should be self-documenting (Essentialism). Verbose headers require maintenance and reduce signal.
+**- Files Affected:** `*.sh`, `assets/*.py`
+
+---
+
+## IGNORE: Dynamic Constant Generation
+
+**- Pattern:** Replacing explicit lists of constants (e.g., `COLOR_KEYS`) with list comprehensions or dynamic generation in maintenance scripts.
+**- Justification:** Explicit lists are easier to read, search (grep), and verify. Dynamic generation for static data adds complexity without significant benefit.
+**- Files Affected:** `content/utils/base16/update_data.py`
+
+---
