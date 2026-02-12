@@ -21,3 +21,7 @@ depends = ["fmt:*"]
 [tasks.codegen]
 description = "Generate all code"
 depends = ["codegen:*"]
+
+[tasks.ci]
+description = "Run CI checks"
+run = "npm run check"
