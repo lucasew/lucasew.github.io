@@ -2,7 +2,7 @@
 _.path = ["./node_modules/.bin"]
 
 [tools]
-node = "25.4.0"
+node = "25.6.1"
 hugo = "0.154.5"
 
 [tasks."codegen:data"]
