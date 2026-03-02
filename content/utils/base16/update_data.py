@@ -28,7 +28,7 @@ import subprocess
 import tempfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 from urllib import request
 
 # Configure logging
@@ -115,9 +115,17 @@ def process_theme_repo(repo_name: str, repo_url: str) -> Dict[str, Any]:
 
     This function performs the following steps:
     1. Creates a temporary directory.
-    2. Clones the git repository into it (silencing git prompts).
+    2. Clones the git repository into it.
     3. Scans for `*.yaml` files within the cloned repo.
     4. Parses each file using `read_kv`.
+
+    Security:
+        - Validates that the repository URL uses the `https://` protocol to prevent
+          scheme injection attacks (e.g., `file://`, `ssh://`).
+        - Uses the `--` argument separator to prevent git argument injection if the
+          URL starts with a dash.
+        - Sets `GIT_ASKPASS` and `GIT_TERMINAL_PROMPT` to disable interactive prompts,
+          preventing the script from hanging on authentication requests.
 
     Args:
         repo_name: The name of the repository (for logging).
