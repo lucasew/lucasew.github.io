@@ -107,3 +107,5 @@ Missing `timeout` parameter in blocking I/O calls. **Solution:** Added explicit
 specific exception handler for `subprocess.TimeoutExpired`. **Pattern:** Always
 define explicit timeouts for network requests and subprocess execution to
 prevent indefinite blocking and ensure script robustness.
+
+- 2026-02-08: Define compiled regex patterns (`re.compile`) at the module level to improve efficiency and intent.
