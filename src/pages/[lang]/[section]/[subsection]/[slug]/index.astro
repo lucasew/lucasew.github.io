@@ -1,0 +1,37 @@
+---
+import ContentEntry from '../../../../../components/ContentEntry.astro'
+import SlideLayout from '../../../../../layouts/SlideLayout.astro'
+import {
+  getEntryByUrl,
+  getKnownUrls,
+} from '../../../../../lib/content'
+import { splitSlideSections } from '../../../../../lib/slides'
+
+export function getStaticPaths() {
+  return getKnownUrls()
+    .map((urlPath) => urlPath.split('/').filter(Boolean))
+    .filter((parts) => parts.length === 4)
+    .map(([lang, section, subsection, slug]) => ({ params: { lang, section, subsection, slug } }))
+}
+
+const { lang, section, subsection, slug } = Astro.params
+const urlPath = `/${lang}/${section}/${subsection}/${slug}/`
+const entry = getEntryByUrl(urlPath)
+if (!entry) {
+  Astro.response.status = 404
+}
+
+const isSlide = entry
+  ? entry.slugSegments.length >= 3 &&
+    entry.slugSegments[0] === 'utils' &&
+    entry.slugSegments[1] === 'slides'
+  : false
+---
+
+{
+  !entry ? null : isSlide ? (
+    <SlideLayout entry={entry} sections={splitSlideSections(entry)} />
+  ) : (
+    <ContentEntry entry={entry} />
+  )
+}

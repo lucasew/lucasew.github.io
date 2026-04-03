@@ -1,0 +1,117 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import {
+  getChildren,
+  getTranslations,
+  type Entry,
+} from '../lib/content'
+import { renderHtml, renderInline } from '../lib/markdown'
+
+interface Props {
+  entry: Entry
+}
+
+const { entry } = Astro.props
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}
+
+function renderPostLinks(item: Entry): string {
+  const alsoAvailable = asStringArray(item.frontmatter.alsoAvailable)
+  const discussedOn = asStringArray(item.frontmatter.discussedOn)
+
+  const lines: string[] = []
+  if (alsoAvailable.length > 0) {
+    const links = alsoAvailable
+      .map((href, idx) => `<a target="_blank" rel="noopener noreferrer" href="${href}">[${idx + 1}]</a>`)
+      .join(' ')
+    lines.push(`<i>${item.lang === 'pt' ? 'Também disponível em' : 'Also available on'}: ${links}</i><br/>`)
+  }
+
+  if (discussedOn.length > 0) {
+    const links = discussedOn
+      .map((href, idx) => `<a target="_blank" rel="noopener noreferrer" href="${href}">[${idx + 1}]</a>`)
+      .join(' ')
+    lines.push(`<i>${item.lang === 'pt' ? 'Discutido em' : 'Discussed on'}: ${links}</i><br/>`)
+  }
+
+  return lines.join('\n')
+}
+
+const isBase16 = entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'base16'
+const isPostPage = entry.kind === 'page' && entry.slugSegments.length === 2 && entry.slugSegments[0] === 'post'
+
+const translations = getTranslations(entry)
+const html = renderHtml(entry.body, entry)
+const children = getChildren(entry)
+
+const posts = await getCollection('posts')
+const postById = new Map(posts.map((post) => [post.id, post] as const))
+const postId = isPostPage ? `${entry.lang}/${entry.slugSegments[1]}` : null
+const postItem = postId ? postById.get(postId) : null
+const postRendered = postItem ? await render(postItem) : null
+const PostContent = postRendered?.Content
+---
+
+<BaseLayout entry={entry} translations={translations}>
+  {entry.kind === 'page' && !isBase16 ? <h1>{entry.title}</h1> : null}
+  {entry.kind === 'page' && !isBase16 ? <Fragment set:html={renderPostLinks(entry)} /> : null}
+
+  {isBase16 && entry.kind === 'section' ? (
+    <section>
+      <Fragment set:html={html} />
+      {children.map((child) => (
+        <div class="theme-card">
+          <div class="theme-card-info-container">
+            <a href={child.url}>
+              <h2>{child.title}</h2>
+              <p>{typeof child.frontmatter.author === 'string' ? child.frontmatter.author : ''}</p>
+            </a>
+          </div>
+          <div class="theme-card-sample-container">
+            {asStringArray(child.frontmatter.colors).map((color) => (
+              <div class="theme-card-color-container" style={`background-color: #${color}`}>
+                <p>#{color}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+  ) : isBase16 && entry.kind === 'page' ? (
+    <section>
+      <h1>{entry.title}</h1>
+      {entry.summary ? <p set:html={renderInline(entry.summary)} /> : null}
+      <Fragment set:html={html} />
+      <p>by {typeof entry.frontmatter.author === 'string' ? entry.frontmatter.author : ''}</p>
+      <div class="theme-card-sample-container">
+        {asStringArray(entry.frontmatter.colors).map((color) => (
+          <div class="theme-card-color-container" style={`background-color: #${color}`}>
+            <p>#{color}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  ) : entry.kind === 'section' ? (
+    <section>
+      <Fragment set:html={html} />
+      {children.map((child) => (
+        <div class="card bg-base-200 shadow-sm m-2">
+          <div class="card-body">
+            <a href={child.url}>
+              <h2 class="card-title">{child.title}</h2>
+              <p>{child.summary ?? ''}</p>
+            </a>
+          </div>
+        </div>
+      ))}
+    </section>
+  ) : isPostPage && PostContent ? (
+    <PostContent />
+  ) : (
+    <Fragment set:html={html} />
+  )}
+</BaseLayout>
