@@ -1,5 +1,5 @@
 ---
-import { ClientRouter } from 'astro:transitions'
+import { ClientRouter, slide } from 'astro:transitions'
 import SiteIcon from '../components/SiteIcon.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
@@ -61,7 +61,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
       </nav>
     </header>
 
-    <main class="prose mx-auto">
+    <main class="prose mx-auto" transition:animate={slide()}>
       <slot />
     </main>
   </body>
