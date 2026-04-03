@@ -1,5 +1,11 @@
 ---
 import type { Entry } from '../lib/content'
+import revealResetCssUrl from 'reveal.js/reset.css?url'
+import revealCssUrl from 'reveal.js/reveal.css?url'
+import revealThemeCssUrl from 'reveal.js/theme/black.css?url'
+import revealJsUrl from 'reveal.js?url'
+import revealMathJsUrl from 'reveal.js/plugin/math?url'
+import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
 
 interface Props {
   entry: Entry
@@ -17,7 +23,9 @@ const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={entry.summary ?? ''} />
     <title>{entry.title}</title>
-
+    <link rel="stylesheet" href={revealResetCssUrl} />
+    <link rel="stylesheet" href={revealCssUrl} />
+    <link rel="stylesheet" href={revealThemeCssUrl} />
   </head>
   <body>
     <img
@@ -35,18 +43,18 @@ const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo
       </div>
     </div>
 
-    <script>
-      import 'reveal.js/reset.css'
-      import 'reveal.js/reveal.css'
-      import 'reveal.js/theme/black.css'
-      import Reveal from 'reveal.js'
-      import RevealMath from 'reveal.js/plugin/math'
-      import RevealZoom from 'reveal.js/plugin/zoom'
+    <script
+      type="module"
+      define:vars={{ revealJsUrl, revealMathJsUrl, revealZoomJsUrl }}
+    >
+      const { default: Reveal } = await import(revealJsUrl)
+      const { default: RevealMath } = await import(revealMathJsUrl)
+      const { default: RevealZoom } = await import(revealZoomJsUrl)
 
       const deck = new Reveal({
         plugins: [RevealMath.KaTeX, RevealZoom],
       })
-      deck.initialize()
+      await deck.initialize()
     </script>
   </body>
 </html>
