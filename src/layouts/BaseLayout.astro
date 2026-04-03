@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions'
+import SiteIcon from '../components/SiteIcon.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
 import '../styles/global.css'
@@ -43,11 +44,9 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     <header>
       <nav class="navbar">
         <div class="navbar-start">
-          <a href={`/${entry.lang}/`}>
-            <nobr>
-              <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
-              <b>{entry.lang === 'pt' ? 'offtopic do lucasew' : "lucasew's offtopic"}</b>
-            </nobr>
+          <a href={`/${entry.lang}/`} class="flex items-center gap-2">
+            <SiteIcon id="icon" class="block m-0" size="2rem" />
+            <b class="leading-none">{entry.lang === 'pt' ? 'offtopic do lucasew' : "lucasew's offtopic"}</b>
           </a>
         </div>
 

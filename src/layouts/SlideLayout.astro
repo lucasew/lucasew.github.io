@@ -7,6 +7,7 @@ import revealJsUrl from 'reveal.js?url'
 import revealMathJsUrl from 'reveal.js/plugin/math?url'
 import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
 import type { SlideSection } from '../lib/slides'
+import SiteIcon from '../components/SiteIcon.astro'
 
 interface Props {
   entry: Entry
@@ -14,7 +15,8 @@ interface Props {
 }
 
 const { entry, sections } = Astro.props
-const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo : '/icon.png'
+const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo : undefined
+const homeHref = `/${entry.lang}/`
 ---
 
 <!doctype html>
@@ -29,11 +31,13 @@ const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo
     <link rel="stylesheet" href={revealThemeCssUrl} />
   </head>
   <body>
-    <img
+    <SiteIcon
+      href={homeHref}
       id="logo"
       src={logo}
       alt="logo"
-      style="position:absolute;top:20px;left:20px;width:2rem;max-width:2rem;max-height:2rem;"
+      size="2rem"
+      wrapperStyle="position:absolute;top:20px;left:20px;z-index:30;"
     />
 
     <div class="reveal">
