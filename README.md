@@ -14,6 +14,6 @@ Blog migrado de Hugo para Astro.
 
 ## Estrutura de conteúdo
 
-- Conteúdo em `content/` (mantido da estrutura original do Hugo)
+- Conteúdo em `src/content/` (mantido da estrutura original do Hugo)
 - Rotas em formato `/:lang/...` (`/en/...` e `/pt/...`)
 - Suporte a frontmatter existente, aliases, `index.{en,pt}.md`, `_index.{en,pt}.md`

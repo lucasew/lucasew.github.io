@@ -1,4 +1,5 @@
 ---
+import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 import SlideLayout from '../layouts/SlideLayout.astro'
 import {
@@ -75,9 +76,20 @@ const isLegacyHome = entry
   ? entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'home'
   : false
 
+const isPostPage = entry
+  ? entry.kind === 'page' && entry.slugSegments.length === 2 && entry.slugSegments[0] === 'post'
+  : false
+
 const translations = entry ? getTranslations(entry) : []
 const html = entry ? renderHtml(entry.body, entry) : ''
 const children = entry ? getChildren(entry) : []
+
+const posts = await getCollection('posts')
+const postById = new Map(posts.map((post) => [post.id, post] as const))
+const postId = isPostPage && entry ? `${entry.lang}/${entry.slugSegments[1]}` : null
+const postItem = postId ? postById.get(postId) : null
+const postRendered = postItem ? await render(postItem) : null
+const PostContent = postRendered?.Content
 ---
 
 {
@@ -166,6 +178,8 @@ const children = entry ? getChildren(entry) : []
             </div>
           ))}
         </section>
+      ) : isPostPage && PostContent ? (
+        <PostContent />
       ) : (
         <Fragment set:html={html} />
       )}

@@ -30,7 +30,7 @@ interface Candidate {
   body: string
 }
 
-const CONTENT_ROOT = path.join(process.cwd(), 'content')
+const CONTENT_ROOT = path.join(process.cwd(), 'src', 'content')
 const BY_SLUG_BY_LANG = new Map<string, Map<Lang, Entry>>()
 const BY_URL = new Map<string, Entry>()
 
