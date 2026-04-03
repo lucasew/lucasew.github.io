@@ -5,15 +5,28 @@
   "repository": "https://github.com/lucasew/lucasew.github.io",
   "author": "lucasew",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "@astrojs/mdx": "^4.3.14",
     "@tailwindcss/cli": "^4.1.14",
     "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.14",
+    "astro": "^5.8.0",
     "daisyui": "^5.2.3",
     "dprint": "^0.52.0",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
     "tailwindcss": "^4.1.14"
   },
   "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
     "format": "dprint fmt",
     "check": "dprint check"
+  },
+  "dependencies": {
+    "@sentry/astro": "^10.47.0",
+    "reveal.js": "^6.0.0"
   }
 }

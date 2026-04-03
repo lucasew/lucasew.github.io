@@ -1,0 +1,60 @@
+---
+import ThemeToggle from '../components/ThemeToggle.astro'
+import { getSectionTitle, type Entry } from '../lib/content'
+
+interface Props {
+  entry: Entry
+  translations: Entry[]
+}
+
+const { entry, translations } = Astro.props
+const postTitle = getSectionTitle(entry.lang, ['post']) || (entry.lang === 'pt' ? 'Publicações' : 'Posts')
+const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt' ? 'Utilitários' : 'Utilities')
+---
+
+<!doctype html>
+<html lang={entry.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="index, follow" />
+    <meta name="description" content={entry.summary ?? ''} />
+    <meta name="mdpath" content={entry.sourceFile} />
+    <title>{entry.title}</title>
+    <script src="/htmx.js"></script>
+    <script
+      defer
+      src="/analytics.js"
+      data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"
+      data-host-url="https://analytics.app.lew.tec.br"
+    ></script>
+    <script src="/sentry.js"></script>
+  </head>
+  <body hx-boost="true">
+    <header>
+      <nav class="navbar">
+        <div class="navbar-start">
+          <a href={`/${entry.lang}/`}>
+            <nobr>
+              <img id="icon" class="inline-block w-5 h-5 m-0" src="/icon.png" alt="icon" />
+              <b>{entry.lang === 'pt' ? 'offtopic do lucasew' : "lucasew's offtopic"}</b>
+            </nobr>
+          </a>
+        </div>
+
+        <div class="navbar-end [&>*]:mx-1">
+          <a href={`/${entry.lang}/utils/`}>{utilsTitle}</a>
+          <a href={`/${entry.lang}/post/`}>{postTitle}</a>
+          {translations.map((translation) => (
+            <a href={translation.url}>{translation.lang === 'pt' ? '🇧🇷' : '🇺🇸'}</a>
+          ))}
+          <ThemeToggle />
+        </div>
+      </nav>
+    </header>
+
+    <main class="prose mx-auto">
+      <slot />
+    </main>
+  </body>
+</html>

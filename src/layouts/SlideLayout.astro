@@ -1,0 +1,64 @@
+---
+import type { Entry } from '../lib/content'
+
+interface Props {
+  entry: Entry
+  sections: string[]
+}
+
+const { entry, sections } = Astro.props
+const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo : '/icon.png'
+---
+
+<!doctype html>
+<html lang={entry.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={entry.summary ?? ''} />
+    <title>{entry.title}</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reset.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css"
+    />
+    <style>
+      #logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 2rem;
+        max-width: 2rem;
+        max-height: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="logo" src={logo} alt="logo" />
+
+    <div class="reveal">
+      <div class="slides">
+        {sections.map((section) => (
+          <section set:html={section} />
+        ))}
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/math/math.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/zoom/zoom.min.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealMath.KaTeX],
+      })
+    </script>
+  </body>
+</html>

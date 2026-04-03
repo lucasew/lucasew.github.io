@@ -1,0 +1,38 @@
+<label class="swap swap-rotate" title="Toggle theme">
+  <input
+    id="theme-toggle"
+    type="checkbox"
+    class="theme-controller"
+    aria-label="Toggle theme"
+    value="dark"
+  />
+  <span class="swap-on text-xl">☀️</span>
+  <span class="swap-off text-xl">🌙</span>
+</label>
+
+<script>
+  const themeKey = 'theme'
+  const toggle = document.getElementById('theme-toggle')
+
+  if (toggle instanceof HTMLInputElement) {
+    const syncTheme = () => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const savedTheme = localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+
+      toggle.checked = savedTheme === 'dark'
+      document.documentElement.setAttribute('data-theme', savedTheme)
+    }
+
+    syncTheme()
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme)
+    toggle.addEventListener('change', (event) => {
+      const target = event.target
+      if (!(target instanceof HTMLInputElement)) return
+
+      const nextTheme = target.checked ? 'dark' : 'light'
+      localStorage.setItem(themeKey, nextTheme)
+      document.documentElement.setAttribute('data-theme', nextTheme)
+    })
+  }
+</script>
