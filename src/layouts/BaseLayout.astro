@@ -21,14 +21,15 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     <meta name="description" content={entry.summary ?? ''} />
     <meta name="mdpath" content={entry.sourceFile} />
     <title>{entry.title}</title>
-    <script src="/htmx.js"></script>
+    <script is:inline src="/htmx.js"></script>
     <script
+      is:inline
       defer
       src="/analytics.js"
       data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"
       data-host-url="https://analytics.app.lew.tec.br"
     ></script>
-    <script src="/sentry.js"></script>
+    <script is:inline src="/sentry.js"></script>
   </head>
   <body hx-boost="true">
     <header>

@@ -221,19 +221,18 @@ export function getSectionTitle(lang: Lang, slugSegments: string[]): string {
   return section?.title ?? ''
 }
 
-export function getStaticPathsForEntries(): Array<{ params: { slug: string[] } }> {
-  const paths = new Map<string, { params: { slug: string[] } }>()
+export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> {
+  const paths = new Map<string, { params: { slug: string } }>()
 
   for (const entry of allEntries) {
     const slug = [entry.lang, ...entry.slugSegments]
-    paths.set(`/${slug.join('/')}/`, { params: { slug } })
+    paths.set(`/${slug.join('/')}/`, { params: { slug: slug.join('/') } })
   }
 
   for (const [urlPath] of BY_URL.entries()) {
     const clean = urlPath.replace(/^\//, '').replace(/\/$/, '')
     if (!clean) continue
-    const slug = clean.split('/')
-    paths.set(urlPath, { params: { slug } })
+    paths.set(urlPath, { params: { slug: clean } })
   }
 
   return [...paths.values()]

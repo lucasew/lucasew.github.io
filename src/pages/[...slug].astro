@@ -16,7 +16,7 @@ export function getStaticPaths() {
 }
 
 const rawSlug = Astro.params.slug
-const slug = Array.isArray(rawSlug) ? rawSlug : (rawSlug ? [rawSlug] : [])
+const slug = rawSlug ? rawSlug.split('/').filter(Boolean) : []
 const urlPath = `/${slug.join('/')}/`
 
 const entry = getEntryByUrl(urlPath)
@@ -128,7 +128,7 @@ const children = entry ? getChildren(entry) : []
       ) : isBase16 && entry.kind === 'page' ? (
         <section>
           <h1>{entry.title}</h1>
-          <p>{entry.summary ? <Fragment set:html={renderInline(entry.summary)} /> : null}</p>
+          {entry.summary ? <p set:html={renderInline(entry.summary)} /> : null}
           <Fragment set:html={html} />
           <p>by {typeof entry.frontmatter.author === 'string' ? entry.frontmatter.author : ''}</p>
           <div class="theme-card-sample-container">
