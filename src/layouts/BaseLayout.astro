@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from 'astro:transitions'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
 
@@ -21,7 +22,13 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     <meta name="description" content={entry.summary ?? ''} />
     <meta name="mdpath" content={entry.sourceFile} />
     <title>{entry.title}</title>
-    <script is:inline src="/htmx.js"></script>
+    <script is:inline>
+      const themeKey = 'theme'
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      const savedTheme = localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+      document.documentElement.setAttribute('data-theme', savedTheme)
+    </script>
+    <ClientRouter />
     <script
       is:inline
       defer
@@ -31,7 +38,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     ></script>
     <script is:inline src="/sentry.js"></script>
   </head>
-  <body hx-boost="true">
+  <body>
     <header>
       <nav class="navbar">
         <div class="navbar-start">

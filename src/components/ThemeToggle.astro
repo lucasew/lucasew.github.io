@@ -2,7 +2,6 @@
   <input
     id="theme-toggle"
     type="checkbox"
-    class="theme-controller"
     aria-label="Toggle theme"
     value="dark"
   />
@@ -12,20 +11,28 @@
 
 <script>
   const themeKey = 'theme'
-  const toggle = document.getElementById('theme-toggle')
+  let mediaBound = false
 
-  if (toggle instanceof HTMLInputElement) {
-    const syncTheme = () => {
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      const savedTheme = localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+  const getTheme = () => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    return localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+  }
 
-      toggle.checked = savedTheme === 'dark'
-      document.documentElement.setAttribute('data-theme', savedTheme)
+  const applyTheme = () => {
+    const theme = getTheme()
+    document.documentElement.setAttribute('data-theme', theme)
+
+    const toggle = document.getElementById('theme-toggle')
+    if (toggle instanceof HTMLInputElement) {
+      toggle.checked = theme === 'dark'
     }
+  }
 
-    syncTheme()
+  const bindToggle = () => {
+    const toggle = document.getElementById('theme-toggle')
+    if (!(toggle instanceof HTMLInputElement)) return
+    if (toggle.dataset.bound === '1') return
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme)
     toggle.addEventListener('change', (event) => {
       const target = event.target
       if (!(target instanceof HTMLInputElement)) return
@@ -34,5 +41,25 @@
       localStorage.setItem(themeKey, nextTheme)
       document.documentElement.setAttribute('data-theme', nextTheme)
     })
+
+    toggle.dataset.bound = '1'
   }
+
+  const setupTheme = () => {
+    applyTheme()
+    bindToggle()
+
+    if (!mediaBound) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!localStorage.getItem(themeKey)) {
+          applyTheme()
+        }
+      })
+      mediaBound = true
+    }
+  }
+
+  setupTheme()
+  document.addEventListener('astro:after-swap', setupTheme)
+  document.addEventListener('astro:page-load', setupTheme)
 </script>
