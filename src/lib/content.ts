@@ -237,3 +237,7 @@ export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> 
 
   return [...paths.values()]
 }
+
+export function getKnownUrls(): string[] {
+  return [...BY_URL.keys()]
+}

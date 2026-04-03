@@ -5,6 +5,5 @@
 @plugin "@tailwindcss/typography";
 
 @source "../**/*.{astro,ts}";
-@source "../../src/content/**/*.md";
-
+@source "../../src/content/**/*.{md,mdx}";
 
