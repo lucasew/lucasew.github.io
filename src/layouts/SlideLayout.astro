@@ -6,10 +6,11 @@ import revealThemeCssUrl from 'reveal.js/theme/black.css?url'
 import revealJsUrl from 'reveal.js?url'
 import revealMathJsUrl from 'reveal.js/plugin/math?url'
 import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
+import type { SlideSection } from '../lib/slides'
 
 interface Props {
   entry: Entry
-  sections: string[]
+  sections: SlideSection[]
 }
 
 const { entry, sections } = Astro.props
@@ -38,7 +39,7 @@ const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo
     <div class="reveal">
       <div class="slides">
         {sections.map((section) => (
-          <section set:html={section} />
+          <section data-auto-animate={section.autoAnimate ? '1' : undefined} set:html={section.html} />
         ))}
       </div>
     </div>

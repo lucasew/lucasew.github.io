@@ -1,5 +1,4 @@
 ---
-import ContentEntry from '../../../../../components/ContentEntry.astro'
 import SlideLayout from '../../../../../layouts/SlideLayout.astro'
 import {
   getEntryByUrl,
@@ -26,12 +25,14 @@ const isSlide = entry
     entry.slugSegments[0] === 'utils' &&
     entry.slugSegments[1] === 'slides'
   : false
+
+const slideSections = isSlide && entry ? await splitSlideSections(entry) : []
 ---
 
 {
   !entry ? null : isSlide ? (
-    <SlideLayout entry={entry} sections={splitSlideSections(entry)} />
+    <SlideLayout entry={entry} sections={slideSections} />
   ) : (
-    <ContentEntry entry={entry} />
+    null
   )
 }
