@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
+import LegacyHomeLayout from '../layouts/LegacyHomeLayout.astro'
 import SlideLayout from '../layouts/SlideLayout.astro'
 import {
   getChildren,
@@ -111,6 +112,12 @@ const PostContent = postRendered?.Content
     </BaseLayout>
   ) : isSlide ? (
     <SlideLayout entry={entry} sections={splitSlideSections(entry)} />
+  ) : isLegacyHome ? (
+    <LegacyHomeLayout
+      lang={entry.lang}
+      title={entry.title}
+      quotes={asStringArray(entry.frontmatter.quotes)}
+    />
   ) : (
     <BaseLayout entry={entry} translations={translations}>
       {entry.kind === 'page' && !isBase16 ? <h1>{entry.title}</h1> : null}
@@ -151,19 +158,6 @@ const PostContent = postRendered?.Content
             ))}
           </div>
         </section>
-      ) : isLegacyHome ? (
-        <section>
-          <h1>{entry.title}</h1>
-          <p>{entry.summary}</p>
-          <p>
-            {entry.lang === 'pt'
-              ? 'Página antiga preservada durante a migração. O conteúdo principal continua em /en/ e /pt/.'
-              : 'Legacy homepage preserved during migration. Main content remains under /en/ and /pt/.'}
-          </p>
-          <p>
-            <a href={`/${entry.lang}/`}>{entry.lang === 'pt' ? 'Voltar para início' : 'Back to home'}</a>
-          </p>
-        </section>
       ) : entry.kind === 'section' ? (
         <section>
           <Fragment set:html={html} />
@@ -187,53 +181,57 @@ const PostContent = postRendered?.Content
   )
 }
 
-<style>
-  :root {
-    --color-cell-size: 4.5em;
-  }
+{
+  !isLegacyHome ? (
+    <style>
+      :root {
+        --color-cell-size: 4.5em;
+      }
 
-  .theme-card {
-    width: 100%;
-  }
+      .theme-card {
+        width: 100%;
+      }
 
-  .theme-card-sample-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
+      .theme-card-sample-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .theme-card-info-container {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-  }
+      .theme-card-info-container {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: space-between;
+      }
 
-  .theme-card-info-container h2 {
-    margin-right: 3rem;
-    white-space: nowrap;
-  }
+      .theme-card-info-container h2 {
+        margin-right: 3rem;
+        white-space: nowrap;
+      }
 
-  .theme-card-info-container p {
-    text-align: right;
-  }
+      .theme-card-info-container p {
+        text-align: right;
+      }
 
-  .theme-card-color-container {
-    width: var(--color-cell-size);
-    height: var(--color-cell-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+      .theme-card-color-container {
+        width: var(--color-cell-size);
+        height: var(--color-cell-size);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .theme-card-color-container p {
-    background-color: initial;
-    padding: 0.1rem;
-    border-radius: 0.05rem;
-    margin: 0.5rem;
-    font-family: "Courier New", monospace;
-    text-transform: uppercase;
-  }
-</style>
+      .theme-card-color-container p {
+        background-color: initial;
+        padding: 0.1rem;
+        border-radius: 0.05rem;
+        margin: 0.5rem;
+        font-family: "Courier New", monospace;
+        text-transform: uppercase;
+      }
+    </style>
+  ) : null
+}

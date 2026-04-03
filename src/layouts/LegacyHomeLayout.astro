@@ -1,0 +1,48 @@
+---
+import fs from 'node:fs'
+import path from 'node:path'
+import type { Lang } from '../lib/i18n'
+
+interface Props {
+  lang: Lang
+  title: string
+  quotes: string[]
+}
+
+const { lang, title, quotes } = Astro.props
+const homeHref = `/${lang}/`
+
+const legacyPath = path.join(process.cwd(), 'layouts', 'utils_home', 'baseof.html')
+let legacyHtml = fs.readFileSync(legacyPath, 'utf8')
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+}
+
+legacyHtml = legacyHtml.replace(
+  /<html lang="\{\{ \.Site\.Language \}\}" dir="\{\{ \.Language\.LanguageDirection \| default " auto" \}\}">/,
+  `<html lang="${escapeHtml(lang)}" dir="auto">`,
+)
+legacyHtml = legacyHtml.replaceAll('{{ .Site.Title }}', escapeHtml(title))
+legacyHtml = legacyHtml.replaceAll('{{ $home }}', homeHref)
+
+legacyHtml = legacyHtml.replace(
+  /\{\{- if hugo\.IsProduction \| or \(eq \.Site\.Params\.env "production"\) \}\}\s*<meta name="robots" content="index, follow">\s*\{\{- else \}\}\s*<meta name="robots" content="noindex, nofollow">\s*\{\{- end \}\}/m,
+  '<meta name="robots" content="index, follow">',
+)
+
+legacyHtml = legacyHtml.replace(
+  /\{\{ \$home := "" \}\}\s*\{\{ with \.GetPage "\/" \}\}\s*\{\{ \$home = \.RelPermalink \}\}\s*\{\{ end \}\}\s*/m,
+  '',
+)
+legacyHtml = legacyHtml.replace(/\{\{ with \.Page\.File \}\}[\s\S]*?\{\{ end \}\}\s*/m, '')
+
+const quotesAttr = escapeHtml(JSON.stringify(quotes))
+legacyHtml = legacyHtml.replace('{{ .Params.quotes | encoding.Jsonify}}', quotesAttr)
+---
+
+<Fragment set:html={legacyHtml} />

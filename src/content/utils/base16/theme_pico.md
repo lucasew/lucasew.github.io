@@ -1,6 +1,0 @@
----
-author: "PICO-8 (http://www.lexaloffle.com/pico-8.php)"
-title: "Pico"
-summary: "https://github.com/chriskempson/base16-unclaimed-schemes"
-colors: ["000000", "1d2b53", "7e2553", "008751", "ab5236", "5f574f", "c2c3c7", "fff1e8", "ff004d", "ffa300", "fff024", "00e756", "29adff", "83769c", "ff77a8", "ffccaa"]
----

@@ -1,6 +1,0 @@
----
-author: "Chris Kempson (http://chriskempson.com)"
-title: "Bright"
-summary: "https://github.com/chriskempson/base16-unclaimed-schemes"
-colors: ["000000", "303030", "505050", "b0b0b0", "d0d0d0", "e0e0e0", "f5f5f5", "ffffff", "fb0120", "fc6d24", "fda331", "a1c659", "76c7b7", "6fb3d2", "d381c3", "be643c"]
----
