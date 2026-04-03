@@ -3,10 +3,10 @@ import { glob } from 'astro/loaders'
 
 const posts = defineCollection({
   loader: glob({
-    pattern: '**/index.{en,pt}.md',
+    pattern: '**/index.{en,pt}.{md,mdx}',
     base: './src/content/post',
     generateId: ({ entry }) => {
-      const match = entry.match(/^(.*)\/index\.(en|pt)\.md$/)
+      const match = entry.match(/^(.*)\/index\.(en|pt)\.(md|mdx)$/)
       if (!match) return entry
       const [, postSlug, lang] = match
       return `${lang}/${postSlug}`

@@ -34,7 +34,7 @@ const CONTENT_ROOT = path.join(process.cwd(), 'src', 'content')
 const BY_SLUG_BY_LANG = new Map<string, Map<Lang, Entry>>()
 const BY_URL = new Map<string, Entry>()
 
-function readAllMarkdownFiles(root: string): string[] {
+function readAllContentFiles(root: string): string[] {
   const files: string[] = []
   const stack = [root]
 
@@ -50,7 +50,7 @@ function readAllMarkdownFiles(root: string): string[] {
         continue
       }
 
-      if (item.isFile() && item.name.endsWith('.md')) {
+      if (item.isFile() && (item.name.endsWith('.md') || item.name.endsWith('.mdx'))) {
         files.push(full)
       }
     }
@@ -66,7 +66,7 @@ function inferKind(baseName: string): EntryKind | null {
 }
 
 function inferLang(baseName: string): Lang | null {
-  const match = baseName.match(/\.(en|pt)\.md$/)
+  const match = baseName.match(/\.(en|pt)\.(md|mdx)$/)
   if (!match) return null
   return match[1] as Lang
 }
@@ -109,7 +109,7 @@ function toEntry(candidate: Candidate): Entry {
 }
 
 function loadEntries(): Entry[] {
-  const files = readAllMarkdownFiles(CONTENT_ROOT)
+  const files = readAllContentFiles(CONTENT_ROOT)
   const buckets = new Map<string, Candidate[]>()
 
   for (const file of files) {
