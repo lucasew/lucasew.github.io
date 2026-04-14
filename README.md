@@ -16,4 +16,5 @@ Blog migrado de Hugo para Astro.
 
 - Conteúdo em `src/content/` (mantido da estrutura original do Hugo)
 - Rotas em formato `/:lang/...` (`/en/...` e `/pt/...`)
-- Suporte a frontmatter existente, aliases, `index.{en,pt}.md`, `_index.{en,pt}.md`
+- Suporte a frontmatter existente, aliases, `index.{en,pt}.md`,
+  `_index.{en,pt}.md`
