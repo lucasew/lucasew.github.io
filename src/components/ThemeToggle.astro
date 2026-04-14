@@ -1,0 +1,65 @@
+<label class="swap swap-rotate" title="Toggle theme">
+  <input
+    id="theme-toggle"
+    type="checkbox"
+    aria-label="Toggle theme"
+    value="dark"
+  />
+  <span class="swap-on text-xl">☀️</span>
+  <span class="swap-off text-xl">🌙</span>
+</label>
+
+<script>
+  const themeKey = 'theme'
+  let mediaBound = false
+
+  const getTheme = () => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    return localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+  }
+
+  const applyTheme = () => {
+    const theme = getTheme()
+    document.documentElement.setAttribute('data-theme', theme)
+
+    const toggle = document.getElementById('theme-toggle')
+    if (toggle instanceof HTMLInputElement) {
+      toggle.checked = theme === 'dark'
+    }
+  }
+
+  const bindToggle = () => {
+    const toggle = document.getElementById('theme-toggle')
+    if (!(toggle instanceof HTMLInputElement)) return
+    if (toggle.dataset.bound === '1') return
+
+    toggle.addEventListener('change', (event) => {
+      const target = event.target
+      if (!(target instanceof HTMLInputElement)) return
+
+      const nextTheme = target.checked ? 'dark' : 'light'
+      localStorage.setItem(themeKey, nextTheme)
+      document.documentElement.setAttribute('data-theme', nextTheme)
+    })
+
+    toggle.dataset.bound = '1'
+  }
+
+  const setupTheme = () => {
+    applyTheme()
+    bindToggle()
+
+    if (!mediaBound) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!localStorage.getItem(themeKey)) {
+          applyTheme()
+        }
+      })
+      mediaBound = true
+    }
+  }
+
+  setupTheme()
+  document.addEventListener('astro:after-swap', setupTheme)
+  document.addEventListener('astro:page-load', setupTheme)
+</script>

@@ -1,0 +1,43 @@
+---
+import ContentEntry from '../../../../components/ContentEntry.astro'
+import LegacyHomeLayout from '../../../../layouts/LegacyHomeLayout.astro'
+import {
+  getEntryByUrl,
+  getKnownUrls,
+} from '../../../../lib/content'
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}
+
+export function getStaticPaths() {
+  return getKnownUrls()
+    .map((urlPath) => urlPath.split('/').filter(Boolean))
+    .filter((parts) => parts.length === 3)
+    .map(([lang, section, slug]) => ({ params: { lang, section, slug } }))
+}
+
+const { lang, section, slug } = Astro.params
+const urlPath = `/${lang}/${section}/${slug}/`
+const entry = getEntryByUrl(urlPath)
+if (!entry) {
+  Astro.response.status = 404
+}
+
+const isLegacyHome = entry
+  ? entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'home'
+  : false
+---
+
+{
+  !entry ? null : isLegacyHome ? (
+    <LegacyHomeLayout
+      lang={entry.lang}
+      title={entry.title}
+      quotes={asStringArray(entry.frontmatter.quotes)}
+    />
+  ) : (
+    <ContentEntry entry={entry} />
+  )
+}

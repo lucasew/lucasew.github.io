@@ -1,0 +1,65 @@
+---
+import type { Entry } from '../lib/content'
+import revealResetCssUrl from 'reveal.js/reset.css?url'
+import revealCssUrl from 'reveal.js/reveal.css?url'
+import revealThemeCssUrl from 'reveal.js/theme/black.css?url'
+import revealJsUrl from 'reveal.js?url'
+import revealMathJsUrl from 'reveal.js/plugin/math?url'
+import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
+import type { SlideSection } from '../lib/slides'
+import SiteIcon from '../components/SiteIcon.astro'
+
+interface Props {
+  entry: Entry
+  sections: SlideSection[]
+}
+
+const { entry, sections } = Astro.props
+const logo = typeof entry.frontmatter.logo === 'string' ? entry.frontmatter.logo : undefined
+const homeHref = `/${entry.lang}/`
+---
+
+<!doctype html>
+<html lang={entry.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={entry.summary ?? ''} />
+    <title>{entry.title}</title>
+    <link rel="stylesheet" href={revealResetCssUrl} />
+    <link rel="stylesheet" href={revealCssUrl} />
+    <link rel="stylesheet" href={revealThemeCssUrl} />
+  </head>
+  <body>
+    <SiteIcon
+      href={homeHref}
+      id="logo"
+      src={logo}
+      alt="logo"
+      size="2rem"
+      wrapperStyle="position:absolute;top:20px;left:20px;z-index:30;"
+    />
+
+    <div class="reveal">
+      <div class="slides">
+        {sections.map((section) => (
+          <section data-auto-animate={section.autoAnimate ? '1' : undefined} set:html={section.html} />
+        ))}
+      </div>
+    </div>
+
+    <script
+      type="module"
+      define:vars={{ revealJsUrl, revealMathJsUrl, revealZoomJsUrl }}
+    >
+      const { default: Reveal } = await import(revealJsUrl)
+      const { default: RevealMath } = await import(revealMathJsUrl)
+      const { default: RevealZoom } = await import(revealZoomJsUrl)
+
+      const deck = new Reveal({
+        plugins: [RevealMath.KaTeX, RevealZoom],
+      })
+      await deck.initialize()
+    </script>
+  </body>
+</html>

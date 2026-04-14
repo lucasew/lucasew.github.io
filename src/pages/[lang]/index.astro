@@ -1,0 +1,23 @@
+---
+import ContentEntry from '../../components/ContentEntry.astro'
+import {
+  getEntryByUrl,
+  getKnownUrls,
+} from '../../lib/content'
+
+export function getStaticPaths() {
+  return getKnownUrls()
+    .map((urlPath) => urlPath.split('/').filter(Boolean))
+    .filter((parts) => parts.length === 1)
+    .map(([lang]) => ({ params: { lang } }))
+}
+
+const { lang } = Astro.params
+const urlPath = `/${lang}/`
+const entry = getEntryByUrl(urlPath)
+if (!entry) {
+  Astro.response.status = 404
+}
+---
+
+{entry ? <ContentEntry entry={entry} /> : null}
