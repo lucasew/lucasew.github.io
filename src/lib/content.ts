@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { LANGS, type Lang, toUrl } from './i18n'
+import { reportError } from './errors'
 
 export type EntryKind = 'page' | 'section'
 
@@ -42,17 +43,22 @@ function readAllContentFiles(root: string): string[] {
     const current = stack.pop()
     if (!current) continue
 
-    const items = fs.readdirSync(current, { withFileTypes: true })
-    for (const item of items) {
-      const full = path.join(current, item.name)
-      if (item.isDirectory()) {
-        stack.push(full)
-        continue
-      }
+    try {
+      const items = fs.readdirSync(current, { withFileTypes: true })
+      for (const item of items) {
+        const full = path.join(current, item.name)
+        if (item.isDirectory()) {
+          stack.push(full)
+          continue
+        }
 
-      if (item.isFile() && (item.name.endsWith('.md') || item.name.endsWith('.mdx'))) {
-        files.push(full)
+        if (item.isFile() && (item.name.endsWith('.md') || item.name.endsWith('.mdx'))) {
+          files.push(full)
+        }
       }
+    } catch (e) {
+      reportError(e, { context: 'readAllContentFiles', path: current })
+      throw e
     }
   }
 
@@ -121,7 +127,13 @@ function loadEntries(): Entry[] {
 
     const slugSegments = relDir === '.' ? [] : relDir.split(path.sep)
     const langHint = inferLang(baseName)
-    const raw = fs.readFileSync(file, 'utf8')
+    let raw = ''
+    try {
+      raw = fs.readFileSync(file, 'utf8')
+    } catch (e) {
+      reportError(e, { context: 'readFileSync content file', file })
+      throw e
+    }
     const parsed = matter(raw)
 
     const langs = langHint ? [langHint] : LANGS
