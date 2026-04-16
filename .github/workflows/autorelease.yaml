@@ -48,7 +48,7 @@ jobs:
           PR_NUMBER: ${{ steps.pr_create.outputs.pull-request-number }}
         run: |
           if [[ ! -z "$PR_NUMBER" ]]; then
-            echo "The update scripts changed something and a PR was created. Giving up deploy." >> "$GITHUB_STEP_SUMMARY"
+            echo "The update scripts changed something and a PR was created. Giving up deploy." >> $GITHUB_STEP_SUMMARY
             exit 1
           fi
 
@@ -70,7 +70,7 @@ jobs:
             echo "Bad deployment url"
             exit 1
           fi
-          printf "Deployed on: %s" "$URL" >> "$GITHUB_STEP_SUMMARY"
+          printf "Deployed on: %s" "$URL" >> $GITHUB_STEP_SUMMARY
         
 
       - name: Deploy to GitHub Pages

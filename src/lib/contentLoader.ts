@@ -30,7 +30,7 @@ export function readAllContentFiles(root: string): string[] {
       items = fs.readdirSync(current, { withFileTypes: true })
     } catch (error) {
       reportError(error, { current })
-      continue
+      throw error
     }
 
     for (const item of items) {
@@ -116,7 +116,7 @@ export function loadEntries(): Entry[] {
       raw = fs.readFileSync(file, 'utf8')
     } catch (error) {
       reportError(error, { file })
-      continue
+      throw error
     }
 
     const parsed = matter(raw)

@@ -19,6 +19,7 @@ try {
   legacyHtml = fs.readFileSync(legacyPath, 'utf8')
 } catch (error) {
   reportError(error, { file: legacyPath })
+  throw error
 }
 
 function escapeHtml(value: string): string {
