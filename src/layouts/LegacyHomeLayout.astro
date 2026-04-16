@@ -12,8 +12,15 @@ interface Props {
 const { lang, title, quotes } = Astro.props
 const homeHref = `/${lang}/`
 
+import { reportError } from '../lib/errors'
+
 const legacyPath = path.join(process.cwd(), 'layouts', 'utils_home', 'baseof.html')
-let legacyHtml = fs.readFileSync(legacyPath, 'utf8')
+let legacyHtml = ''
+try {
+  legacyHtml = fs.readFileSync(legacyPath, 'utf8')
+} catch (error) {
+  reportError(error, { file: legacyPath })
+}
 
 function escapeHtml(value: string): string {
   return value
