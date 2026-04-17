@@ -1,13 +1,18 @@
 import rss from '@astrojs/rss'
-import { getCollection } from 'astro:content'
 import type { APIRoute } from 'astro'
 import { LANGS, type Lang } from '../../../lib/i18n'
+import { allEntries } from '../../../lib/content'
+import { renderHtml } from '../../../lib/markdown'
 
 function toDate(value: unknown): Date | undefined {
   if (value instanceof Date && !Number.isNaN(value.getTime())) return value
   if (typeof value !== 'string') return undefined
   const parsed = new Date(value)
   return Number.isNaN(parsed.getTime()) ? undefined : parsed
+}
+
+function escapeCdata(value: string): string {
+  return value.replaceAll(']]>', ']]]]><![CDATA[>')
 }
 
 export function getStaticPaths() {
@@ -20,20 +25,24 @@ export const GET: APIRoute = async ({ params, site }) => {
     return new Response('Not Found', { status: 404 })
   }
 
-  const posts = await getCollection('posts', ({ id }) => id.startsWith(`${lang}/`))
+  const posts = allEntries
+    .filter((entry) => (
+      entry.lang === lang
+      && entry.kind === 'page'
+      && entry.slugSegments.length === 2
+      && entry.slugSegments[0] === 'post'
+    ))
   const items = posts
     .map((post) => {
-      const postSlug = post.id.replace(`${lang}/`, '')
-      const date = toDate(post.data.date)
-      const description = typeof post.data.summary === 'string'
-        ? post.data.summary
-        : (typeof post.data.description === 'string' ? post.data.description : '')
+      const date = toDate(post.date)
+      const description = post.summary ?? ''
 
       return {
-        title: post.data.title,
+        title: post.title,
         description,
-        link: `/${lang}/post/${postSlug}/`,
+        link: post.url,
         pubDate: date,
+        customData: `<content:encoded><![CDATA[${escapeCdata(renderHtml(post.body, post))}]]></content:encoded>`,
       }
     })
     .sort((a, b) => {
@@ -48,6 +57,9 @@ export const GET: APIRoute = async ({ params, site }) => {
       ? 'Feed RSS das publicações em português'
       : 'RSS feed for English posts',
     site,
+    xmlns: {
+      content: 'http://purl.org/rss/1.0/modules/content/',
+    },
     items,
   })
 }
