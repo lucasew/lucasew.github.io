@@ -53,7 +53,8 @@ const homeHref = `/${entry.lang}/`
       import RevealZoom from 'reveal.js/plugin/zoom'
 
       const deck = new Reveal({
-        plugins: [RevealMath.KaTeX, RevealZoom],
+        // @ts-ignore
+        plugins: [RevealMath.KaTeX || RevealMath, RevealZoom],
       })
       await deck.initialize()
     </script>
