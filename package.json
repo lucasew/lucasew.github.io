@@ -26,6 +26,7 @@
     "check": "dprint check"
   },
   "dependencies": {
+    "@astrojs/rss": "^4.0.18",
     "@sentry/astro": "^10.47.0",
     "reveal.js": "^6.0.0"
   }

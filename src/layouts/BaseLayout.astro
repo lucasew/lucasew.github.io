@@ -23,6 +23,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     <meta name="robots" content="index, follow" />
     <meta name="description" content={entry.summary ?? ''} />
     <meta name="mdpath" content={entry.sourceFile} />
+    <link rel="alternate" type="application/rss+xml" title={entry.lang === 'pt' ? 'RSS em português' : 'RSS in English'} href={`/${entry.lang}/post/index.xml`} />
     <title>{entry.title}</title>
     <script is:inline>
       const themeKey = 'theme'
