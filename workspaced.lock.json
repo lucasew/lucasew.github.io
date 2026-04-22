@@ -1,0 +1,22 @@
+{
+  "dependencies": [
+    {
+      "kind": "tool",
+      "name": "actionlint",
+      "ref": "github:rhysd/actionlint",
+      "version": "1.7.12"
+    },
+    {
+      "kind": "tool",
+      "name": "biome",
+      "ref": "github:biomejs/biome",
+      "version": "@biomejs-biome@2.4.12"
+    },
+    {
+      "kind": "tool",
+      "name": "shellcheck",
+      "ref": "github:koalaman/shellcheck",
+      "version": "0.11.0"
+    }
+  ]
+}
