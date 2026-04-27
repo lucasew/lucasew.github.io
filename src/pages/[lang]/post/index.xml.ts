@@ -34,7 +34,7 @@ export const GET: APIRoute = async ({ params, site }) => {
     ))
   const items = posts
     .map((post) => {
-      const date = toDate(post.date)
+      const date = toDate(post.frontmatter.date ?? post.date)
       const description = post.summary ?? ''
 
       return {
