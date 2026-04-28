@@ -5,18 +5,33 @@ import { LANGS, type Lang, toUrl } from './i18n'
 
 export type EntryKind = 'page' | 'section'
 
+/**
+ * Represents a parsed Markdown/MDX content file, resolving metadata, relationships, and URLs.
+ *
+ * This is the fundamental unit of content used for routing and rendering throughout the application.
+ * It abstracts away the physical file path, providing a normalized view of the content that
+ * handles localization and inferred properties (like fallback titles).
+ */
 export interface Entry {
+  /** Unique composite identifier format: `{lang}:{slug}:{kind}` (e.g., `en:post/my-article:page`) */
   id: string
   lang: Lang
   kind: EntryKind
+  /** The ordered path segments relative to the content root, used for dynamic routing (e.g., `['post', 'my-article']`) */
   slugSegments: string[]
+  /** The resolved title. Falls back to the last slug segment or 'Untitled' if not provided in frontmatter. */
   title: string
   summary?: string
+  /** The raw markdown content body, unrendered. Shortcodes are not processed at this stage. */
   body: string
   frontmatter: Record<string, unknown>
+  /** Historic URLs or alternative paths that should redirect to this entry's primary URL. */
   aliases: string[]
+  /** The primary canonical URL path for this entry (e.g., `/en/post/my-article/`). Always includes a trailing slash. */
   url: string
+  /** ISO 8601 date string, used primarily for sorting section children. */
   date?: string
+  /** The relative path to the physical source file from the content root. */
   sourceFile: string
 }
 
@@ -174,15 +189,37 @@ for (const entry of allEntries) {
   }
 }
 
+/**
+ * Retrieves a content entry by its exact URL path.
+ *
+ * @param urlPath - The requested URL path. Automatically normalized to ensure trailing slash matching.
+ * @returns The matching Entry or undefined if no content maps to this URL. Also resolves aliases.
+ */
 export function getEntryByUrl(urlPath: string): Entry | undefined {
   const normalized = urlPath.endsWith('/') ? urlPath : `${urlPath}/`
   return BY_URL.get(normalized)
 }
 
+/**
+ * Retrieves a content entry by its localization and hierarchical slug.
+ *
+ * @param lang - The target language ('en' or 'pt').
+ * @param slugSegments - The path segments identifying the content.
+ * @returns The matching Entry or undefined.
+ */
 export function getEntry(lang: Lang, slugSegments: string[]): Entry | undefined {
   return BY_SLUG_BY_LANG.get(slugKey(slugSegments))?.get(lang)
 }
 
+/**
+ * Retrieves all available language translations for a given entry.
+ *
+ * This is useful for building language switchers, ensuring they only link
+ * to content that physically exists in the target language.
+ *
+ * @param entry - The source entry to find translations for.
+ * @returns An array of translated entries, including the original entry itself.
+ */
 export function getTranslations(entry: Entry): Entry[] {
   const all = BY_SLUG_BY_LANG.get(slugKey(entry.slugSegments))
   if (!all) return [entry]
@@ -197,6 +234,15 @@ function isDirectChild(parent: string[], child: string[]): boolean {
   return true
 }
 
+/**
+ * Retrieves the immediate hierarchical children of a given section.
+ *
+ * Does not traverse deeply; it only returns direct descendants.
+ * The resulting array is sorted chronologically descending by date, then alphabetically by title.
+ *
+ * @param section - The parent section. Must be of kind 'section' (e.g., an `_index.md` file).
+ * @returns An ordered array of child entries. Returns an empty array if the input is a 'page'.
+ */
 export function getChildren(section: Entry): Entry[] {
   if (section.kind !== 'section') return []
 
@@ -216,11 +262,23 @@ export function getChildren(section: Entry): Entry[] {
   return children
 }
 
+/**
+ * Retrieves the title of a section by its language and slug.
+ * Safely falls back to an empty string if the section does not exist.
+ */
 export function getSectionTitle(lang: Lang, slugSegments: string[]): string {
   const section = getEntry(lang, slugSegments)
   return section?.title ?? ''
 }
 
+/**
+ * Generates all valid dynamic routing parameters for Astro's `getStaticPaths()`.
+ *
+ * This function eager-loads all parsed content URLs and defined aliases to ensure
+ * Astro generates static HTML files for every possible valid route in the system.
+ *
+ * @returns An array of route parameters required by Astro's dynamic catch-all route `[...slug].astro`.
+ */
 export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> {
   const paths = new Map<string, { params: { slug: string } }>()
 
@@ -238,6 +296,10 @@ export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> 
   return [...paths.values()]
 }
 
+/**
+ * Returns a list of all fully-resolved canonical URLs and aliases known to the system.
+ * Useful for sitemap generation or global link validation.
+ */
 export function getKnownUrls(): string[] {
   return [...BY_URL.keys()]
 }
