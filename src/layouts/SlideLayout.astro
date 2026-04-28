@@ -3,9 +3,6 @@ import type { Entry } from '../lib/content'
 import revealResetCssUrl from 'reveal.js/reset.css?url'
 import revealCssUrl from 'reveal.js/reveal.css?url'
 import revealThemeCssUrl from 'reveal.js/theme/black.css?url'
-import revealJsUrl from 'reveal.js?url'
-import revealMathJsUrl from 'reveal.js/plugin/math?url'
-import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
 import type { SlideSection } from '../lib/slides'
 import SiteIcon from '../components/SiteIcon.astro'
 
@@ -49,15 +46,15 @@ const homeHref = `/${entry.lang}/`
     </div>
 
     <script
-      type="module"
-      define:vars={{ revealJsUrl, revealMathJsUrl, revealZoomJsUrl }}
     >
-      const { default: Reveal } = await import(revealJsUrl)
-      const { default: RevealMath } = await import(revealMathJsUrl)
-      const { default: RevealZoom } = await import(revealZoomJsUrl)
+      // Import urls are handled by Vite
+      import Reveal from 'reveal.js'
+      import RevealMath from 'reveal.js/plugin/math'
+      import RevealZoom from 'reveal.js/plugin/zoom'
 
       const deck = new Reveal({
-        plugins: [RevealMath.KaTeX, RevealZoom],
+        // @ts-ignore
+        plugins: [RevealMath.KaTeX || RevealMath, RevealZoom],
       })
       await deck.initialize()
     </script>
