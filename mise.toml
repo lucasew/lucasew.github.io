@@ -2,6 +2,7 @@
 _.path = ["./node_modules/.bin"]
 
 [tools]
+"github:lucasew/workspaced" = "0.4.5"
 node = "25.4.0"
 
 [tasks."codegen:data"]
@@ -26,10 +27,10 @@ depends = ["install:*"]
 depends = ["test:*"]
 
 [tasks.lint]
-run = "mise exec -- workspaced codebase lint"
+run = "workspaced codebase lint"
 
 [tasks.fmt]
-run = "mise exec -- workspaced codebase format"
+run = "workspaced codebase format"
 
 [tasks.ci]
 depends = ["lint", "test"]
