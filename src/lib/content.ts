@@ -1,3 +1,4 @@
+import { reportError } from "./errors"
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
@@ -42,7 +43,13 @@ function readAllContentFiles(root: string): string[] {
     const current = stack.pop()
     if (!current) continue
 
-    const items = fs.readdirSync(current, { withFileTypes: true })
+    let items: import('node:fs').Dirent[] = []
+    try {
+      items = fs.readdirSync(current, { withFileTypes: true })
+    } catch (error) {
+      reportError(error, { directory: current, operation: 'fs.readdirSync' })
+      throw error
+    }
     for (const item of items) {
       const full = path.join(current, item.name)
       if (item.isDirectory()) {
@@ -121,7 +128,13 @@ function loadEntries(): Entry[] {
 
     const slugSegments = relDir === '.' ? [] : relDir.split(path.sep)
     const langHint = inferLang(baseName)
-    const raw = fs.readFileSync(file, 'utf8')
+    let raw: string
+    try {
+      raw = fs.readFileSync(file, 'utf8')
+    } catch (error) {
+      reportError(error, { filepath: file, operation: 'fs.readFileSync' })
+      throw error
+    }
     const parsed = matter(raw)
 
     const langs = langHint ? [langHint] : LANGS
