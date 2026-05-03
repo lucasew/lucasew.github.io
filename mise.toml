@@ -14,9 +14,28 @@ depends = ["fmt"]
 [tasks."fmt:dprint"]
 run = "dprint fmt"
 
-[tasks."fmt"]
-depends = ["fmt:*"]
 
 [tasks.codegen]
 description = "Generate all code"
 depends = ["codegen:*"]
+
+[tasks.install]
+depends = ["install:*"]
+
+[tasks.test]
+depends = ["test:*"]
+
+[tasks.lint]
+run = "workspaced codebase lint"
+
+[tasks.fmt]
+run = "workspaced codebase format"
+
+[tasks.ci]
+depends = ["lint", "test"]
+
+[tasks."test:npm"]
+run = "npm run check && npm run build"
+
+[tasks."install:npm"]
+run = "npm install"
