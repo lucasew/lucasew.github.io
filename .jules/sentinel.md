@@ -109,3 +109,18 @@ it does _not_ prevent argument injection into the called program itself.
 2. **Argument Separation:** Use the `--` separator (e.g., `git clone -- <url>`)
    to explicitly tell the command that subsequent arguments are positional,
    preventing them from being interpreted as options.
+
+## 2026-02-06 - Missing Centralized Error Reporting for Sync File Operations
+
+**Vulnerability:** Synchronous file system operations (`fs.readFileSync`,
+`fs.readdirSync`) were executed without `try/catch` blocks, meaning unexpected
+failures (e.g., permission issues, missing files) would bubble up unhandled and
+potentially be missed if not centrally caught, or caught silently elsewhere.
+
+**Learning:** All unexpected errors must be funneled through the centralized
+error-reporting function (`reportError`) to ensure they are captured by Sentry
+(or logged with sufficient context).
+
+**Prevention:** When writing or refactoring code that can throw unexpected
+errors, wrap it in a `try/catch` block, call the centralized `reportError`
+function, and re-throw the error to preserve fail-fast behavior.
