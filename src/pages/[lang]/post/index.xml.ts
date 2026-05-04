@@ -56,7 +56,7 @@ export const GET: APIRoute = async ({ params, site }) => {
     description: lang === 'pt'
       ? 'Feed RSS das publicações em português'
       : 'RSS feed for English posts',
-    site,
+    site: site ? new URL(site) : new URL('https://lucasew.github.io'),
     xmlns: {
       content: 'http://purl.org/rss/1.0/modules/content/',
     },

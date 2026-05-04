@@ -107,3 +107,7 @@ Missing `timeout` parameter in blocking I/O calls. **Solution:** Added explicit
 specific exception handler for `subprocess.TimeoutExpired`. **Pattern:** Always
 define explicit timeouts for network requests and subprocess execution to
 prevent indefinite blocking and ensure script robustness.
+
+- 2026-05-04: Scripts injected into Astro components with attributes like
+  `defer` or `type="module"` require an explicit `is:inline` directive to
+  silence `astro(4000)` build warnings.
