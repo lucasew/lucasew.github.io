@@ -67,11 +67,34 @@ function renderShortcodes(input: string, entry: Entry, depth: number): string {
   return current
 }
 
+/**
+ * Renders raw markdown into full HTML.
+ *
+ * This function handles the primary compilation pipeline for content entries.
+ * Before handing off to `markdown-it`, it eagerly evaluates custom Hugo-style
+ * shortcodes (e.g., `{{ eval }}` and `{{ details }}`).
+ *
+ * @param markdown - The raw markdown string to render.
+ * @param entry - The contextual content entry, used to evaluate shortcode templates (like `{{ .Title }}`).
+ * @param depth - Internal recursion tracker to prevent infinite shortcode nesting. Hard-capped at 8.
+ * @returns Fully rendered HTML string.
+ */
 export function renderHtml(markdown: string, entry: Entry, depth = 0): string {
   const withShortcodes = renderShortcodes(markdown, entry, depth)
   return md.render(withShortcodes)
 }
 
+/**
+ * Renders raw markdown into inline HTML, omitting block-level wrapping tags like `<p>`.
+ *
+ * Useful for rendering small snippets of formatted text, such as summary fields
+ * or titles, where block tags would break the surrounding layout.
+ *
+ * Note: This does *not* evaluate shortcodes.
+ *
+ * @param markdown - The raw markdown string to render.
+ * @returns Inline HTML string.
+ */
 export function renderInline(markdown: string): string {
   return md.renderInline(markdown)
 }
