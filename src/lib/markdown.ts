@@ -8,7 +8,7 @@ const md = new MarkdownIt({
 })
 
 const defaultLinkOpen = md.renderer.rules.link_open
-md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
+md.renderer.rules.link_open = (tokens: any[], idx: number, options: any, env: any, self: any) => {
   const token = tokens[idx]
   token.attrSet('target', '_blank')
 
