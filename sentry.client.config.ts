@@ -8,10 +8,4 @@ Sentry.init({
   dsn,
   enabled: import.meta.env.PROD,
   tracesSampleRate: 0.1,
-  integrations: [
-    Sentry.browserTracingIntegration(),
-    Sentry.browserProfilingIntegration(),
-  ],
-  profileSessionSampleRate: 1.0,
-  profileLifecycle: 'trace',
 })
