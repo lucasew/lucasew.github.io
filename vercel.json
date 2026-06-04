@@ -1,4 +1,15 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Document-Policy",
+          "value": "js-profiling"
+        }
+      ]
+    }
+  ]
 }
