@@ -112,3 +112,23 @@ _nuance_. Redundant comments reduce the signal-to-noise ratio and require
 maintenance without adding understanding. **- Files Affected:** `*.py`
 
 ---
+
+## IGNORE: Unsolicited Dependency Version Bumps
+
+**- Pattern:** Proposing isolated pull requests solely to bump package versions
+(e.g., updating `astro` in `package.json` or bumping dependencies in
+`package-lock.json`). **- Justification:** Unsolicited dependency bumps risk
+introducing breaking changes or instability and require QA overhead. Dependency
+management should be handled methodically rather than via isolated, automated
+bumps. **- Files Affected:** `package.json`, `package-lock.json`
+
+## IGNORE: Out-of-Scope Infrastructure Changes
+
+**- Pattern:** Modifying configuration files or CI/CD workflows (e.g.,
+`mise.toml`, `package.json`, `.github/workflows/autorelease.yaml`,
+`src/env.d.ts`) as unrequested side-effects of a primary task (e.g., while
+fixing code, documentation, or refactoring). **- Justification:** This
+constitutes scope creep and violates the Single Responsibility Principle.
+Infrastructure changes must be explicitly requested and tested independently to
+avoid accidental breakages of build pipelines or tooling. **- Files Affected:**
+`mise.toml`, `package.json`, `.github/workflows/*`, `src/env.d.ts`
