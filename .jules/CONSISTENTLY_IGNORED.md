@@ -113,22 +113,43 @@ maintenance without adding understanding. **- Files Affected:** `*.py`
 
 ---
 
+## IGNORE: Direct Edits to Vendored/Generated Assets
+
+**- Pattern:** Making manual, direct edits to minified or vendored external
+scripts (e.g., updating the Sentry SDK version directly inside
+`assets/sentry.js`). **- Justification:** These files are generated artifacts
+managed by centralized download scripts (e.g., `assets/update_assets.py`).
+Manual edits to the output files bypass the established update process and are
+overwritten during routine maintenance. **- Files Affected:** `assets/*.js`
+(e.g., `sentry.js`, `htmx.js`, `analytics.js`)
+
 ## IGNORE: Unsolicited Dependency Version Bumps
 
 **- Pattern:** Proposing isolated pull requests solely to bump package versions
-(e.g., updating `astro` in `package.json` or bumping dependencies in
-`package-lock.json`). **- Justification:** Unsolicited dependency bumps risk
-introducing breaking changes or instability and require QA overhead. Dependency
-management should be handled methodically rather than via isolated, automated
-bumps. **- Files Affected:** `package.json`, `package-lock.json`
+(e.g., updating `astro` in `package.json` or bumping transitive dependencies
+like `picomatch` in `package-lock.json`). **- Justification:** Unsolicited
+dependency bumps, especially major version updates, risk introducing breaking
+changes or instability and require QA overhead. Dependency management is handled
+methodically rather than via isolated, automated bumps. **- Files Affected:**
+`package.json`, `package-lock.json`
+
+## IGNORE: Trivial Formatting Noise and Vague Titles
+
+**- Pattern:** Submitting PRs with uninformative titles (e.g., "Updater: stuff
+changed") that contain trivial formatting adjustments, such as re-wrapping lines
+in Markdown files (`README.md`), without any substantial content changes. **-
+Justification:** Vague PR titles make review difficult. Trivial formatting
+changes create unnecessary diff noise and pollute the git history without
+delivering tangible value to the project. **- Files Affected:** `*.md`,
+`README.md`
 
 ## IGNORE: Out-of-Scope Infrastructure Changes
 
-**- Pattern:** Modifying configuration files or CI/CD workflows (e.g.,
-`mise.toml`, `package.json`, `.github/workflows/autorelease.yaml`,
-`src/env.d.ts`) as unrequested side-effects of a primary task (e.g., while
-fixing code, documentation, or refactoring). **- Justification:** This
-constitutes scope creep and violates the Single Responsibility Principle.
-Infrastructure changes must be explicitly requested and tested independently to
-avoid accidental breakages of build pipelines or tooling. **- Files Affected:**
-`mise.toml`, `package.json`, `.github/workflows/*`, `src/env.d.ts`
+**- Pattern:** Modifying configuration files or CI/CD workflows (`mise.toml`,
+`package.json`, `.github/workflows/autorelease.yaml`) as unrequested
+side-effects of a primary task (e.g., while fixing code or documentation). **-
+Justification:** This constitutes scope creep. Changes must adhere strictly to
+the Single Responsibility Principle. Infrastructure changes must be explicitly
+requested and tested independently to avoid accidental breakages of build
+pipelines or tooling. **- Files Affected:** `mise.toml`, `package.json`,
+`.github/workflows/autorelease.yaml`
