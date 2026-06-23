@@ -1,0 +1,53 @@
+---
+import ContentEntry from '../components/ContentEntry.astro'
+import LegacyHomeLayout from '../layouts/LegacyHomeLayout.astro'
+import SlideLayout from '../layouts/SlideLayout.astro'
+import { getEntryByUrl, getStaticPathsForEntries } from '../lib/content'
+import { splitSlideSections } from '../lib/slides'
+
+export function getStaticPaths() {
+  return getStaticPathsForEntries()
+}
+
+const { slug } = Astro.params
+const urlPath = slug ? `/${slug}/` : '/'
+const entry = getEntryByUrl(urlPath)
+
+if (!entry) {
+  Astro.response.status = 404
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}
+
+const isLegacyHome = entry
+  ? entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'home'
+  : false
+
+const isSlide = entry
+  ? entry.slugSegments.length >= 3 &&
+    entry.slugSegments[0] === 'utils' &&
+    entry.slugSegments[1] === 'slides'
+  : false
+
+const slideSections = isSlide && entry ? await splitSlideSections(entry) : []
+
+---
+
+{
+  !entry ? null : isLegacyHome ? (
+    <LegacyHomeLayout
+      lang={entry.lang}
+      title={entry.title}
+      quotes={asStringArray(entry.frontmatter.quotes)}
+    />
+  ) : isSlide ? (
+    <SlideLayout entry={entry} sections={slideSections} />
+  ) : entry.slugSegments.length >= 3 ? (
+    null
+  ) : (
+    <ContentEntry entry={entry} />
+  )
+}
