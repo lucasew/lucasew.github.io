@@ -112,3 +112,80 @@ _nuance_. Redundant comments reduce the signal-to-noise ratio and require
 maintenance without adding understanding. **- Files Affected:** `*.py`
 
 ---
+
+## IGNORE: Direct Edits to Vendored/Generated Assets
+
+**- Pattern:** Making manual, direct edits to minified or vendored external
+scripts (e.g., updating the Sentry SDK version directly inside
+`assets/sentry.js`).
+
+**- Justification:** These files are generated artifacts managed by centralized
+download scripts (e.g., `assets/update_assets.py`). Manual edits to the output
+files bypass the established update process and are overwritten during routine
+maintenance.
+
+**- Files Affected:** `assets/*.js` (e.g., `sentry.js`, `htmx.js`,
+`analytics.js`)
+
+---
+
+## IGNORE: Unsolicited Dependency Version Bumps
+
+**- Pattern:** Proposing isolated pull requests solely to bump package versions
+(e.g., updating `astro` in `package.json` or bumping transitive dependencies
+like `picomatch` in `package-lock.json`).
+
+**- Justification:** Unsolicited dependency bumps, especially major version
+updates, risk introducing breaking changes or instability and require QA
+overhead. Dependency management is handled methodically rather than via
+isolated, automated bumps.
+
+**- Files Affected:** `package.json`, `package-lock.json`,
+`.github/workflows/*.yaml`
+
+---
+
+## IGNORE: Trivial Formatting Noise and Vague Titles
+
+**- Pattern:** Submitting PRs with uninformative titles (e.g., "Updater: stuff
+changed") that contain trivial formatting adjustments, such as re-wrapping lines
+in Markdown files (`README.md`), without any substantial content changes.
+
+**- Justification:** Vague PR titles make review difficult. Trivial formatting
+changes create unnecessary diff noise and pollute the git history without
+delivering tangible value to the project.
+
+**- Files Affected:** `*.md`, `README.md`
+
+---
+
+## IGNORE: Out-of-Scope Infrastructure Changes
+
+**- Pattern:** Modifying configuration files or CI/CD workflows (`mise.toml`,
+`package.json`, `.github/workflows/autorelease.yaml`) as unrequested
+side-effects of a primary task (e.g., while fixing code or documentation).
+
+**- Justification:** This constitutes scope creep. Changes must adhere strictly
+to the Single Responsibility Principle. Infrastructure changes must be
+explicitly requested and tested independently to avoid accidental breakages of
+build pipelines or tooling.
+
+**- Files Affected:** `mise.toml`, `package.json`,
+`.github/workflows/autorelease.yaml`
+
+---
+
+## IGNORE: Consolidating Routing into Catch-All Routes
+
+**- Pattern:** Refactoring explicit, nested routing directories (e.g.,
+`src/pages/[lang]/[section]/[slug]/index.astro`) into a single catch-all route
+(like `src/pages/[...slug].astro`).
+
+**- Justification:** The project intentionally uses explicit, nested routing
+directories for its path resolution. PRs attempting to refactor and consolidate
+these into a single catch-all route are consistently rejected as they conflict
+with the established routing architecture.
+
+**- Files Affected:** `src/pages/**`
+
+---
