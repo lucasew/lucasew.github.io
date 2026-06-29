@@ -20,6 +20,7 @@ Refactoring:
 
 import re
 import logging
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -44,6 +45,7 @@ class Post:
             bundle_dir: Path object pointing to the page bundle directory.
         """
         self.bundle_dir = bundle_dir
+        self.had_error = False
 
     def extract_date(self) -> Optional[str]:
         """
@@ -65,6 +67,7 @@ class Post:
             return f"{y}-{m}-{d}T00:00:00"
         except Exception as e:
             logger.warning(f"{self.bundle_dir}: Error extracting date: {e}")
+            self.had_error = True
             return None
 
     def has_existing_date(self, content: str) -> bool:
@@ -97,6 +100,7 @@ class Post:
             content = file_path.read_text(encoding='utf-8')
         except Exception as e:
             logger.error(f"Failed to read {file_path}: {e}")
+            self.had_error = True
             return
 
         if self.has_existing_date(content):
@@ -109,6 +113,7 @@ class Post:
             file_path.write_text(new_content, encoding='utf-8')
         except Exception as e:
             logger.error(f"{file_path}: Failed to write: {e}")
+            self.had_error = True
 
     def process(self):
         """
@@ -136,9 +141,15 @@ def main():
         if item.parent != ROOT
     }
 
+    any_errors = False
     for bundle_dir in bundle_dirs:
         post = Post(bundle_dir)
         post.process()
+        if post.had_error:
+            any_errors = True
+
+    if any_errors:
+        sys.exit(1)
 
 
 if __name__ == "__main__":
