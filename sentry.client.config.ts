@@ -8,4 +8,5 @@ Sentry.init({
   dsn,
   enabled: import.meta.env.PROD,
   tracesSampleRate: 0.1,
+  profilesSampleRate: 0.1,
 })
