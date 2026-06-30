@@ -111,3 +111,6 @@ prevent indefinite blocking and ensure script robustness.
 - 2026-05-04: Scripts injected into Astro components with attributes like
   `defer` or `type="module"` require an explicit `is:inline` directive to
   silence `astro(4000)` build warnings.
+- 2026-06-29: Python maintenance scripts must explicitly return a non-zero exit
+  code (e.g., `sys.exit(1)`) upon failure to ensure that parent processes detect
+  the error rather than swallowing exceptions.
