@@ -4,12 +4,8 @@ import LegacyHomeLayout from '../../../../layouts/LegacyHomeLayout.astro'
 import {
   getEntryByUrl,
   getKnownUrls,
+  asStringArray,
 } from '../../../../lib/content'
-
-function asStringArray(value: unknown): string[] {
-  if (!Array.isArray(value)) return []
-  return value.filter((item): item is string => typeof item === 'string')
-}
 
 export function getStaticPaths() {
   return getKnownUrls()

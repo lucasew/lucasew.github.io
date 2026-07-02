@@ -171,3 +171,12 @@ export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> 
 export function getKnownUrls(): string[] {
   return [...BY_URL.keys()]
 }
+
+/**
+ * Ensures a given value is returned as an array of strings.
+ * Filters out any non-string elements.
+ */
+export function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}

@@ -111,3 +111,4 @@ prevent indefinite blocking and ensure script robustness.
 - 2026-05-04: Scripts injected into Astro components with attributes like
   `defer` or `type="module"` require an explicit `is:inline` directive to
   silence `astro(4000)` build warnings.
+- 2026-07-02: Never commit tooling artifacts, downloaded scripts, generated analysis reports, or temporary test files (e.g., install-mise.sh, debt_inventory.json, patch.diff); always use explicit scoped staging (git add <path>) and check git status prior to committing.
