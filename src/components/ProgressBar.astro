@@ -48,8 +48,9 @@
     }
 
     const onscroll = () => {
-      const delta = document.documentElement.scrollHeight - anchor.offsetTop;
-      const scrollLength = anchor.offsetTop - delta;
+      // The total amount of scrollable pixels before the bottom of the
+      // viewport reaches the anchor element.
+      const scrollLength = anchor.offsetTop - window.innerHeight;
 
       if (scrollLength <= 0) {
         progress.value = 100;
