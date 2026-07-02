@@ -1,5 +1,6 @@
 ---
 import { ClientRouter, slide } from 'astro:transitions'
+import ProgressBar from '../components/ProgressBar.astro'
 import SiteIcon from '../components/SiteIcon.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
@@ -41,6 +42,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     ></script>
   </head>
   <body>
+    <ProgressBar />
     <header>
       <nav class="navbar">
         <div class="navbar-start">

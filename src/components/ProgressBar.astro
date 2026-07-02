@@ -1,0 +1,75 @@
+---
+---
+<progress id="reading-progress" value="0" max="100" class="text-primary"></progress>
+
+<style>
+  progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.25rem;
+    z-index: 50;
+    appearance: none;
+    border: none;
+    background: transparent;
+  }
+
+  progress {
+    color: var(--color-primary, currentColor); /* fallback if needed, but text-primary sets color in daisyui */
+  }
+
+  progress::-moz-progress-bar {
+    background: currentColor;
+  }
+
+  progress::-webkit-progress-bar {
+    background: transparent;
+  }
+
+  progress::-webkit-progress-value {
+    background: currentColor;
+  }
+</style>
+
+<script>
+  function initProgressBar() {
+    const progress = document.getElementById('reading-progress') as HTMLProgressElement | null;
+    const anchor = document.getElementById('article-end') as HTMLElement | null;
+
+    if (!progress) return;
+
+    // If no anchor is present, hide the progress bar
+    if (!anchor) {
+      progress.style.display = 'none';
+      return;
+    } else {
+      progress.style.display = 'block';
+    }
+
+    const onscroll = () => {
+      const delta = document.documentElement.scrollHeight - anchor.offsetTop;
+      const scrollLength = anchor.offsetTop - delta;
+
+      if (scrollLength <= 0) {
+        progress.value = 100;
+        return;
+      }
+
+      const y = (window.scrollY * 100) / scrollLength;
+      progress.value = Math.min(100, Math.floor(y));
+    };
+
+    window.addEventListener('scroll', onscroll, { passive: true });
+    // Run once on load to set initial state
+    onscroll();
+
+    // Clean up
+    document.addEventListener('astro:before-swap', () => {
+      window.removeEventListener('scroll', onscroll, false);
+    }, { once: true });
+  }
+
+  // Hook into Astro's view transitions
+  document.addEventListener('astro:page-load', initProgressBar);
+</script>
