@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import {
   getChildren,
   getTranslations,
+  asStringArray,
   type Entry,
 } from '../lib/content'
 import { renderHtml, renderInline } from '../lib/markdown'
@@ -13,11 +14,6 @@ interface Props {
 }
 
 const { entry } = Astro.props
-
-function asStringArray(value: unknown): string[] {
-  if (!Array.isArray(value)) return []
-  return value.filter((item): item is string => typeof item === 'string')
-}
 
 function renderPostLinks(item: Entry): string {
   const alsoAvailable = asStringArray(item.frontmatter.alsoAvailable)
