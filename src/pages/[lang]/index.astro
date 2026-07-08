@@ -2,14 +2,11 @@
 import ContentEntry from '../../components/ContentEntry.astro'
 import {
   getEntryByUrl,
-  getKnownUrls,
+  getStaticPathsForSegments,
 } from '../../lib/content'
 
 export function getStaticPaths() {
-  return getKnownUrls()
-    .map((urlPath) => urlPath.split('/').filter(Boolean))
-    .filter((parts) => parts.length === 1)
-    .map(([lang]) => ({ params: { lang } }))
+  return getStaticPathsForSegments(['lang'])
 }
 
 const { lang } = Astro.params

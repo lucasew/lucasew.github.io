@@ -3,7 +3,7 @@ import ContentEntry from '../../../../components/ContentEntry.astro'
 import LegacyHomeLayout from '../../../../layouts/LegacyHomeLayout.astro'
 import {
   getEntryByUrl,
-  getKnownUrls,
+  getStaticPathsForSegments,
 } from '../../../../lib/content'
 
 function asStringArray(value: unknown): string[] {
@@ -12,10 +12,7 @@ function asStringArray(value: unknown): string[] {
 }
 
 export function getStaticPaths() {
-  return getKnownUrls()
-    .map((urlPath) => urlPath.split('/').filter(Boolean))
-    .filter((parts) => parts.length === 3)
-    .map(([lang, section, slug]) => ({ params: { lang, section, slug } }))
+  return getStaticPathsForSegments(['lang', 'section', 'slug'])
 }
 
 const { lang, section, slug } = Astro.params
