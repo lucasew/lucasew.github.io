@@ -165,6 +165,20 @@ export function getStaticPathsForEntries(): Array<{ params: { slug: string } }> 
 }
 
 /**
+ * Generates static paths for Astro dynamic routes based on segment names.
+ */
+export function getStaticPathsForSegments(segmentNames: string[]): Array<{ params: Record<string, string> }> {
+  const depth = segmentNames.length
+  return getKnownUrls()
+    .map((urlPath) => urlPath.split('/').filter(Boolean))
+    .filter((parts) => parts.length === depth)
+    .map((parts) => {
+      const params = Object.fromEntries(segmentNames.map((name, i) => [name, parts[i]]))
+      return { params }
+    })
+}
+
+/**
  * Returns a list of all fully-resolved canonical URLs and aliases known to the system.
  * Useful for sitemap generation or global link validation.
  */

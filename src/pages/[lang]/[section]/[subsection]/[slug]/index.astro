@@ -2,15 +2,12 @@
 import SlideLayout from '../../../../../layouts/SlideLayout.astro'
 import {
   getEntryByUrl,
-  getKnownUrls,
+  getStaticPathsForSegments,
 } from '../../../../../lib/content'
 import { splitSlideSections } from '../../../../../lib/slides'
 
 export function getStaticPaths() {
-  return getKnownUrls()
-    .map((urlPath) => urlPath.split('/').filter(Boolean))
-    .filter((parts) => parts.length === 4)
-    .map(([lang, section, subsection, slug]) => ({ params: { lang, section, subsection, slug } }))
+  return getStaticPathsForSegments(['lang', 'section', 'subsection', 'slug'])
 }
 
 const { lang, section, subsection, slug } = Astro.params
