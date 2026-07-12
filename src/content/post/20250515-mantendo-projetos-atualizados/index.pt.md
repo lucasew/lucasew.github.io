@@ -1,6 +1,5 @@
 ---
 
-date: 2025-05-15T00:00:00
 title: "Como configurar o Renovate"
 summary: "Como manter as dependências dos seus projetos abertos atualizadas sem precisar gastar muito tempo"
 ---

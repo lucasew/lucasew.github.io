@@ -19,7 +19,7 @@ Security headers are not a priority as there is no dynamic content or user data.
 ## Architecture
 
 - **Posts**: `src/content/post/YYYYMMDD-slug/index.{en,pt}.{md,mdx}`
-- **Dates**: Frontmatter first, else `YYYYMMDD` prefix of the post dir in `contentLoader`
+- **Dates**: Always from `YYYYMMDD` prefix of `src/content/post/<dir>/` in `contentLoader` (no frontmatter `date:`)
 - **Collections**: `src/content.config.ts` (glob loader for posts)
 - **Key dirs**: `src/pages/`, `src/layouts/`, `src/lib/`, `src/components/`
 - **Static assets**: `static/` (Astro `publicDir`) → site root

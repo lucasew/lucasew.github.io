@@ -1,6 +1,5 @@
 ---
 
-date: 2021-08-11T00:00:00
 title: "Não diga só olá"
 aliases:
   - /nohello.pt
