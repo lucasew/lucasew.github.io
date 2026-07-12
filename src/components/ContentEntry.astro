@@ -6,6 +6,7 @@ import {
   getTranslations,
   type Entry,
 } from '../lib/content'
+import { t } from '../lib/i18n'
 import { renderHtml, renderInline } from '../lib/markdown'
 
 interface Props {
@@ -28,14 +29,14 @@ function renderPostLinks(item: Entry): string {
     const links = alsoAvailable
       .map((href, idx) => `<a target="_blank" rel="noopener noreferrer" href="${href}">[${idx + 1}]</a>`)
       .join(' ')
-    lines.push(`<i>${item.lang === 'pt' ? 'Também disponível em' : 'Also available on'}: ${links}</i><br/>`)
+    lines.push(`<i>${t(item.lang, 'also-available-on')}: ${links}</i><br/>`)
   }
 
   if (discussedOn.length > 0) {
     const links = discussedOn
       .map((href, idx) => `<a target="_blank" rel="noopener noreferrer" href="${href}">[${idx + 1}]</a>`)
       .join(' ')
-    lines.push(`<i>${item.lang === 'pt' ? 'Discutido em' : 'Discussed on'}: ${links}</i><br/>`)
+    lines.push(`<i>${t(item.lang, 'discussed-on')}: ${links}</i><br/>`)
   }
 
   return lines.join('\n')
