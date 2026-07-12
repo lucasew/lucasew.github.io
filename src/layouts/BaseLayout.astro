@@ -4,6 +4,7 @@ import ProgressBar from '../components/ProgressBar.astro'
 import SiteIcon from '../components/SiteIcon.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
+import { t } from '../lib/i18n'
 import '../styles/global.css'
 
 interface Props {
@@ -12,8 +13,8 @@ interface Props {
 }
 
 const { entry, translations } = Astro.props
-const postTitle = getSectionTitle(entry.lang, ['post']) || (entry.lang === 'pt' ? 'Publicações' : 'Posts')
-const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt' ? 'Utilitários' : 'Utilities')
+const postTitle = getSectionTitle(entry.lang, ['post']) || t(entry.lang, 'posts')
+const utilsTitle = getSectionTitle(entry.lang, ['utils']) || t(entry.lang, 'utilities')
 ---
 
 <!doctype html>
@@ -24,7 +25,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
     <meta name="robots" content="index, follow" />
     <meta name="description" content={entry.summary ?? ''} />
     <meta name="mdpath" content={entry.sourceFile} />
-    <link rel="alternate" type="application/rss+xml" title={entry.lang === 'pt' ? 'RSS em português' : 'RSS in English'} href={`/${entry.lang}/post/index.xml`} />
+    <link rel="alternate" type="application/rss+xml" title={t(entry.lang, 'rss-title')} href={`/${entry.lang}/post/index.xml`} />
     <title>{entry.title}</title>
     <script is:inline>
       const themeKey = 'theme'
@@ -48,7 +49,7 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || (entry.lang === 'pt
         <div class="navbar-start">
           <a href={`/${entry.lang}/`} class="flex items-center gap-2">
             <SiteIcon id="icon" class="block m-0" size="2rem" />
-            <b class="leading-none">{entry.lang === 'pt' ? 'offtopic do lucasew' : "lucasew's offtopic"}</b>
+            <b class="leading-none">{t(entry.lang, 'site-title')}</b>
           </a>
         </div>
 

@@ -59,15 +59,31 @@ export function toUrl(lang: Lang, slug: string[]): string {
  * @param key - The strictly typed translation key
  * @returns The translated string
  */
-export function t(lang: Lang, key: 'also-available-on' | 'discussed-on'): string {
-  const table: Record<Lang, Record<string, string>> = {
+export type UiKey =
+  | 'also-available-on'
+  | 'discussed-on'
+  | 'site-title'
+  | 'rss-title'
+  | 'posts'
+  | 'utilities'
+
+export function t(lang: Lang, key: UiKey): string {
+  const table: Record<Lang, Record<UiKey, string>> = {
     en: {
       'also-available-on': 'Also available on',
       'discussed-on': 'Discussed on',
+      'site-title': "lucasew's offtopic",
+      'rss-title': 'RSS in English',
+      posts: 'Posts',
+      utilities: 'Utilities',
     },
     pt: {
       'also-available-on': 'Também disponível em',
       'discussed-on': 'Discutido em',
+      'site-title': 'offtopic do lucasew',
+      'rss-title': 'RSS em português',
+      posts: 'Publicações',
+      utilities: 'Utilitários',
     },
   }
 
