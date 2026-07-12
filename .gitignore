@@ -1,17 +1,6 @@
-# Generated files by hugo
+# Astro build output (outDir) and cache
 /public/
-/resources/_gen/
-/assets/jsconfig.json
-hugo_stats.json
+.astro/
 
-# Executable may be added to repository
-hugo.exe
-hugo.darwin
-hugo.linux
-
-# Temporary lock file while building
-/.hugo_build.lock
-node_modules
-hugo.log
-.astro
-.astro
+# Dependencies
+node_modules/
