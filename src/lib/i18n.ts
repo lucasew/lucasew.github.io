@@ -64,6 +64,8 @@ export type UiKey =
   | 'discussed-on'
   | 'site-title'
   | 'rss-title'
+  | 'rss-feed-title'
+  | 'rss-feed-description'
   | 'posts'
   | 'utilities'
 
@@ -74,6 +76,8 @@ export function t(lang: Lang, key: UiKey): string {
       'discussed-on': 'Discussed on',
       'site-title': "lucasew's offtopic",
       'rss-title': 'RSS in English',
+      'rss-feed-title': "lucasew's blog posts",
+      'rss-feed-description': 'RSS feed for English posts',
       posts: 'Posts',
       utilities: 'Utilities',
     },
@@ -82,6 +86,8 @@ export function t(lang: Lang, key: UiKey): string {
       'discussed-on': 'Discutido em',
       'site-title': 'offtopic do lucasew',
       'rss-title': 'RSS em português',
+      'rss-feed-title': 'Posts do blog do lucasew',
+      'rss-feed-description': 'Feed RSS das publicações em português',
       posts: 'Publicações',
       utilities: 'Utilitários',
     },

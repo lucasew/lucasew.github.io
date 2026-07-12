@@ -1,6 +1,6 @@
 import rss from '@astrojs/rss'
 import type { APIRoute } from 'astro'
-import { LANGS, type Lang } from '../../../lib/i18n'
+import { LANGS, t, type Lang } from '../../../lib/i18n'
 import { allEntries } from '../../../lib/content'
 import { renderHtml } from '../../../lib/markdown'
 
@@ -52,10 +52,8 @@ export const GET: APIRoute = async ({ params, site }) => {
     })
 
   return rss({
-    title: lang === 'pt' ? 'Posts do blog do lucasew' : "lucasew's blog posts",
-    description: lang === 'pt'
-      ? 'Feed RSS das publicações em português'
-      : 'RSS feed for English posts',
+    title: t(lang, 'rss-feed-title'),
+    description: t(lang, 'rss-feed-description'),
     site: site ? new URL(site) : new URL('https://lucasew.github.io'),
     xmlns: {
       content: 'http://purl.org/rss/1.0/modules/content/',
