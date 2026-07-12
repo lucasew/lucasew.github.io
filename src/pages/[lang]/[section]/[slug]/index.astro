@@ -1,6 +1,6 @@
 ---
 import ContentEntry from '../../../../components/ContentEntry.astro'
-import LegacyHomeLayout from '../../../../layouts/LegacyHomeLayout.astro'
+import UtilsHomeLayout from '../../../../layouts/UtilsHomeLayout.astro'
 import {
   getEntryByUrl,
   getStaticPathsForSegments,
@@ -22,14 +22,14 @@ if (!entry) {
   Astro.response.status = 404
 }
 
-const isLegacyHome = entry
+const isUtilsHome = entry
   ? entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'home'
   : false
 ---
 
 {
-  !entry ? null : isLegacyHome ? (
-    <LegacyHomeLayout
+  !entry ? null : isUtilsHome ? (
+    <UtilsHomeLayout
       lang={entry.lang}
       title={entry.title}
       quotes={asStringArray(entry.frontmatter.quotes)}
