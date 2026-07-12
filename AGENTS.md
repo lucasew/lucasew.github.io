@@ -24,7 +24,7 @@ Security headers are not a priority as there is no dynamic content or user data.
 - **Collections**: `src/content.config.ts` (glob loader for posts)
 - **Key dirs**: `src/pages/`, `src/layouts/`, `src/lib/`, `src/components/`
 - **Static assets**: `static/` (Astro `publicDir`) → site root
-- **i18n**: `en` / `pt` (`src/lib/i18n.ts`, `i18n/*.yaml`)
+- **i18n**: `en` / `pt` (`src/lib/i18n.ts`)
 
 ## Important Notes
 
