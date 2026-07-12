@@ -1,0 +1,26 @@
+---
+import UtilsHomeLayout from '../../../../layouts/UtilsHomeLayout.astro'
+import { getEntry } from '../../../../lib/content'
+import { LANGS, type Lang } from '../../../../lib/i18n'
+
+export function getStaticPaths() {
+  return LANGS.map((lang) => ({ params: { lang } }))
+}
+
+const lang = Astro.params.lang as Lang
+const entry = getEntry(lang, ['utils', 'home'])
+if (!entry) {
+  return Astro.redirect(`/${lang}/`)
+}
+
+function asStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string')
+}
+---
+
+<UtilsHomeLayout
+  lang={entry.lang}
+  title={entry.title}
+  quotes={asStringArray(entry.frontmatter.quotes)}
+/>
