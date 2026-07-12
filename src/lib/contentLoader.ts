@@ -65,6 +65,28 @@ export function slugKey(slug: string[]): string {
   return slug.join('/')
 }
 
+/** Prefer frontmatter; else `post/YYYYMMDD-slug` directory prefix. */
+export function resolveEntryDate(
+  frontmatterDate: unknown,
+  slugSegments: string[],
+): string | undefined {
+  if (typeof frontmatterDate === 'string' && frontmatterDate.trim().length > 0) {
+    return frontmatterDate
+  }
+  if (frontmatterDate instanceof Date && !Number.isNaN(frontmatterDate.getTime())) {
+    return frontmatterDate.toISOString()
+  }
+
+  // post/20251118-acionando-fgc -> 2025-11-18T00:00:00
+  if (slugSegments.length >= 2 && slugSegments[0] === 'post') {
+    const prefix = slugSegments[1].split('-')[0] ?? ''
+    if (prefix.length === 8 && /^\d{8}$/.test(prefix)) {
+      return `${prefix.slice(0, 4)}-${prefix.slice(4, 6)}-${prefix.slice(6, 8)}T00:00:00`
+    }
+  }
+  return undefined
+}
+
 export function toEntry(candidate: Candidate): Entry {
   const titleRaw = candidate.frontmatter.title
   const title = typeof titleRaw === 'string' && titleRaw.trim().length > 0
@@ -79,8 +101,7 @@ export function toEntry(candidate: Candidate): Entry {
     ? aliasesRaw.filter((item): item is string => typeof item === 'string' && item.startsWith('/'))
     : []
 
-  const dateRaw = candidate.frontmatter.date
-  const date = typeof dateRaw === 'string' ? dateRaw : undefined
+  const date = resolveEntryDate(candidate.frontmatter.date, candidate.slugSegments)
 
   return {
     id: `${candidate.lang}:${slugKey(candidate.slugSegments)}:${candidate.kind}`,
