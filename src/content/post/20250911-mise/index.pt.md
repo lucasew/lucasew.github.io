@@ -1,6 +1,5 @@
 ---
 
-date: 2025-09-11T00:00:00
 
 title: "Configuração de ferramentas com o Mise"
 summary: "Onde se destaca, quanto longe dá pra chegar"
