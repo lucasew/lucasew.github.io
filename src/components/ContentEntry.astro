@@ -7,7 +7,7 @@ import {
   type Entry,
 } from '../lib/content'
 import { t } from '../lib/i18n'
-import { renderHtml, renderInline } from '../lib/markdown'
+import { renderHtml } from '../lib/markdown'
 
 interface Props {
   entry: Entry
@@ -42,7 +42,6 @@ function renderPostLinks(item: Entry): string {
   return lines.join('\n')
 }
 
-const isBase16 = entry.slugSegments.length >= 2 && entry.slugSegments[0] === 'utils' && entry.slugSegments[1] === 'base16'
 const isPostPage = entry.kind === 'page' && entry.slugSegments.length === 2 && entry.slugSegments[0] === 'post'
 
 const translations = getTranslations(entry)
@@ -58,45 +57,10 @@ const PostContent = postRendered?.Content
 ---
 
 <BaseLayout entry={entry} translations={translations}>
-  {entry.kind === 'page' && !isBase16 ? <h1>{entry.title}</h1> : null}
-  {entry.kind === 'page' && !isBase16 ? <Fragment set:html={renderPostLinks(entry)} /> : null}
+  {entry.kind === 'page' ? <h1>{entry.title}</h1> : null}
+  {entry.kind === 'page' ? <Fragment set:html={renderPostLinks(entry)} /> : null}
 
-  {isBase16 && entry.kind === 'section' ? (
-    <section>
-      <Fragment set:html={html} />
-      {children.map((child) => (
-        <div class="theme-card">
-          <div class="theme-card-info-container">
-            <a href={child.url}>
-              <h2>{child.title}</h2>
-              <p>{typeof child.frontmatter.author === 'string' ? child.frontmatter.author : ''}</p>
-            </a>
-          </div>
-          <div class="theme-card-sample-container">
-            {asStringArray(child.frontmatter.colors).map((color) => (
-              <div class="theme-card-color-container" style={`background-color: #${color}`}>
-                <p>#{color}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </section>
-  ) : isBase16 && entry.kind === 'page' ? (
-    <section>
-      <h1>{entry.title}</h1>
-      {entry.summary ? <p set:html={renderInline(entry.summary)} /> : null}
-      <Fragment set:html={html} />
-      <p>by {typeof entry.frontmatter.author === 'string' ? entry.frontmatter.author : ''}</p>
-      <div class="theme-card-sample-container">
-        {asStringArray(entry.frontmatter.colors).map((color) => (
-          <div class="theme-card-color-container" style={`background-color: #${color}`}>
-            <p>#{color}</p>
-          </div>
-        ))}
-      </div>
-    </section>
-  ) : entry.kind === 'section' ? (
+  {entry.kind === 'section' ? (
     <section>
       <Fragment set:html={html} />
       {children.map((child) => (
