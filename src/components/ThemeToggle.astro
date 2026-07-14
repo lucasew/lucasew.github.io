@@ -11,14 +11,13 @@
 
 <script>
   const themeKey = 'theme'
-  let mediaBound = false
 
-  const getTheme = () => {
+  function getTheme() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
     return localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
   }
 
-  const applyTheme = () => {
+  function applyTheme() {
     const theme = getTheme()
     document.documentElement.setAttribute('data-theme', theme)
 
@@ -28,38 +27,42 @@
     }
   }
 
-  const bindToggle = () => {
+  function setupThemeListeners() {
     const toggle = document.getElementById('theme-toggle')
-    if (!(toggle instanceof HTMLInputElement)) return
-    if (toggle.dataset.bound === '1') return
+    let toggleHandler: ((event: Event) => void) | null = null
+    if (toggle instanceof HTMLInputElement) {
+      toggleHandler = (event: Event) => {
+        const target = event.target
+        if (!(target instanceof HTMLInputElement)) return
 
-    toggle.addEventListener('change', (event) => {
-      const target = event.target
-      if (!(target instanceof HTMLInputElement)) return
-
-      const nextTheme = target.checked ? 'dark' : 'light'
-      localStorage.setItem(themeKey, nextTheme)
-      document.documentElement.setAttribute('data-theme', nextTheme)
-    })
-
-    toggle.dataset.bound = '1'
-  }
-
-  const setupTheme = () => {
-    applyTheme()
-    bindToggle()
-
-    if (!mediaBound) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (!localStorage.getItem(themeKey)) {
-          applyTheme()
-        }
-      })
-      mediaBound = true
+        const nextTheme = target.checked ? 'dark' : 'light'
+        localStorage.setItem(themeKey, nextTheme)
+        document.documentElement.setAttribute('data-theme', nextTheme)
+      }
+      toggle.addEventListener('change', toggleHandler)
     }
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const mediaHandler = () => {
+      if (!localStorage.getItem(themeKey)) {
+        applyTheme()
+      }
+    }
+    mediaQuery.addEventListener('change', mediaHandler)
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        if (toggle instanceof HTMLInputElement && toggleHandler) {
+          toggle.removeEventListener('change', toggleHandler)
+        }
+        mediaQuery.removeEventListener('change', mediaHandler)
+      },
+      { once: true },
+    )
   }
 
-  setupTheme()
-  document.addEventListener('astro:after-swap', setupTheme)
-  document.addEventListener('astro:page-load', setupTheme)
+  applyTheme()
+  document.addEventListener('astro:after-swap', applyTheme)
+  document.addEventListener('astro:page-load', setupThemeListeners)
 </script>

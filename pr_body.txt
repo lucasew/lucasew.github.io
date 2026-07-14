@@ -1,0 +1,13 @@
+Assumptions:
+- The script initializes on the first load without waiting for the `astro:page-load` event. The subsequent interactions bind correctly for the current view and are cleaned up strictly via `once: true` upon swapping views.
+
+Alternatives Not Chosen:
+- Keeping arbitrary global state flags to manage the cleanup (`mediaBound`).
+- Attempting to pass toggle context outside of the isolated module using an Astro global store.
+
+How To Pivot:
+- If this breaks specific transitions, the logic could be migrated to a standalone global script attached to the `<head>` to bypass component unmounting lifecycles entirely.
+
+Next Knobs:
+- Centralize all View Transition related utility wrappers.
+- Extract `applyTheme` into an inline `<script>` snippet in `<head>` that executes synchronously before body render to eliminate edge-case flashes on very first load across the site.
