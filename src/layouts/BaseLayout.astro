@@ -1,5 +1,6 @@
 ---
 import { ClientRouter, slide } from 'astro:transitions'
+import BaseHead from '../components/BaseHead.astro'
 import ProgressBar from '../components/ProgressBar.astro'
 import SiteIcon from '../components/SiteIcon.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
@@ -20,13 +21,9 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || t(entry.lang, 'util
 <!doctype html>
 <html lang={entry.lang}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow" />
-    <meta name="description" content={entry.summary ?? ''} />
+    <BaseHead title={entry.title} description={entry.summary ?? ''} robots={true} />
     <meta name="mdpath" content={entry.sourceFile} />
     <link rel="alternate" type="application/rss+xml" title={t(entry.lang, 'rss-title')} href={`/${entry.lang}/post/index.xml`} />
-    <title>{entry.title}</title>
     <script is:inline>
       const themeKey = 'theme'
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches

@@ -1,0 +1,15 @@
+---
+interface Props {
+  title: string
+  description?: string
+  robots?: boolean
+}
+
+const { title, description, robots = false } = Astro.props
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{robots && <meta name="robots" content="index, follow" />}
+{description !== undefined && <meta name="description" content={description} />}
+<title>{title}</title>
