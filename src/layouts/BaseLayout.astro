@@ -2,6 +2,7 @@
 import { ClientRouter, slide } from 'astro:transitions'
 import ProgressBar from '../components/ProgressBar.astro'
 import SiteIcon from '../components/SiteIcon.astro'
+import BaseHead from '../components/BaseHead.astro'
 import ThemeToggle from '../components/ThemeToggle.astro'
 import { getSectionTitle, type Entry } from '../lib/content'
 import { t } from '../lib/i18n'
@@ -20,27 +21,28 @@ const utilsTitle = getSectionTitle(entry.lang, ['utils']) || t(entry.lang, 'util
 <!doctype html>
 <html lang={entry.lang}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow" />
-    <meta name="description" content={entry.summary ?? ''} />
-    <meta name="mdpath" content={entry.sourceFile} />
-    <link rel="alternate" type="application/rss+xml" title={t(entry.lang, 'rss-title')} href={`/${entry.lang}/post/index.xml`} />
-    <title>{entry.title}</title>
-    <script is:inline>
-      const themeKey = 'theme'
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-      const savedTheme = localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
-      document.documentElement.setAttribute('data-theme', savedTheme)
-    </script>
-    <ClientRouter />
-    <script
-      is:inline
-      defer
-      src="https://analytics.app.lew.tec.br/script.js"
-      data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"
-      data-host-url="https://analytics.app.lew.tec.br"
-    ></script>
+    <BaseHead
+      title={entry.title}
+      description={entry.summary ?? ''}
+      robots="index, follow"
+      mdpath={entry.sourceFile}
+    >
+      <link rel="alternate" type="application/rss+xml" title={t(entry.lang, 'rss-title')} href={`/${entry.lang}/post/index.xml`} />
+      <script is:inline>
+        const themeKey = 'theme'
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const savedTheme = localStorage.getItem(themeKey) ?? (prefersDark ? 'dark' : 'light')
+        document.documentElement.setAttribute('data-theme', savedTheme)
+      </script>
+      <ClientRouter />
+      <script
+        is:inline
+        defer
+        src="https://analytics.app.lew.tec.br/script.js"
+        data-website-id="01c5a581-3c67-4ef4-8820-6701611d8b70"
+        data-host-url="https://analytics.app.lew.tec.br"
+      ></script>
+    </BaseHead>
   </head>
   <body>
     <ProgressBar />

@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../lib/i18n'
 import avatarSvg from '../assets/utils-home-avatar.svg?raw'
+import BaseHead from '../components/BaseHead.astro'
 
 interface Props {
   lang: Lang
@@ -15,16 +16,17 @@ const homeHref = `/${lang}/`
 <!doctype html>
 <html lang={lang} dir="auto">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index, follow" />
-    <meta http-equiv="refresh" content={`8; URL=${homeHref}`} />
-    <title>{title}</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css"
-      type="text/css"
-    />
+    <BaseHead
+      title={title}
+      robots="index, follow"
+    >
+      <meta http-equiv="refresh" content={`8; URL=${homeHref}`} />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/sakura.css/css/normalize.css"
+        type="text/css"
+      />
+    </BaseHead>
   </head>
   <body>
     {/*
