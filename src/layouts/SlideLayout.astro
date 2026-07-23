@@ -7,6 +7,7 @@ import revealJsUrl from 'reveal.js?url'
 import revealMathJsUrl from 'reveal.js/plugin/math?url'
 import revealZoomJsUrl from 'reveal.js/plugin/zoom?url'
 import type { SlideSection } from '../lib/slides'
+import BaseHead from '../components/BaseHead.astro'
 import SiteIcon from '../components/SiteIcon.astro'
 
 interface Props {
@@ -22,13 +23,14 @@ const homeHref = `/${entry.lang}/`
 <!doctype html>
 <html lang={entry.lang}>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={entry.summary ?? ''} />
-    <title>{entry.title}</title>
-    <link rel="stylesheet" href={revealResetCssUrl} />
-    <link rel="stylesheet" href={revealCssUrl} />
-    <link rel="stylesheet" href={revealThemeCssUrl} />
+    <BaseHead
+      title={entry.title}
+      description={entry.summary ?? ''}
+    >
+      <link rel="stylesheet" href={revealResetCssUrl} />
+      <link rel="stylesheet" href={revealCssUrl} />
+      <link rel="stylesheet" href={revealThemeCssUrl} />
+    </BaseHead>
   </head>
   <body>
     <SiteIcon

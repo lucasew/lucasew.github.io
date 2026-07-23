@@ -1,0 +1,18 @@
+---
+export interface Props {
+  title: string
+  description?: string
+  robots?: string
+  mdpath?: string
+}
+
+const { title, description, robots, mdpath } = Astro.props
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{robots && <meta name="robots" content={robots} />}
+{description && <meta name="description" content={description} />}
+{mdpath && <meta name="mdpath" content={mdpath} />}
+<title>{title}</title>
+<slot />
