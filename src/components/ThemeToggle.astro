@@ -11,7 +11,6 @@
 
 <script>
   const themeKey = 'theme'
-  let mediaBound = false
 
   const getTheme = () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -28,38 +27,41 @@
     }
   }
 
-  const bindToggle = () => {
-    const toggle = document.getElementById('theme-toggle')
-    if (!(toggle instanceof HTMLInputElement)) return
-    if (toggle.dataset.bound === '1') return
+  function initThemeToggle() {
+    applyTheme()
 
-    toggle.addEventListener('change', (event) => {
+    const toggle = document.getElementById('theme-toggle')
+    if (!toggle) return
+
+    const onChangeToggle = (event: Event) => {
       const target = event.target
       if (!(target instanceof HTMLInputElement)) return
 
       const nextTheme = target.checked ? 'dark' : 'light'
       localStorage.setItem(themeKey, nextTheme)
       document.documentElement.setAttribute('data-theme', nextTheme)
-    })
-
-    toggle.dataset.bound = '1'
-  }
-
-  const setupTheme = () => {
-    applyTheme()
-    bindToggle()
-
-    if (!mediaBound) {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (!localStorage.getItem(themeKey)) {
-          applyTheme()
-        }
-      })
-      mediaBound = true
     }
+
+    const onChangeMedia = () => {
+      if (!localStorage.getItem(themeKey)) {
+        applyTheme()
+      }
+    }
+
+    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)')
+
+    toggle.addEventListener('change', onChangeToggle)
+    mediaQueryList.addEventListener('change', onChangeMedia)
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        toggle.removeEventListener('change', onChangeToggle)
+        mediaQueryList.removeEventListener('change', onChangeMedia)
+      },
+      { once: true },
+    )
   }
 
-  setupTheme()
-  document.addEventListener('astro:after-swap', setupTheme)
-  document.addEventListener('astro:page-load', setupTheme)
+  document.addEventListener('astro:page-load', initThemeToggle)
 </script>
