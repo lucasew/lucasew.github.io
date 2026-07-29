@@ -194,3 +194,15 @@ export function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return []
   return value.filter((item): item is string => typeof item === 'string')
 }
+
+/**
+ * Resolves the content entry for the current Astro request URL and sets a 404 status if not found.
+ * Use this inside Astro route components to DRY up entry resolution logic.
+ */
+export function resolveCurrentEntry(url: URL, response: { status: number }): Entry | undefined {
+  const entry = getEntryByUrl(url.pathname)
+  if (!entry) {
+    response.status = 404
+  }
+  return entry
+}
