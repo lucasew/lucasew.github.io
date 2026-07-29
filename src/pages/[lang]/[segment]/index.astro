@@ -1,7 +1,7 @@
 ---
 import ContentEntry from '../../../components/ContentEntry.astro'
 import {
-  getEntryByUrl,
+  resolveCurrentEntry,
   getStaticPathsForSegments,
 } from '../../../lib/content'
 
@@ -9,12 +9,7 @@ export function getStaticPaths() {
   return getStaticPathsForSegments(['lang', 'segment'])
 }
 
-const { lang, segment } = Astro.params
-const urlPath = `/${lang}/${segment}/`
-const entry = getEntryByUrl(urlPath)
-if (!entry) {
-  Astro.response.status = 404
-}
+const entry = resolveCurrentEntry(Astro.url, Astro.response)
 ---
 
 {entry ? <ContentEntry entry={entry} /> : null}
