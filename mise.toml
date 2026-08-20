@@ -20,3 +20,12 @@ depends = ["fmt:*"]
 [tasks.codegen]
 description = "Generate all code"
 depends = ["codegen:*"]
+
+[tasks.install]
+description = "Install npm dependencies"
+run = "npm install"
+
+[tasks.dev]
+description = "Start Astro dev server"
+depends = ["install"]
+run = "npm run dev"

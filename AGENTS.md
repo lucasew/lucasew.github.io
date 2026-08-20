@@ -8,8 +8,8 @@ Security headers are not a priority as there is no dynamic content or user data.
 
 ## Environment & Commands
 
-- **Setup**: `mise install` then `npm install`
-- **Dev**: `npm run dev` (`astro dev`, http://localhost:4321)
+- **Setup**: `mise install` then `mise run install`
+- **Dev**: `mise run dev` (`astro dev`, http://localhost:4321)
 - **Build**: `npm run build` (`astro build` → `public/`)
 - **Preview**: `npm run preview`
 - **Format**: `dprint fmt` or `npm run format`
