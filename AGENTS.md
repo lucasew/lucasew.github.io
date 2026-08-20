@@ -10,9 +10,9 @@ Security headers are not a priority as there is no dynamic content or user data.
 
 - **Setup**: `mise install` then `mise run install`
 - **Dev**: `mise run dev` (`astro dev`, http://localhost:4321)
-- **Build**: `npm run build` (`astro build` → `public/`)
-- **Preview**: `npm run preview`
-- **Format**: `dprint fmt` or `npm run format`
+- **Build**: `pnpm build` (`astro build` → `public/`)
+- **Preview**: `pnpm preview`
+- **Format**: `dprint fmt` or `pnpm format`
 - **Maintenance**: `./update.sh` or `mise codegen` (runs executable
   `**/update_*` scripts)
 
@@ -28,8 +28,8 @@ Security headers are not a priority as there is no dynamic content or user data.
 
 ## Important Notes
 
-- **Node**: version from `mise.toml` (`node` tool only)
-- **CI/CD**: `.github/workflows/autorelease.yaml` — `npm install`,
-  `mise codegen`, `npm run build`, deploy Pages on `main`
+- **Node**: versions from `mise.toml` (`node`, `pnpm`)
+- **CI/CD**: `.github/workflows/autorelease.yaml` — `pnpm install --frozen-lockfile`,
+  `mise codegen`, `pnpm build`, deploy Pages on `main`
 - **Site URL**: `https://lucasew.github.io` (`astro.config.mjs` / Vercel
   `public` output)

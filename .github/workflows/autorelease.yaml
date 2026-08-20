@@ -26,7 +26,7 @@ jobs:
 
       - name: Run updaters
         run: |
-          npm install
+          pnpm install --frozen-lockfile
           mise codegen
 
       - name: Create Pull Request if there is new stuff from updaters
@@ -53,7 +53,7 @@ jobs:
           fi
 
       - name: Build
-        run: npm run build
+        run: pnpm build
 
       - name: Upload static files as artifact
         if: github.event_name != 'pull_request'
