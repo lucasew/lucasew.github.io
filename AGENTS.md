@@ -29,7 +29,8 @@ Security headers are not a priority as there is no dynamic content or user data.
 ## Important Notes
 
 - **Node**: versions from `mise.toml` (`node`, `pnpm`)
-- **CI/CD**: `.github/workflows/autorelease.yaml` — `pnpm install --frozen-lockfile`,
-  `mise codegen`, `pnpm build`, deploy Pages on `main`
+- **CI/CD**: `.github/workflows/autorelease.yaml` —
+  `pnpm install --frozen-lockfile`, `mise codegen`, `pnpm build`, deploy Pages
+  on `main`
 - **Site URL**: `https://lucasew.github.io` (`astro.config.mjs` / Vercel
   `public` output)
