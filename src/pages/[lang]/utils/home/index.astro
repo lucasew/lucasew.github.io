@@ -1,10 +1,10 @@
 ---
 import UtilsHomeLayout from '../../../../layouts/UtilsHomeLayout.astro'
 import { getEntry, asStringArray } from '../../../../lib/content'
-import { LANGS, type Lang } from '../../../../lib/i18n'
+import { getStaticPathsForLangs, type Lang } from '../../../../lib/i18n'
 
 export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }))
+  return getStaticPathsForLangs()
 }
 
 const lang = Astro.params.lang as Lang

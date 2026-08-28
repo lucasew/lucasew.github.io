@@ -95,3 +95,11 @@ export function t(lang: Lang, key: UiKey): string {
 
   return table[lang][key]
 }
+
+/**
+ * Returns static paths for all supported languages, matching the `[lang]` dynamic route parameter.
+ * Used in Astro's `getStaticPaths` to pre-render routes for every available language.
+ */
+export function getStaticPathsForLangs(): Array<{ params: { lang: Lang } }> {
+  return LANGS.map((lang) => ({ params: { lang } }))
+}

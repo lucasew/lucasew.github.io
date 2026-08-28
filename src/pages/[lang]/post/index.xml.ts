@@ -1,6 +1,6 @@
 import rss from '@astrojs/rss'
 import type { APIRoute } from 'astro'
-import { LANGS, t, type Lang } from '../../../lib/i18n'
+import { getStaticPathsForLangs, LANGS, t, type Lang } from '../../../lib/i18n'
 import { allEntries } from '../../../lib/content'
 import { renderHtml } from '../../../lib/markdown'
 
@@ -16,7 +16,7 @@ function escapeCdata(value: string): string {
 }
 
 export function getStaticPaths() {
-  return LANGS.map((lang) => ({ params: { lang } }))
+  return getStaticPathsForLangs()
 }
 
 export const GET: APIRoute = async ({ params, site }) => {
