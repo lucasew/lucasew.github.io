@@ -6,7 +6,7 @@
   "author": "lucasew",
   "license": "MIT",
   "type": "module",
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.25.0",
   "devDependencies": {
     "@astrojs/markdown-remark": "^6.3.11",
     "@astrojs/mdx": "^4.3.14",
