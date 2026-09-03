@@ -16,7 +16,7 @@
     "daisyui": "^5.2.3",
     "dprint": "^0.56.0",
     "gray-matter": "^4.0.3",
-    "markdown-it": "^14.1.0",
+    "markdown-it": "^15.0.0",
     "tailwindcss": "^4.1.14"
   },
   "scripts": {
