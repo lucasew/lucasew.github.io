@@ -1,0 +1,15 @@
+[server]
+preset = "vite"
+command = "mise exec -- npm run dev -- --port {port}"
+url = "http://127.0.0.1:{port}"
+
+[content.packages.post]
+path = "src/content/post"
+
+languages = ["en", "pt"]
+route = "/{lang}/post/{path}"
+
+[content.packages.slides]
+path = "src/content/utils/slides"
+
+route = "/{path}"
