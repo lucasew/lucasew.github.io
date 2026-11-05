@@ -1,0 +1,15 @@
+🧹 Janitor: extract resolveCurrentEntry to DRY up route resolution
+
+Assumptions
+- Standardizing the `Astro.url.pathname` lookup accurately matches Astro's `getStaticPaths` trailing slash generation and correctly routes entries.
+- Typing `response` as `{ status: number }` safely matches Astro's `AstroGlobal['response']` without bringing in a heavy type import to the lib, and fixes `readonly` compilation errors since Astro's `response.status` is mutable.
+
+Alternatives Not Chosen
+- Continuing to construct `urlPath` manually with `Astro.params`. Extracted `resolveCurrentEntry` prevents duplication in index layout logic across multiple Astro component files.
+
+How To Pivot
+- Revert `resolveCurrentEntry` changes in `.astro` files and fall back to manual param concatenation.
+
+Next Knobs
+- Centralize `Astro.response.status = 404` error boundary to a generic middleware layout component.
+- Remove redundant route params definition inside `getStaticPaths`.

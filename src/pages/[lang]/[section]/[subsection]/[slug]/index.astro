@@ -1,7 +1,7 @@
 ---
 import SlideLayout from '../../../../../layouts/SlideLayout.astro'
 import {
-  getEntryByUrl,
+  resolveCurrentEntry,
   getStaticPathsForSegments,
 } from '../../../../../lib/content'
 import { splitSlideSections } from '../../../../../lib/slides'
@@ -10,12 +10,7 @@ export function getStaticPaths() {
   return getStaticPathsForSegments(['lang', 'section', 'subsection', 'slug'])
 }
 
-const { lang, section, subsection, slug } = Astro.params
-const urlPath = `/${lang}/${section}/${subsection}/${slug}/`
-const entry = getEntryByUrl(urlPath)
-if (!entry) {
-  Astro.response.status = 404
-}
+const entry = resolveCurrentEntry(Astro.url, Astro.response)
 
 const isSlide = entry
   ? entry.slugSegments.length >= 3 &&
