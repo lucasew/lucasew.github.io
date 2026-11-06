@@ -1,0 +1,212 @@
+# Pages CMS. https://pagescms.org/docs/configuration/
+#
+# Post dates come from the YYYYMMDD directory prefix. Do not add a date field.
+# settings.content.merge keeps frontmatter keys this file does not list
+# (language, math, showToc, type, cascade).
+
+# Images live in the post directory, next to index.{lang}.md.
+# In the picker, open that post's folder before uploading.
+media:
+  - name: posts
+    label: Post images
+    input: src/content/post
+    output: src/content/post
+    categories: [image]
+    rename: false
+
+content:
+  - name: posts
+    label: Posts
+    type: group
+    items:
+      - name: posts-en
+        label: Posts (English)
+        type: collection
+        path: src/content/post
+        format: yaml-frontmatter
+        filename: "{year}{month}{day}-{primary}/index.en.md"
+        exclude: [_index.en.md, _index.pt.md]
+        operations:
+          rename: false
+        view:
+          node:
+            filename: index.en.md
+            hideDirs: all
+          fields: [title, summary]
+          primary: title
+          search: [title, summary]
+        fields: &post-fields
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: summary
+            label: Summary
+            type: text
+          - name: aliases
+            label: Aliases
+            type: string
+            list: true
+            description: Paths starting with /.
+          - name: alsoAvailable
+            label: Also available on
+            type: string
+            list: true
+          - name: discussedOn
+            label: Discussed on
+            type: string
+            list: true
+          - name: body
+            label: Body
+            type: rich-text
+            description: Upload images into this post's folder.
+            options:
+              media: posts
+
+      - name: posts-pt
+        label: Posts (Portuguese)
+        type: collection
+        path: src/content/post
+        format: yaml-frontmatter
+        filename: "{year}{month}{day}-{primary}/index.pt.md"
+        exclude: [_index.en.md, _index.pt.md]
+        operations:
+          rename: false
+        view:
+          node:
+            filename: index.pt.md
+            hideDirs: all
+          fields: [title, summary]
+          primary: title
+          search: [title, summary]
+        fields: *post-fields
+
+      - name: posts-mdx
+        label: Posts (MDX)
+        description: Raw body. The visual editor drops MDX imports and JSX.
+        type: collection
+        path: src/content/post
+        format: yaml-frontmatter
+        filename: "{year}{month}{day}-{primary}/index.pt.mdx"
+        operations:
+          rename: false
+        view:
+          node:
+            filename: index.pt.mdx
+            hideDirs: all
+          fields: [title, summary]
+          primary: title
+          search: [title, summary]
+        fields:
+          - name: title
+            label: Title
+            type: string
+            required: true
+          - name: summary
+            label: Summary
+            type: text
+          - name: aliases
+            label: Aliases
+            type: string
+            list: true
+          - name: alsoAvailable
+            label: Also available on
+            type: string
+            list: true
+          - name: discussedOn
+            label: Discussed on
+            type: string
+            list: true
+          - name: body
+            label: Body
+            type: code
+
+  - name: pages
+    label: Pages
+    type: group
+    items:
+      - name: site
+        label: Site
+        type: collection
+        path: src/content
+        format: yaml-frontmatter
+        subfolders: false
+        filename: "{primary}.md"
+        operations:
+          create: false
+          rename: false
+          delete: false
+        view:
+          fields: [title]
+          primary: title
+        fields: &page-fields
+          - name: title
+            label: Title
+            type: string
+          - name: summary
+            label: Summary
+            type: text
+          - name: body
+            label: Body
+            type: rich-text
+            options:
+              media: false
+
+      - name: post-index-en
+        label: Posts index (English)
+        type: file
+        path: src/content/post/_index.en.md
+        format: yaml-frontmatter
+        operations:
+          create: false
+          delete: false
+        fields: *page-fields
+
+      - name: post-index-pt
+        label: Posts index (Portuguese)
+        type: file
+        path: src/content/post/_index.pt.md
+        format: yaml-frontmatter
+        operations:
+          create: false
+          delete: false
+        fields: *page-fields
+
+      - name: utils
+        label: Utilities
+        type: collection
+        path: src/content/utils
+        format: yaml-frontmatter
+        subfolders: true
+        filename: "{primary}/_index.md"
+        operations:
+          rename: false
+        view:
+          fields: [title, summary]
+          primary: title
+          search: [title, summary]
+        fields:
+          - name: title
+            label: Title
+            type: string
+          - name: summary
+            label: Summary
+            type: text
+          - name: quotes
+            label: Quotes
+            type: string
+            list: true
+          - name: body
+            label: Body
+            type: code
+
+settings:
+  content:
+    merge: true
+  commit:
+    identity: user
+    templates:
+      create: "content: create {path}"
+      update: "content: update {path}"
+      delete: "content: delete {path}"
+      rename: "content: rename {oldPath} to {newPath}"

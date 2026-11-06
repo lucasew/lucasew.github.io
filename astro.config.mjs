@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import sentry from '@sentry/astro'
 import tailwindcss from '@tailwindcss/vite'
+import { remarkColocatedImages } from './src/lib/remarkColocatedImages.ts'
 
 const sentryOptions = {
   autoInstrumentation: {
@@ -21,6 +22,9 @@ export default defineConfig({
   site: 'https://lucasew.github.io',
   publicDir: 'static',
   outDir: 'public',
+  markdown: {
+    remarkPlugins: [remarkColocatedImages],
+  },
   integrations: [mdx(), sentry(sentryOptions)],
   vite: {
     plugins: [tailwindcss()],
